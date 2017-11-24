@@ -1,0 +1,81 @@
+Note: This case is only for Pre-Volta (except P100)
+1. Download OpenMPI and install OpenMPI:
+$ sudo rm -rf /usr/local/openmpi openmpi-2.1.0
+$ wget https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.0.tar.bz2
+$ tar jxvf openmpi-2.1.0.tar.bz2
+$ cd openmpi-2.1.0
+$ ./configure --with-cuda=/usr/local/cuda --with-hwloc=internal --prefix=/usr/local/openmpi
+$ make -j 40
+$ sudo make install
+$ sudo ln -sf /usr/local/openmpi/lib/libmpi.so /usr/local/openmpi/lib/libmpi.so.1
+Note: Please always use the latest of OpenMPI for test.
+export PATH=/usr/local/openmpi/bin:${PATH}
+
+2.
+cd /tmp/openmpi-x.x.x/examples
+make
+run 'mpirun -np 2 ./hello_c' to check installation
+
+3. Install Intel MKL
+mkdir -p /home/kerry/kerry_ws/MKL
+cd /home/kerry/kerry_ws/MKL/
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash/manual/tools/linux/mkl/mkl_v11.2.1.tar.bz2
+tar -xvf mkl_v11.2.1.tar.bz2
+sudo mkdir -p /opt/intel/mkl/11.2.1/
+sudo cp -r mkl/* /opt/intel/mkl/11.2.1/
+vim ~/.bashrc
+- add '/opt/intel/mkl/11.2.1/lib/intel64/' in $LD_LIBRARY_PATH
+- export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/mkl/11.2.1/lib/intel64/
+
+4. # S03. install libhwloc5
+	sudo apt-get install libhwloc5
+
+5. Install CUDA_LinPack:
+mkdir -p /home/kerry/kerry_ws/LinPack
+cd /home/kerry/kerry_ws/LinPack/
+
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/linpack/hpl/hpl-2.0_FERMI_v15.gz
+tar xzvf hpl-2.0_FERMI_v15.gz
+cd /home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15/
+vim Make.CUDA
+  - Set 'TOPdir' as '/home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15/'
+    TOPdir = /home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15
+  - Set 'LAdir' as '/opt/intel/mkl/11.2.1/lib/intel64/'
+    LAdir  = /opt/intel/mkl/11.2.1/lib/intel64/
+cd /home/kerry/kerry_ws/LinPack/hpl-2.0_FERMI_v15/bin/CUDA/
+vim HPL.dat
+  - Change '2 1 2 1        Ps' to '1 1 2 1        Ps'
+  - Change '2 2 2 4        Qs' to '1 2 2 4        Qs'
+    1 1 2 1        Ps
+    1 2 2 4        Qs
+cd /home/kerry/kerry_ws/LinPack/hpl-2.0_FERMI_v15/
+make arch=CUDA -j10
+cd /home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15/bin/CUDA/
+vim run_linpack
+  - Set 'HPL_DIR' as '/home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15/'
+    HPL_DIR=/home/test/alex_ws/LinPack/hpl-2.0_FERMI_v15/
+mpirun -np 1 ./run_linpack | tee test.log
+less test.log
+mpirun -np 16 -host hostfile ./run_linpack | tee test_np16.log
+# the command above written in DevTest is wrong, do below instead:
+# this command is usually skipped (need to configure SSH access on all the nodes, e.g., 16 nodes)
+  echo 10.19.192.129 slots=6 > ./hostfile
+  echo 10.19.192.180 slots=6 >> ./hostfile
+  echo 10.19.192.79 slots=6 >> ./hostfile
+mpirun -np 16 -hostfile ./hostfile ./run_linpack | tee test_np16.log
+
+5. Open a terminal and set up the nvsmi debug log file with commands,
+	export __NVML_DBG_LVL=DEBUG
+	export __NVML_DBG_FILE=nvidia-smi_DEBUG_$DRV_VER.log
+
+6. Run nvidia-smi in loop to record the necessary information for every 30 seconds (and all errors as well) thru out the test with command: 'nvidia-smi -q -i x -d ecc,performance,power,pids -l 30 | tee nvml.log'
+	 nvidia-smi -q -i $DEVICE_ID -d ecc,performance,power,pids -l 30 | tee nvml_$DRV_VER.log # make sure -i using the correct device number  (export DEVICE_ID=0  // 1)
+
+7.Make sure to examine test log file for any test failures or performance drop
+8.In case of a test failure/performance drop, make sure to examine nvml log file for any xid/ecc (SBE/DBE) errors or abnormal behaviors such as drastic changes in PState, Power draw and Temperature after test done.
+All these might be an indication that something is bad on the board
+
+Expected Result:
+1. Application or system should not hang.
+2. Compare performance data with history data to see if there is any performance drop
+3. No XID/ECC errors (especially double bit errors DBE) and other abnormal changes in PStates, Power draw and Temperature in the nvml log file

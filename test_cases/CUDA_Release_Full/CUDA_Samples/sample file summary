@@ -1,0 +1,16 @@
+1. 安装完cuda后需要把/usr/local/cuda-9.0/bin添加到PATH里去
+export PATH=/usr/local/cuda-9.0/bin:$PATH
+
+2..run方式的安装cuda会自动安装NVIDIA_CUDA-9.0_Samples，默认在/home/kerry目录下；
+.deb或者.rpm的方式安装，需要手动执行脚本 cuda-install-samples-9.0.sh <dir> with write permission
+
+3. cat /proc/driver/nvidia/version  查看driver version
+
+4. compiling the samples:
+Go to /home/kerry/NVIDIA_CUDA-9.0_Samples 目录， make RELEASE=1 -j 20
+
+5. Running the Binaries:
+编译完上面的samples后，会在/home/kerry/NVIDIA_CUDA-9.0_Samples目录下，生成bin目录，到目录
+/home/kerry/NVIDIA_CUDA-9.0_Samples/bin/x86_64/linux/release下会看到所有编译好的binaries.尝试运行./deviceQuery会看到显卡的相关信息。
+
+6. /home/kerry/NVIDIA_CUDA-9.0_Samples/bin/x86_64/linux/release目录下执行，可基本覆盖CUDA Samples下的所有case

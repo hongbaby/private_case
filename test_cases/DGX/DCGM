@@ -1,0 +1,25 @@
+1. DCGM Integration Tests Framework:
+For DGX Station, it defaults installed the DCGM
+dpkg -l | grep -i datacenter-manager*
+查版本号： dcgmi --version
+nvvs --version查出来结果是384.69, 从384.81之后，testing的脚本
+
+2. 然后到\\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r384\r384_00\384.101_23105125\testing_dcgm找到对应版本的最新，执行脚本。
+3. 安装cuda driver diagnostic if not has diagnostic:
+可通过dpkg -l | grep 'cuda-drivers-diagnostic*'
+Download cuda-drivers-diagnostic from http://cuda-internal/release-candidates/packaging/384_00/linux/384.81/local_installers/
+
+  sudo dpkg -i xxxx_local_repoxxx.deb
+  sudo apt update
+  sudo apt install cuda-drivers-diagnostic
+
+4. must be run as root, since DCGM needs root privileges.
+su
+$ tar xf testing.tar
+$ cd testing
+$ python main.py --no-lint
+
+Note:
+1.make sure no nv-hostengine process running before you run main.py
+
+should like: 168 / 168 tests  Score: 100.00

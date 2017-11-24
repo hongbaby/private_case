@@ -1,0 +1,47 @@
+Three cases all passed.
+
+TestNPP_L0:
+1. build runtime
+2. For 9.1 and afterward
+p4 sync //sw/rel/gpgpu/toolkit/r9.1/NPP/...@TK_CL
+p4 sync //sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/lib/intel64_lin/...
+p4 sync //sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/include/...
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
+make RELEASE=1
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/NPP
+make RELEASE=1 TESTNPP=1 -j 20
+
+3. Copy libraries from local install path to binpath:
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+4. Run L0 test:
+export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/lib/intel64_lin:$LD_LIBRARY_PATH
+
+$ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+$ ./TestNPP -q -r -s -t Root/Functional/Image/Arithmetic/*
+Error message:
+kerry@dhcp-10-19-192-210:/home/jeff/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release> ./TestNPP -q -r -s -t Root/Functional/Image/Arithmetic/*
+./TestNPP: error while loading shared libraries: libippi.so: cannot open shared object file: No such file or directory
+
+Solution:
+export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/lib/intel64_lin:$LD_LIBRARY_PATH
+
+
+TestNPP_L1:
+1. For step 1- 3 follow above steps
+2. Run L1 test:
+$ ./TestNPP -q -r -s -t Root/Functional/Image/FilterBorderTests/*
+
+TestNPP_L2: # around 20 minutes
+1. For step1-3 follow above steps:
+export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/lib/intel64_lin:$LD_LIBRARY_PATH
+
+2. Run L2 test: # around 20 minutes
+./TestNPP -v 2 -q -t Root/Functional/* 2>&1 | tee /home/kerry/kerry_ws/testnpp_L2.txt
+
+3. Classified failures.
+
+4.Rerun failure subtest with “./TestNPP -v 2 -q -t Root/Functional/${Failed_Subtests}/*”
+
+5. Copy log snippet from “&&&& RUNNING “to “&&&& FAILED” in bug description
+
+6. Attach failed log in nvbugs.

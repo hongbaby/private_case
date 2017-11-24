@@ -1,0 +1,26 @@
+1. build runtime
+2. build cublas
+3. build cusparse
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+
+4. p4 sync //sw/rel/gpgpu/toolkit/r9.1/cuSolver/...@TK_CI
+   make RELEASE=1 -j 10
+5. cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+
+
+Test cases:
+1. cuDense_nightly:
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
+perl script/cudense/cudense_nightly.pl -build=release -config=nightly
+
+2. glu_nightly:
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
+sudo mkdir -p /mnt/teslaswqash/
+sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
+perl script/glu/glu_nightly.pl -build=release -config=nightly -matrix_path=/mnt/teslaswqash/matrices/p4matrices/
+
+3. pegasus_nightly
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
+sudo mkdir -p /mnt/teslaswqash/
+sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
+perl script/pegasus/pegasus_nightly.pl -build=release -config=nightly -matrix_path=/mnt/teslaswqash/matrices/p4matrices/

@@ -1,0 +1,16 @@
+!!! usually N/A this test for below reason:!!!
+  Note:
+  CILP is enabled from Pascal GPU. Please skip this test for pre-Pascal GPUs.
+1. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cuda/apps
+make cilpSanity RELEASE=1
+
+2. make sure MPS is not running in background
+ps -A | grep nvidia-cuda-mps
+
+3. run cilpSanity in single terminal
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release
+./cilpSanity
+
+4. run cilpSanity in two terminals
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release
+./cilpSanity

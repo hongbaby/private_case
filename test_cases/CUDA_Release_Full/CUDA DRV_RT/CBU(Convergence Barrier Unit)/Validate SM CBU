@@ -1,0 +1,66 @@
+!!!!CBU test only apply to Volta
+# for CBU test:
+p4 sync //sw/gpgpu/cuda/apps/cbu_stress/... # for CBU test
+p4 sync //sw/gpgpu/cuda/apps/common/... # for CBU test
+p4 sync //sw/gpgpu/cuda/tools/nvrtc/... # for CBU test
+p4 sync //sw/gpgpu/cuda/tools/cudart/... # for CBU test
+#p4 sync //sw/gpgpu/cuda/tools/cnprt/... # for CBU test
+
+p4 sync //sw/gpgpu/cuda/Makefile # for CBU test
+p4 sync //sw/gpgpu/cuda/apps/Makefile # for CBU test
+p4 sync //sw/gpgpu/cuda/apps/cbu_stress/... # for CBU test
+p4 sync //sw/gpgpu/cuda/tools/... # for CBU test
+
+# or
+# p4 sync //sw/gpgpu/cuda/...
+p4 sync //sw/gpgpu/Makefile # do it each time
+p4 sync //sw/gpgpu/build/... # do it each time
+
+if cannot build success, please p4 sync //sw/gpgpu/eris/...
+and add DRIVER_ROOT into ~/.bashrc
+export DRIVER_ROOT=/home/kerry/sw/rel/gpu_drv/r384/r384_00
+
+1. 首先build runtime, 然后到cuda/apps目录下执行  make cbu_stress.clean && make cbu_stress.release
+cd $P4ROOT/sw/gpgpu
+make cuda RELEASE=1
+
+2. cd $P4ROOT/sw/gpgpu/cuda/apps
+ make cbu_stress.clean && make cbu_stress.release # or debug
+ make sm_cbu_basic.clean && make sm_cbu_basic.release
+perl smoke.pl -config=release -testname=cbu_stress
+perl smoke.pl -config=release -testname=sm_cbu_basic
+
+Error message:
+jzhong@dgxstation-s1:~/sw/gpgpu/cuda/apps$ perl smoke.pl -config=release -testname=cbu_stress
+Output path:/home/jzhong/sw/gpgpu/cuda/apps and output log:/home/jzhong/sw/gpgpu/cuda/apps/smoke.txt
+current time: 19:50:33
+&&&& RUNNING cbu_stress
+(thread 139729677801280 [t0]) At /home/jzhong/sw/gpgpu/cuda/apps/common/dfontaine/raiiutils.hpp:161:
+    Value of : cudaGetExportTable((const void **)&pETBL, uuid)
+    Which is : 30 (cudaErrorUnknown)
+    Should be: cudaSuccess
+    Which is : 0 (cudaSuccess)
+Test state is:
+  Thread 139729677801280 [t0]:
+    raiiutils.hpp:160: Declared at /home/jzhong/sw/gpgpu/cuda/apps/common/dfontaine/testutils-performance.cpp:290
+
+(thread 139729677801280 [t0]) At /home/jzhong/sw/gpgpu/cuda/apps/common/dfontaine/raiiutils.hpp:162:
+    expected pETBL
+Test state is:
+  Thread 139729677801280 [t0]:
+    raiiutils.hpp:160: Declared at /home/jzhong/sw/gpgpu/cuda/apps/common/dfontaine/testutils-performance.cpp:290
+
+ERROR:  /home/jzhong/sw/gpgpu/bin/x86_64_Linux_release/cbu_stress  returned non-zero exit value: 139
+&&&& FAILED cbu_stress
+current time: 19:50:34
+current time: 19:50:34
+
+Start time : 2017-11-22 19:50:33
+Stop time  : 2017-11-22 19:50:34
+
+Solution:
+version in //sw/gpgpu/cuda/apps is higher than //sw/rel/gpgpu/toolkit/r9.0/cuda/apps
+cp -rf cbu_stress ~/sw/rel/gpgpu/toolkit/r9.0/cuda/apps/
+cp -rf sm_cbu_basic ~/sw/rel/gpgpu/toolkit/r9.0/cuda/apps/
+
+然后在~/sw/rel/gpgpu/toolkit/r9.0/cuda/apps/下编译。 只有CBU的测试用例才会这样。

@@ -1,0 +1,19 @@
+# mkdir -p /home/$USER/kerry_ws/NVLink/
+p4 sync -f //sw/gpgpu/cuda/...
+p4 sync -f //sw/gpgpu/cuda/Makefile
+p4 sync -f //sw/gpgpu/cuda/apps/nvlinkAtomics/...
+p4 sync -f //sw/gpgpu/cuda/apps/Makefile
+cd $P4ROOT/sw/gpgpu/
+make cuda.release -j20
+
+cd $P4ROOT/sw/gpgpu/cuda/apps/
+make nvlinkAtomics RELEASE=1 -j10
+
+cd $P4ROOT/sw/gpgpu/cuda/apps/
+perl smoke.pl -config=release -testname=nvlinkAtomics 2>&1 | tee /home/$USER/alex_ws/NVLink/NVLink_App_nvlinkAtomics_${TK_VER}_${DRV_VER}.stdout
+# cp $P4ROOT/sw/gpgpu/cuda/apps/smoke.txt /home/$USER/alex_ws/NVLink/NVLink_App_nvlinkAtomics_${TK_VER}_${DRV_VER}.smoke.txt
+# grep -i FAILED smoke.txt
+# tail -5 smoke.txt
+
+或者直接到 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release
+./nvlinkAtomics

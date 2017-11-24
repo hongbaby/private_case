@@ -1,0 +1,28 @@
+1. Sync and Build cuFFt:
+p4 sync //sw/rel/gpgpu/toolkit/r9.1/cufft/...@${TK_CL}
+p4 sync //sw/rel/gpgpu/toolkit/r9.1/cudalibtools/...@${TK_CL}
+p4 sync //sw/tools/fftw/fftw-3.3.4/include/...
+p4 sync //sw/tools/fftw/fftw-3.3.4/x86_64-linux-gnu/...
+p4 sync //sw/tools/fftw/fftw-3.3.4/fftw.mk
+
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
+make RELEASE=1 -j20
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cufft
+make RELEASE=1 -j20
+
+Test cases:
+mkdir /home/kerry/kerry_ws/CUDA_Library/cuFFt
+
+1. cufft SetStream.test validation
+perl regress.pl -build=release -test-list-file=test/streaming.test  # (around 5 minutes)
+
+2. CUFFT fp16 test (sm53 and above) - L0
+perl regress.pl -build=release -test-list-file=test/cufft_fp16_power_of_2_L0.test # (around 2 minutes)
+
+perl regress.pl -build=release -test-list-file=test/cufft_fp16_power_of_2_L1.test  # (around 3 minutes)
+
+3. CUFFT callback testing
+perl regress.pl -test-list-file=./test/callbacks.test -build=release # (around 40 minutes)
+
+4. CUFFT - composite kernels strided test (sm35 or higher)
+./regress.pl -config=release -test-list-file=test/coverage/composite_kernels_strided.test # (around 6 minutes)

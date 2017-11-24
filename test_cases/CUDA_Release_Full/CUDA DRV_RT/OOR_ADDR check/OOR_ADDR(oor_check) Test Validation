@@ -1,0 +1,6 @@
+!!!Volta only
+1. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuda/apps
+   make oor_check.release
+
+2. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuda/apps/oor_check
+   vim volta_testcase.py

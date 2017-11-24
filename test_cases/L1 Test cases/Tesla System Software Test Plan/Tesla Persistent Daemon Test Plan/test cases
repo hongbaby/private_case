@@ -1,0 +1,20 @@
+1. NVPD Auto-Run script as root
+    1. Download auto script from \\netapp-hq07\hwswqa\PPSWQA\TeslaTeam\Tools\Persistence-daemon
+    2. login as root user
+    3. create folder /home/persistence-test
+    4. move about step1 file into  /home/persistence-test
+    5. run ./nvpdfunc.sh
+    6. check if has error under detail.txt
+    -----PostStartStatus1 failed
+
+Other test cases no issue
+
+Issue found when running : NVPD Manual- print notices to syslog on state transitions
+2017-11-15T15:42:38.664923+08:00 dhcp-10-19-192-210 nvidia-persistenced: Verbose syslog connection opened
+2017-11-15T15:42:38.665839+08:00 dhcp-10-19-192-210 nvidia-persistenced: Directory /var/run/nvidia-persistenced will not be removed on exit
+2017-11-15T15:42:38.665977+08:00 dhcp-10-19-192-210 nvidia-persistenced: Now running with user ID 1000 and group ID 100
+2017-11-15T15:42:38.666226+08:00 dhcp-10-19-192-210 nvidia-persistenced: Started (22207)
+2017-11-15T15:42:38.666346+08:00 dhcp-10-19-192-210 nvidia-persistenced: Failed to query NVIDIA devices. Please ensure that the NVIDIA device files (/dev/nvidia*) exist, and that user 1000 has read and write permissions for those files.
+2017-11-15T15:42:38.666444+08:00 dhcp-10-19-192-210 nvidia-persistenced: PID file unlocked.
+2017-11-15T15:42:38.666533+08:00 dhcp-10-19-192-210 nvidia-persistenced: PID file closed.
+2017-11-15T15:42:38.666623+08:00 dhcp-10-19-192-210 nvidia-persistenced: Shutdown (22207)

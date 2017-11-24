@@ -1,0 +1,31 @@
+1. build cublas testsuite:
+p4 sync //sw/rel/gpgpu/toolkit/r9.0/cublas/...@${TK_CL}
+p4 sync //sw/tools/linux/mkl/11.0.4/lib/intel64/...
+p4 sync //sw/tools/linux/mkl/11.0.4/include/...
+p4 sync //sw/tools/win32/mkl/11.0.3/...
+#p4 sync //sw/tools/intel/windows/compilers_and_libraries_2016.2.180/...
+p4 sync //sw/rel/gpgpu/toolkit/r9.0/cudalibtools/...@${TK_CL}
+
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu (Ubuntu Only)
+export NVBLAS_CONFIG_FILE=$P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cublas/testMg/nvblas.conf
+
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cudalibtools
+make RELEASE=1
+
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cudalibtools
+make RELEASE=1 MKL=1 -j 40
+
+2. Prep MKL library:
+For Linux
+export LD_LIBRARY_PATH=$P4ROOT/sw/tools/linux/mkl/11.0.4/lib/intel64
+(or export NV_TOOLS=$P4ROOT/sw/tools)
+
+3. Copy libraries from local install path to binpath
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release
+
+4. run cublas L0 test（All pass ----- Passes/Waivers: 137）----10.19.192.210, around 15 minutes
+cd /home/jeff/sw/rel/gpgpu/toolkit/r9.0/cublas
+$ perl nj_nightly.pl –build=release -config=dvs -mkl
+
+5. run cublas Dbl L0 test（All pass ---- Passes/Waivers： 140）------10.19.192.210, around 5 minutes
+$ perl  nj_nightlyDbl.pl -build=release -config=dvs -mkl

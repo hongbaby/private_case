@@ -1,0 +1,24 @@
+1. Before running, make sure NUMACTL and HWLOC library are installed:
+
+For Ubuntu:
+
+$ sudo apt-get install -y numactl libhwloc-dev
+
+For Fedora/CentOS/RHEL:
+
+$ sudo yum install -y numactl hwloc-libs
+
+For SLES/openSUSE:
+
+$ sudo zypper install numactl hwloc-devel
+
+2. Keep OpenMPI installed
+3. wget --user=guest --password=guest http://10.19.193.206/teslaswqash_public/guest/systemburn/systemburn-master.tar
+4. tar xf systemburn-master.tar
+5. go to systemburn-master and ./configure
+6. make
+7. make install
+8. mpirun -np 1 ./systemburn
+9. vim systemburn.load  change RUNTIME value
+10. sudo dmesg -c
+11. nvidia-smi -q -i 0 -d ecc,performance,power,pids -l 30 | tee nvml.log

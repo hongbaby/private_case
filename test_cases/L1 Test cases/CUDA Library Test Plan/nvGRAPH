@@ -1,0 +1,32 @@
+1. build cuda runtime
+2. make cublas
+3. make cusparse
+4. p4 sync //sw/rel/gpgpu/toolkit/r9.1/nvgraph/...@TK_CL
+p4 sync //sw/tools/boost/boost_1_54_0/boost/...
+p4 sync //sw/tools/boost/boost_1_54_0/lib/Linux64/...
+make RELEASE=1 -j 20
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+
+Test cases:
+1.nvgraph - L0:
+cp  $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/nvgraph/test/log_converter.py $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+sudo mkdir -p /mnt/teslaswqash/ && sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
+
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+python log_converter.py nvgraph_test 2>&1 | tee /home/jeff/kerry_ws/CUDA_Library/nvgraph_L0.log
+
+# around 1 hour
+python log_converter.py nvgraph_capi_tests --gtest_filter=*Sanity*:*Corner*:*Correctness* --graph-data-dir "/mnt/teslaswqash/matrices/p4matrices/" --ref-data-dir "/mnt/teslaswqash/matrices/eris/"  2>&1 | tee /home/jeff/kerry_ws/CUDA_Library/nvgraph_capi_L0.log
+
+python log_converter.py nvgraph_capi_tests_subgraph --graph-data-dir "/mnt/teslaswqash/matrices/p4matrices/" --ref-data-dir "/mnt/teslaswqash/matrices/eris/"  2>&1 | tee /home/jeff/kerry_ws/CUDA_Library/nvgraph_capi_subgraph_L0.log
+
+2. nvGRAPH - duplicate symbol check
+cd  $HOME/NVIDIA_CUDA-#.#_Samples/7_CUDALibraries/nvgraph_SSSP
+echo -e "#include \"nvgraph.h\"" > test.cpp
+/usr/local/cuda/bin/nvcc -I../../common/inc nvgraph_SSSP.cpp test.cpp -lnvgraph
+
+3. nvgraph - L1 (Performance)
+python log_converter.py nvgraph_capi_tests --gtest_filter=*Correctness* --perf --graph-data-dir "/mnt/teslaswqash/matrices/p4matrices/" --ref-data-dir "/mnt/teslaswqash/matrices/eris/"  2>&1 | tee /home/jeff/kerry_ws/CUDA_Library/nvgraph_L1.log
+
+4. nvgraph - L2:
+python log_converter.py nvgraph_capi_tests --gtest_filter=*Stress* --stress-iters 1 --graph-data-dir "/mnt/teslaswqash/matrices/p4matrices/" --ref-data-dir "/mnt/teslaswqash/matrices/eris/"  2>&1 | tee /home/jeff/kerry_ws/CUDA_Library/nvgraph_L2.log

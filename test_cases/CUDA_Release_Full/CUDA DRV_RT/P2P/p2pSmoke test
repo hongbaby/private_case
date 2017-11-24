@@ -1,0 +1,27 @@
+!!!At least two GPUs (the same model)
+
+1.  cd $P4ROOT/sw/rel/gpgpu/toolkit/${CUDA_VER}/bin/x86_64_Linux_release
+make RELEASE=1 cuP2P
+make RELEASE=1 peer2peer
+
+Testlist.txt:
+cuP2P
+peer2peer
+peer2peer_array
+peer2peer_rt
+peer2host2peer
+peer2host2peer_rt
+multigpu
+multigpu22
+multigpuboard
+
+2.For cudart apps such as multigpu and multigpu22, need go to
+$P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/multigpu_data_files
+../multigpu
+
+$P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/multigpu22_data_files
+../multigpu22
+
+for others:
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cuda/apps
+perl smoke.pl -config=release -testname=cuP2P

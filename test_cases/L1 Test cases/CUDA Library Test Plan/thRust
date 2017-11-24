@@ -1,0 +1,13 @@
+thrust_test:
+1. p4 sync //sw/rel/gpgpu/toolkit/r9.1/thrust/...@TK_CL
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
+make RELEASE=1
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
+make RELEASE=1 -j 20
+
+2. copy lib
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+
+3. run test: # around 8 minutes
+$ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
+$ perl internal/test/thrust_nightly.pl -build=release

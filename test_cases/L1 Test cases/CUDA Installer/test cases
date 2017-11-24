@@ -1,0 +1,10 @@
+1. Linux Installer - Build 32bit samples on 64bit OS
+how to install 32bit glibc rpm/deb??
+
+
+2. Linux Installer - tmp function handle
+Install CUDA package without equals sign.
+./cuda_install.sh --tmpdir /home/$(whoami)/tmp
+
+1. Install CUDA package without equals sign.
+cuda-install-samples-9.0.sh <dir> --tmpdir /home/$(whoami)/tmp

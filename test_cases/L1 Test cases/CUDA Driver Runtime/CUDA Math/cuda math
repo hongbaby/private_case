@@ -1,0 +1,22 @@
+1. CUDA Math Apps L0 - njsmoke:
+# !!! build CUDA Runtime first !!!
+# build CUDA Apps for L1 - nj_smoke
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/cuda/apps
+make RELEASE=1 -f Makefile.njsmoke -j 10 # (+359)
+sudo rm -f ./cuda_apps_L0_njsmoke_$DRV_VER.log
+perl nj_smoke.pl -build=release -verbose 2>&1 | tee ./cuda_apps_L0_njsmoke_$DRV_VER.log
+
+
+Testing in 10.19.192.210
+ERROR:  /home/jeff/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/uvmStress  returned non-zero exit value: 134
+
+2. CUDA Math Apps L1 - dblsmoke:
+----This case around 2 hours
+# build CUDA Apps for L1 - nj_dbl_smoke
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/cuda/apps/common/
+#cd common
+NV_TOOLS=${P4ROOT}/sw/tools ./buildmp.sh
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/cuda/apps
+make RELEASE=1 -f Makefile.dblsmoke -j10 # ${app you want to build} # (+169)
+sudo rm -f ./cuda_apps_L1_nj_dblsmoke_$DRV_VER.log
+perl nj_dbl_smoke.pl -build=release -verbose 2>&1 | tee ./cuda_apps_L1_nj_dblsmoke_$DRV_VER.log # 402 tests

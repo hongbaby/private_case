@@ -1,0 +1,19 @@
+1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/pwrburn64
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/pwrburn.cu
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/Makefile
+
+2. vim pwrburn.cu
+uncomment #include <sys/time.h>
+
+3. vim Makefile
+改成 nvcc -arch=sm_xx -O3 pwrburn.cu -o pwrburn
+
+4. make clean && make
+./pwrburn -d0 -c0 -t240 | tee pwrburn.log
+
+5. Open another terminal:
+export  __NVML_DBG_LVL=DEBUG
+export __NVML_DBG_FILE=nvidia-smi.log
+
+6. nvidia-smi -q -i 0 -d ecc,performance,power,pids -l 30 | tee nvml_pwrburn.log
+7. Make sure to examine test log file for any test failures or performance drop

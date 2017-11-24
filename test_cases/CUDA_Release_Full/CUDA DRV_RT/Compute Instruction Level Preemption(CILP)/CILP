@@ -1,0 +1,19 @@
+!!! usually N/A this test for below reason:!!!
+  Note:
+  CILP is enabled from Pascal GPU. Please skip this test for pre-Pascal GPUs.
+
+1. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cuda/apps
+make cnp_while1 RELEASE=1
+
+2. make sure MPS server is not running in background
+ps -A | grep nvidia-cuda-mps   ----should not return any process
+
+3. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/
+./cnp_while1 -h
+./cnp_while1
+./cnp_while1 -b2 -t64 -a  #run it in 2 terminals in parallel
+
+- 'Smem check' should always <= 'Smem write'
+- Press 'Enter', then type 'quit' (despite the screen is scrolling to output), should see:
+  - 'Test PASSED'
+  - '&&&& cnp_while1 PASSED'

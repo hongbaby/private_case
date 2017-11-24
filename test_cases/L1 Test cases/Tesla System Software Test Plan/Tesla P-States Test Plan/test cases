@@ -1,0 +1,7 @@
+1. Forced the Clock to Highest performance level (P0):
+Go to testing2/apps/amd64
+  ./clock_control –device 0 –set-pstate 0
+ Error: [internal/clock_control.c:439] ERROR: result returned error 999 Unknown Error
+Bug: https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200327764&cmtNo=
+
+ 2. Forced the Clock to lowest performance level (P12/P8)

@@ -1,0 +1,54 @@
+1. MPS smoke test  # test in DGX Station, around 50 minutes
+		1. build cuda apps ----- if not done before, go to $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cuda/apps
+		make RELEASE=1 -j 20
+		2. Copy libiaries from local install path to binpath:
+		cp -rfPv /usr/local/cuda/lib64/* $P4_ROOT/sw/rel/gpgpu/toolkit/r8.0/bin/x86_64_Linux_release
+		3. check the user level file descriptors limits:
+		ulimit -Sn
+		ulimit -Hn
+		4.If the FD limits is 1024, please change to 16384. Note $(username) is the login name of your linux machine
+			sudo vim /etc/security/limits.conf
+				# add two lines:
+				kerry soft    nofile         16384
+				kerry hard   nofile          16384
+		5. reboot
+		6.ulimit -Sn
+		ulimit -Hn   ---- make sure they are 16384
+		7. cd mps_common
+		perl mps_smoke.plx --config=release
+
+
+2. Remove support for Ctrl-C behavior on MPS:
+		1. Start nvidia-cuda-mps-server and monitor the CUDA process from NVSMI:
+		nvidia-cuda-mps-control -d
+		ps aux | grep nvidia  -------> 可以看到
+		while :; do ./streamStress; sleep 1; done
+		sudo kill $(pidof nvidia-cuda-mps-control)
+
+3. Stress Test with MPS
+			1. Terminal 1 sudo nvidia-cuda-mps-control -d
+			2. Terminal 1: ps -A | grep nvidia-cuda-mps
+			3. Terminal 1: nvidia-smi -l
+			4. Terminal 2: run Linpack: cd /home/kerry/hpl-2.0_FERMI_v15/bin/CUDA
+			mpirun -np 1 ./run_linpack
+			kerry@dhcp-10-19-192-210:/home/jeff/kerry_tools/hpl-2.0_FERMI_v15/bin/CUDA> mpirun -np 1 ./run_linpack
+			/home/jeff/kerry_tools/hpl-2.0_FERMI_v15/bin/CUDA/xhpl: error while loading shared libraries: libcudart.so.9.0: cannot open shared object file: No such file or directory
+			-------------------------------------------------------
+			Primary job  terminated normally, but 1 process returned
+			a non-zero exit code.. Per user-direction, the job has been aborted.
+			-------------------------------------------------------
+			--------------------------------------------------------------------------
+			mpirun detected that one or more processes exited with non-zero status, thus causing
+			the job to be terminated. The first process to do so was:
+
+			Process name: [[40463,1],0]
+			Exit code:    127
+
+			解决办法：在vim ~/.bashrc文件的LD_LIBRARY_PATH添上:/usr/local/cuda/lib64
+
+			5. check mps-server are started on the terminal 1
+			6. # to terminate the MPS server:
+				sudo kill $(pidof nvidia-cuda-mps-control)
+
+4. MPS service check:
+		pass

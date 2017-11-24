@@ -1,0 +1,37 @@
+# this case run needs a while, at least 1 hour. 2 failures for 128 tests.
+# CUDA 9.1 toolkit + 387.22 + Ubuntu 16.04 + Quao K4000
+around 5 hour
+
+1. export NV_TOOLS=$P4ROOT/sw/tools/
+2. p4 sync //sw/gpgpu/opencl/conformance_1.2/...
+   p4 sync //sw/tools/linux/cmake-2.6.2/...
+   p4 sync -f //sw/tools/linux/buildtools/Linux-x86_64/Linux-x86_64/gcc-4.1.1as1/...
+   # sometimes gcc-4.1.1as1/bin/ will not show up unless using -f parameter to sync
+
+3. cd $P4ROOT/sw/gpgpu/opencl/conformance_1.2/nvidia/tests
+make clobber
+make RELEASE=1 -j 10 # (+42)
+Erros occurs:
+kerry@kerrytestpc:~/sw/gpgpu/opencl/conformance_1.2/nvidia/tests$ make RELEASE=1 -j 20
+/home/kerry/sw/tools/unix/hosts/Linux-x86/perl-5.10.0/bin/perl build_conform.pl release x86_64
+make: /home/kerry/sw/tools/unix/hosts/Linux-x86/perl-5.10.0/bin/perl: Command not found
+Makefile:49: recipe for target 'run_cmake_release' failed
+make: *** [run_cmake_release] Error 127
+
+解决方法:
+sudo apt-get install g++-multilib
+sudo ln -s /usr/lib/x86_64-linux-gnu /usr/lib64
+make RELEASE=1 -j 10 # (+42)
+ls -F $P4ROOT/sw/gpgpu/bin/x86_64_Linux_release/|grep '*'|cut -d* -f1|wc -l  # should be 42
+
+如果出现其它的编译错误，可以尝试：https://askubuntu.com/questions/251978/cannot-find-crti-o-no-such-file-or-directory
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
+
+4. go to cd /home/kerry/sw/gpgpu/bin/x86_64_Linux_release
+  python run_conformance.py conformance_nightly.csv CL_DEVICE_TYPE_GPU
+
+运行case: conformance_1.2中的（Run conformance_1.2 nightly test on x86 platform）在make release时报错时，可参考：
+https://wiki.nvidia.com/nvcompute/index.php/NVCompute/NVIDIAOpenCL/Building_conformance
+
+Failed case:
+OpenGL Interop (http://nvbugs/200104420)

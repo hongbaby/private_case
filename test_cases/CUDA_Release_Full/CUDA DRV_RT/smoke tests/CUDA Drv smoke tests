@@ -1,0 +1,82 @@
+在执行测试用例前，先确保下面的东西完成：
+1) Perforce sync build stuffs
+p4 sync //sw/eris/...
+p4 sync //sw/rel/gpgpu/toolkit/rx.x/build/...
+p4 sync //sw/rel/gpgpu/toolkit/rx.x/cuda/...
+p4 sync //sw/rel/gpgpu/toolkit/r8.0/eris/*.vlc*
+p4 sync //sw/rel/gpgpu/toolkit/r8.0/eris/*compiler*/...
+p4 sync //sw/rel/gpu_drv/r361/r361_00/drivers/common/build/...
+p4 sync //sw/rel/gpgpu/toolkit/r8.0/Makefile
+p4 sync //sw/tools/linux/python/251/...
+p4 sync //sw/tools/unix/hosts/Linux-x86/doxygen-1.5.8/...
+p4 sync //sw/misc/linux/unix-build
+
+// If not build cuda runtime with agnostic, skip it.
+p4 sync //sw/tools/linux/cuda-agnostic-toolchain/2.0/Linux_x86_64/...
+p4 sync //sw/tools/unix/targets/common/xorg-server/include/...
+
+
+2) Install compiler binaries from Eris
+export P4ROOT=$(p4 client -o | grep '^Root:' | awk -F ' ' '{print $NF}')
+export PATH=$PATH:$P4ROOT/sw/eris/bin
+export VULCAN_PRODUCT=$P4ROOT/sw/rel/gpgpu/toolkit/rx.x/eris/cuda.vlcp # for r8/0/r9/0 branch
+
+之前在OPENSUSE上遇到过错误 Traceback (most recent call last):
+  File "/home/jeff/sw/eris/bin/vulcan", line 149, in <module>
+    import vulcan.main
+  File "/home/jeff/sw/eris/src/vulcan/main.py", line 19, in <module>
+    import common.util
+  File "/home/jeff/sw/eris/src/common/util.py", line 26, in <module>
+    import paramiko
+  File "/usr/lib/python2.7/site-packages/paramiko/__init__.py", line 30, in <module>
+    from paramiko.transport import SecurityOptions, Transport
+  File "/usr/lib/python2.7/site-packages/paramiko/transport.py", line 32, in <module>
+    from cryptography.hazmat.backends import default_backend
+  File "/usr/lib64/python2.7/site-packages/cryptography/hazmat/backends/__init__.py", line 7, in <module>
+    import pkg_resources
+ImportError: No module named pkg_resources
+解决方案:
+sudo zypper install python-paramiko
+sudo zypper in python-pycrypto
+
+vulcan --eris --install --product=//sw/rel/gpgpu/toolkit/rx.x/eris/compiler.vlcp --target-revision=cl-tot compiler_internal_base --user kerryq
+
+2) Install Compiler instead of Eris:
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/SW_23033002.0_gpu_drv_r384_00_Release_Linux_AMD64_unix-build_UVM_Test.tgz
+$tar xf SW_xxx.tgz
+compiler_384$ ls
+assemblerRESULT.tar
+nvvmRESULT.tar
+SW_22791987.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_COMPILER.tgz
+toolsRESULT.tar
+$tar xf assemblerRESULT.tar && tar xf nvvmRESULT.tar && tar xf toolsRESULT.tar
+$export GPGPU_COMPILER_EXPORT=$HOME/Compiler384/x86_64_Linux_release  (please unset  VULCAN_INSTALL_DIR)
+
+sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+
+3) build cuda runtime.
+// build without agnostic
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1
+make cuda RELEASE=1
+
+// build cuda runtime with agnostic
+sudo cp $P4ROOT/sw/misc/linux/unix-build /usr/bin
+sudo chown root /usr/bin/unix-build
+sudo chmod u+s /usr/bin/unix-build
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0
+make cuda RELEASE=1 USE_AGNOSTIC_TOOLCHAIN=1
+
+4) cp -rPfv /usr/local/cuda/lib64/*  ./sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/
+
+5) build cuda apps
+Execute step 1 to step 3 to build runtime.
+
+p4 sync //sw/tools/boost/boost-1.55.0/boost/...
+p4 sync //sw/tools/boost/boost-1.55.0/lib/x64/...
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0/cuda/apps
+make RELEASE=1 ${app you want to build}
+
+6)Run `perl smoke.pl -config=release` in cuda/apps folder.
+
+7)Check the log file cuda/apps/smoke.txt. For any failed app, repeat step 4 with additional
+ “--testname=failed_app_name” option 5 times before report a bug(If all 5 retest still failed).

@@ -1,0 +1,32 @@
+!!!! Running main.py requires PM to be On, so as Non-ROOT user you have to enable PM first.
+!!!! Running main.py as ROOT, it will automatically enable PM if it is Off, and unset CUDA_VISIBLE_DEVICES if it has been set.
+
+1. Download NVML package from:
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r387_00_Release_Linux_AMD64_unix-build_Driver_Tesla/
+选择number号小于或者等于Driver change list number.
+
+2. 解压缩tar -xvf testing2.tar
+3. python main.py
+
+Testing result:
+Passed 372 / 378 tests.
+Score: 98.41
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200290731&cmtNo=
+Error message:
+- Test test_sampling_timestamp_order
+            - Test on device <NvmlDevice 00000000:81:00.0> - Tesla P6
+                Starting CudaCtxCreateAdvancedApp with AppRunner #257: /home/jeff/kerry_t...
+                stdout in _out_runLogs/app_257_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stdout.txt
+                stderr in _out_runLogs/app_257_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stderr.txt
+                This test might take a while...
+                Starting CudaCtxCreateAdvancedApp with AppRunner #258: /home/jeff/kerry_t...
+                stdout in _out_runLogs/app_258_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stdout.txt
+                stderr in _out_runLogs/app_258_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stderr.txt
+                This test might take a while...
+                ERROR: Traceback (most recent call last):
+                ERROR:    File "/home/jeff/kerry_tools/SW_23075377_Tesla/testing2/test_utils.py", line 202, in wrapper
+                ERROR:     fn(*args, **kwds)
+                ERROR:    File "/home/jeff/kerry_tools/SW_23075377_Tesla/testing2/tests/test_samples.py", line 289, in test_sampling_timestamp_order
+                ERROR:     " order of timestamps" % (samplingList[i].name))
+                ERROR:  AssertionError: For Gpu Utilization sampling, the samples are not arranged in ascending order of timestamps
+            << Test Main::module tests.test_samples::test_sampling_timestamp_order::on device <NvmlDevice 00000000:81:00.0> - Tesla P6 - FAILED

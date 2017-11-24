@@ -1,0 +1,20 @@
+到sw/gpgpu/opencl/apps把所有的app编译下：
+
+p4 sync //sw/gpgpu/opencl/apps/... # do it each time
+p4 sync //sw/gpgpu/opencl/import/... # do it each time
+
+
+
+	1. cp $P4ROOT/sw/gpgpu
+	2. make clobber
+	3. cd $P4ROOT/sw/gpgpu/opencl/apps/
+	4. make RELEASE=1 -j 20
+	5. 编译好的文件可在$P4ROOT/sw/gpgpu/bin/x86_64_Linux_release目录下看到
+	6. ls -F $P4ROOT/sw/gpgpu/bin/x86_64_Linux_release/|grep '*'|cut -d* -f1|wc -l #大概75左右
+	7. cd $P4ROOT/sw/gpgpu/opencl/apps/
+	8. Run smoke.pl against OpenCL Apps
+
+     perl smoke.pl -config=release  -----after running finished, check log file if has failed. If has failed items, try:
+     perl smoke.pl -config=release -testname=xxx 2>&1|tee log.out.FAILED
+
+	1. dmesg -T #check the more detailed error info

@@ -1,0 +1,42 @@
+All test cased under this checked.  12 test cases
+1. Graphic Processes Reporting:
+    cd ~/NVIDIA_CUDA-9.X_Samples
+    make RELEASE=1 -j 20
+    cd ~/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release
+    Terminal 1: while :; do ./scan &! ./sortingNetworks &! ./cuSolverRf; sleep 0; done
+    Terminal 2:  nvidia-smi -l 1  # check if PIDs are listed.
+    nvidia-smi -q -d pids -l 1 # -q here menas Display GPU or Unit info; -d pids: 表示显示pids的信息。
+
+2.  Compute mode:
+    sudo nvidia-smi -i $DEVICE_ID -c 0  #default module
+    Terminal 1:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memcpy &! ./streamStress; sleep 1; done
+    Terminal 2:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memset &! ./memset; sleep 0; done
+    ----Two terminals should work ok.
+
+    sudo nvidia-smi -i $DEVICE_ID -c 2 # PROHIBITED
+    Terminal 1:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memcpy &! ./streamStress; sleep 1; done
+    Terminal 2:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memset &! ./memset; sleep 0; done
+    ------No terminal can work.
+
+    sudo nvidia-smi -i $DEVICE_ID -c 3 # EXCLUSIVE_PROCESS
+    Terminal 1:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memcpy &! ./streamStress; sleep 1; done
+    Terminal 2:
+    cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+    while :; do ./memset &! ./memset &! ./memset; sleep 0; done
+    ------Only one terminal can work.
+
+3. Resetting GPUs in a loop for 30 mins
+If have 2 GPU:
+for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0 && nvidia-smi -r -i 1; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
+If only have 1 GPU:
+for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log

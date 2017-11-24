@@ -1,0 +1,9 @@
+1. P1: Stress - GPGPU stress and Iperf for 12 hours
+N/A this test for below reason: (N/A for Kepler/Maxwell/Pascal GPU, only supports Fermi)
+
+2. P2: Check DBE/SBE and GPU Utilization using nvML when no process is running under Linux for 4 hours
+export  __NVML_DBG_LVL=DEBUG
+export __NVML_DBG_FILE=nvidia-smi.log
+nvidia-smi -q -i 0 -d utilization,ecc,performance,power -l 30 | tee nvml.log
+
+No XID/ECC errors (SBE/DBE) and other abnormal changes in PStates, Power draw and Temperature in the nvml log file

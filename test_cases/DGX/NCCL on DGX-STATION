@@ -1,0 +1,23 @@
+Note: DGX Station系统应该默认自带， 可通过下面的命令查询：
+dpkg -l | grep 'nccl'
+应该看到：libnccl2 libnccl-dev, 如果没有的话，可通过下面的命令安装，应该是系统源自带。
+
+1. NCCL Install:
+sudo apt-cache search 'nccl'
+sudo apt install libnccl2 libnccl-dev
+
+2. DGX Station应该默认安装好openmpi,如果没安装需要手动安装。
+3. sudo apt-get install -y git
+cd ~
+rm -rf nccl-tests
+git clone https://github.com/NVIDIA/nccl-tests.git
+cd ~/nccl-tests
+rm -rf build
+make MPI=1 MPI_HOME=/usr/local/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr
+
+ls ~/nccl-tests/build/
+cp single_perf_4gpu ~/nccl-tests/build/
+./single_perf_4gpu.sh
+
+grep -Ei 'fail|error' ~/nccl-tests/build/*.log
+dmesg -T |grep -Ei 'fail|error'

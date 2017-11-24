@@ -1,0 +1,64 @@
+1. cd /home/kerry/LINPACK
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/common_utils_linux.py
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux.cfg
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux.py
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux_dual.cfg
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/test_utils_linux.py
+
+2.mkdir Sources under /home/kerry
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/cmake-3.6.3.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/deviceQuery.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/fftw-2.1.5.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/fftw-3.3.6-pl2.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/hdf5-1.8.18.tar.bz2
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/mkl_11.1.0.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/netcdf-4.4.1.1.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/netcdf-fortran-4.4.4.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/automake-1.15.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/openmpi-2.1.2.tar.bz2
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/simpleP2P.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/pcre-8.40.tar.bz2
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/swig-3.0.12.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/gunrock/metis-5.1.0.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/gunrock/parmetis-4.0.3.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/boost_1_58_0.tar.bz2
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/simpledrvquery.tar.gz
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/hpl_2017.tar.gz
+
+#  scp jzhong@isv-cudaminer:~/Sources/* /home/kerry/Sources
+
+4. If you test dual GPUs, please edit isv_test_dual.cfg. If you have only one GPU, you need to edit isv_test.cfg
+change password to your root password
+•	Edit all /home/test/Sources to your own path
+:1,$ s/xxx/xxx/g
+
+5.  cd /home/kerry/LINPACK
+./isv_linux.py -c isv_linux.cfg -s linpack
+遇到的问题：
+2017-11-16 15:02:57 INFO : Installing package "python-numpy-devel"...
+2017-11-16 15:02:58 ERROR: Failed to install package: python-numpy-devel
+2017-11-16 15:02:58 DEBUG: Command Line: echo "1" |/usr/bin/sudo -S /usr/bin/zypper --gpg-auto-import-keys install -y python-numpy-devel
+2017-11-16 15:02:58 DEBUG: Standard Output: Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+Problem: python-numpy-devel-1.13.3-158.1.x86_64 requires python-numpy = 1.13.3, but this requirement cannot be provided
+  uninstallable providers: python-numpy-1.13.3-146.1.x86_64[devel_languages_python]
+                   python-numpy-1.13.3-158.1.x86_64[devel_languages_python]
+ Solution 1: install python-numpy-1.13.3-158.1.x86_64 (with vendor change)
+  openSUSE  -->  obs://build.opensuse.org/devel:languages:python
+ Solution 2: do not install python-numpy-devel-1.13.3-158.1.x86_64
+ Solution 3: break python-numpy-devel-1.13.3-158.1.x86_64 by ignoring some of its dependencies
+
+Choose from above solutions by number or cancel [1/2/3/c] (c): c
+2017-11-16 15:02:58 DEBUG: Error Output: root's password:
+解决办法：  卸载本地的python-numpy-devel
+
+6. cd /home/kerry/LINPACK
+If you run one GPU, please use command
+./isv_test.py -c isv_test.cfg -s linpack
+If you run dual GPU, please use command
+./isv_test.py -c isv_test_dual.cfg -s linpack
+
+运行脚本48小时，一般周末跑
+./isv_linux.py -c isv_linux.cfg -t linpack

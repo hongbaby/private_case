@@ -1,0 +1,56 @@
+1. Get UVM testing package from DVS:
+How to get Driver CL: (如果有安装问题，则sudo apt-get install cifs-utils)
+1. sudo mkdir -p /mnt/builds/unixbuilds/ && sudo mount -t cifs //builds/unixbuilds/ /mnt/builds/unixbuilds/ -o user=kerryq,domain=NVIDIA.com
+2. export DRV_BRANCH=387
+3. export DRV_VER=387.22
+4. head -8 /mnt/builds/unixbuilds/release/display/x86/${DRV_VER}/logs/Build-${DRV_VER}.log
+
+How to get UVM Testing package CL based on given version of Driver:
+1. export DRV_BRANCH = 387
+2. p4 changes //sw/rel/gpu_drv/r${DRV_BRANCH}/r${DRV_BRANCH}_00/drivers/common/inc/nvUnixVersion.h |head -5   从结果中可以看到多行，每行有Driver的版本号和一个CL，找到387.22（可通过nvidia-smi查询）那一行里的CL号，就是你用来下载UVM的包的CL号
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r387_00_Release_Linux_AMD64_unix-build_UVM_Test/
+
+3. Enabled GPU persistence mode
+a. sudo nvidia-smi -pm 1
+
+
+4. install uvm-test package:
+
+a. tar xf dvs-Linux-amd64-release-uvm-test.tar.bz2
+
+
+5. remove the uvm module:
+
+a. sudo rmmod nvidia_uvm
+
+
+6. loaded uvm module with  driver mode 8 by default:
+
+a. sudo modprobe nvidia-uvm  uvm_enable_builtin_tests=1
+
+
+7. run the test by default
+
+ run without any parameter, this will run the default tests
+
+./uvm_test
+
+Optional test:
+
+ run the test in stress mode (this will take a long time to completed)
+
+./uvm_test --mode stress
+
+8. Reboot system
+
+Issue found in DGX Station:
+jzhong@dgxstation-s1:~/Installer/UVM_23022220$ ./uvm_test
+(thread 140177435666176 [t0]) At gpu-utils.cpp:1213:
+    Value of : NvRmAllocRoot(&hObject)
+    Which is : 106 (Library version doesn't match driver version [NV_ERR_LIB_RM_VERSION_MISMATCH])
+    Should be: NV_OK
+    Which is : 0 (Success [NV_OK])
+Could not Alloc a client
+
+&&&& uvm_test test FAILED
+------The issue root cause is: NVM version should be consistent with Driver CL.

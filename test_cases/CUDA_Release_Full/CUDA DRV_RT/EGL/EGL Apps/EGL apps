@@ -1,0 +1,71 @@
+!!! NA this test for any branch below r381 since it only supports >= r381 !!!
+Note: EGL相关的apps需要单独编译：
+
+1. cd $P4ROOT/sw/rel/gpgpu/toolkit/rx.x/cuda/apps
+make RELEASE=1 EGLStream_interop_basic -j10
+make RELEASE=1 eglstream_cuda_sync -j10
+make RELEASE=1 eglstreamMultiAcquire_cuda -j10
+make RELEASE=1 eglstreamMultiAcquire_cuda -j10
+make RELEASE=1 EGLStream_interop_ConsumerSpeed -j10
+make RELEASE=1 EGLStream_interop_Threaded -j10
+make RELEASE=1 EGLStream_Return_Reuse -j10
+make RELEASE=1 EGLStream_basic_rt -j10
+make RELEASE=1 eglstream_cross_proc -j10
+make RELEASE=1 EGLinterop_basic -j10
+make RELEASE=1 eglstream_apival_runtime -j10
+
+2. cd $P4ROOT/sw/rel/gpgpu/toolkit/rx.x/bin/x86_64_Linux_release
+unset CUDA_VISIBLE_DEVICES
+unset DISPLAY
+set EGL_PLATFORM=device
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/bin/x86_64_Linux_release/EGLStream_interop_basic_data_files/
+../EGLStream_interop_basic
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/bin/x86_64_Linux_release/EGLStream_basic_rt_data_files/
+../EGLStream_basic_rt
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r$TK_BRANCH/bin/x86_64_Linux_release/
+./eglstream_cuda_sync
+./eglstream_cuda_sync -n 100
+./eglstream_cuda_sync -width 32 -height 32
+./eglstream_cuda_sync -width 1024 -height 1024
+CUDA_EGLSTREAM_SEMAPHORE_SYNC=0 ./eglstream_cuda_sync
+CUDA_EGL_SYNC_ON_CPU=1 ./eglstream_cuda_sync
+./eglstreamMultiAcquire_cuda
+./eglstreamMultiAcquire_cuda -n 100
+CUDA_EGL_SYNC_ON_CPU=1 ./eglstreamMultiAcquire_cuda
+./EGLStream_interop_ConsumerSpeed
+./EGLStream_interop_Threaded
+./EGLStream_Return_Reuse
+./eglstream_cross_proc
+./eglstream_cross_proc -fr 32x32
+./eglstream_cross_proc -c argb
+./eglstream_cross_proc -frametype block
+./eglstream_apival_runtime
+./EGLinterop_basic
+
+
+
+
+Note:
+# 在测Opensuse42.2时， installed by RPM installer, need to override the symbolic link /usr/lib64/libEGL.so as below:
+在../EGLStream_interop_basic可能会失败，错误:
+Found 1 cuda devices
+Couldn't get address of eglCreateStreamKHR()
+SetupExtentions failed
+Segmentation fault (core dumped)
+
+Solution:
+sudo ln -sf /usr/X11R6/lib64/libEGL.so.1 /usr/lib64/libEGL.so
+../EGLStream_interop_basic
+
+Error 2:
+在尝试运行EGL相关的case时，报如下的错：
+jzhong@dgxstation-s1:~/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release$ ./eglstream_cuda_sync
+Width : 8192, height: 8192, colorformat: r16 and iterations: 2
+Found 4 cuda devices
+Assuming EGL device 0 is iGPU, EGL device 1 is dGPU.
+Created EGLStream 0x8cad21
+EGL streams initialized.
+failed to create CUDA context
+&&&& eglstream_cuda_sync test FAILED
+
+原因是通过nvidia-smi查到compute mode 不是default模式，通过sudo nvidia-smi -c 0切换到default模式，重新运行就好了。

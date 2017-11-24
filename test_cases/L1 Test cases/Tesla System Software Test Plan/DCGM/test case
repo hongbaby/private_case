@@ -1,0 +1,28 @@
+Test cases under this module around 11, all checked.
+
+1. DCGM Integration Tests Framework
+      1. Get the package from the regular DCGM dvs build:
+      http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r384_00_Release_Linux_AMD64_unix-build_Driver/
+
+
+
+2. EUD testing：# check if support EUD testing, check https://confluence.nvidia.com/display/CQ/EUD+Supported+GPUs
+    1. Uninstall nvidia driver:
+        sudo zypper remove "*nvidia*"
+    2. Download .rpm EUD:
+    http://cuda-internal/release-candidates/packaging/387_00/linux/387.26/local_installers/
+    3. sudo zypper install *.rpm
+    关于EUD的测试，只能是.rpm或者.deb的包，安装完后应该有cuda-drivers和cuda-drivers-diagnostic.
+    4. sudo zypper install cuda-drivers=387.26-1 cuda-drivers-diagnostic=387.26-1
+    5.  rpm -qa | grep cuda-drivers-diagnostic
+        -------应该能看到类似于： cuda-drivers-diagnostic-387.26-1.x86_64
+
+    6. Download DCGM from \\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r387\r387_00\387.20_23026625\testing_dcgm\x86_64
+    7. Install: sudo zypper install datacenter-gpu-manager-1.3.0-1.x86_64ss
+        Make sure DCGM is working:
+        sudo nv-hostengine
+        dcgmi discovery -l
+        You should see all supported GPUs listed
+    8. Go to _out/Linux_amd64_release/testing
+        python run_nvvs_diagnostic.py -h
+    9. python run_nvvs_diagnostic.py 1 0

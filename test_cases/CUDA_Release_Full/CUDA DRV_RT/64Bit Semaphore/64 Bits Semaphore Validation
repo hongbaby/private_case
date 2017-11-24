@@ -1,0 +1,2 @@
+go to $P4ROOT/sw/rel/gpgpu/toolkit/rx.x/bin/x86_64_Linux_release
+./host_semaphore

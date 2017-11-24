@@ -1,0 +1,40 @@
+1. compile cuda app ptxGenericPtr
+Go to //sw/rel/gpgpu/toolkit/r9.1/cuda/apps
+  make ptxGenericPtr RELEASE=1
+
+2. mkdir /tmp/test
+   cd /tmp/test
+   $/usr/local/cuda/bin/nvcc -m64 -I/home/kerry/sw/gpgpu/cuda/apps/common -I/home/kerry/sw/gpgpu/cuda/import -DTEST_NAME=ptxGenericPtr -c /home/kerry/sw/gpgpu/cuda/apps/ptxGenericPtr/ptxGenericPtr.c -o ptxGenericPtr.o
+   $nvcc -m64 -DTEST_NAME=ptxGenericPtr -c /home/jeff/sw/gpgpu/cuda/apps/ptxGenericPtr/../common/mhairgrove/mhairgrove_common.c -o mhairgrove_common.o
+   $nvcc -m64 -o ptxGenericPtr ptxGenericPtr.o mhairgrove_common.o -cudart static -lcuda -DTEST_NAME=ptxGenericPtr
+
+3. Run test without libnvidia-ptxjitcompiler.so
+  $ export CUDA_CACHE_DISABLE=1
+
+  $ cp /home/kerry/sw/gpgpu/cuda/apps/ptxGenericPtr/*.ptx /tmp/test
+
+  $ cd /tmp/test
+  $ rm -rf /.nv/ComputeCache
+
+  For ubuntu
+  $ sudo mv /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.* /tmp
+
+  For RHEL/CentOS/Fedora/OpenSUSE/SLES
+  $ sudo mv /usr/lib64/libnvidia-ptxjitcompiler.so.* /tmp
+
+  $ ./ptxGenericPtr <==== expect fail with error 221.
+  CUDA error in file '/home/kerry/sw/gpgpu/cuda/apps/ptxGenericPtr/ptxGenericPtr.c' in line 27: 221
+  &&&& ptxGenericPtr test FAILED
+
+4. Run test with libnvidia-ptxjitcompiler.so
+
+  $ rm -rf /.nv/ComputeCache
+
+  For ubuntu
+  $ sudo mv /tmp/libnvidia-ptxjitcompiler.so.* /usr/lib/x86_64-linux-gnu
+
+  For RHEL/CentOS/Fedora/OpenSUSE/SLES
+  $ sudo mv sudo mv /tmp/libnvidia-ptxjitcompiler.so.* /usr/lib64
+
+  $ ./ptxGenericPtr <==== expected pass
+  &&&& ptxGenericPtr test PASSED

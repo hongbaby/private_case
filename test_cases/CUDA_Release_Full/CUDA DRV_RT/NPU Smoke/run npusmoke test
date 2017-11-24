@@ -1,0 +1,59 @@
+Note:
+1. At least two GPUs ( the same model)
+2. GP100 and later GPUs only. Please skip it for pre-Pascal GPUs.
+
+1. Go to cuda/apps:
+make RELEASE=1 -j20 acos
+make RELEASE=1 -j20 cnp_one_launch_and_join
+make RELEASE=1 -j20 dbl2flt_gt200
+make RELEASE=1 -j20 dbl2uint_gt200
+make RELEASE=1 -j20 dblceil_gt200
+make RELEASE=1 -j20 dblllrint_gt200
+make RELEASE=1 -j20 dblscalbln_gt200
+make RELEASE=1 -j20 flt2ll_rd_gt200
+make RELEASE=1 -j20 gpfifo_overrun
+make RELEASE=1 -j20 l1_cache_invalidate_bug986473
+make RELEASE=1 -j20 llrint
+make RELEASE=1 -j20 memcpy
+make RELEASE=1 -j20 memcpy1d
+make RELEASE=1 -j20 memcpy1dasync
+make RELEASE=1 -j20 memcpy1dinline
+make RELEASE=1 -j20 memcpy2d
+make RELEASE=1 -j20 memcpy2d_array
+make RELEASE=1 -j20 memcpy_array
+make RELEASE=1 -j20 memcpyDtoD
+make RELEASE=1 -j20 poly1D
+make RELEASE=1 -j20 quick_sincos
+make RELEASE=1 -j20 surf3d
+make RELEASE=1 -j20 symbol_lookup_sepcomp
+make RELEASE=1 -j20 tex1dLayered
+make RELEASE=1 -j20 texRandStress
+make RELEASE=1 -j20 tgamma
+make RELEASE=1 -j20 trunk
+make RELEASE=1 -j20 udiv
+make RELEASE=1 -j20 uint2flt_rd
+make RELEASE=1 -j20 uint_arith
+make RELEASE=1 -j20 ullmod
+
+2. perl smoke.pl -config=release --test-list-file=/home/jzhong/Tools/npu_smoke.txt 2>&1 | tee /home/jzhong/Tools/nps_smoke.log
+cat nps_smoke.log | grep -i fail
+for failed:
+jzhong@dgxstation-s1:~/Tools$ more nps_smoke.log | grep -i fail
+ERROR: Unknown failure
+&&&& FAILED memcpy2d
+ERROR: Unknown failure
+&&&& FAILED poly1D
+cuModuleLoad failed.
+ERROR: Test reported failure:
+&&&& surf3d test FAILED
+&&&& FAILED surf3d
+#   failed 0
+&&&& FAILED tex1dLayered
+ERROR: Test reported failure:
+&&&& texRandStress test FAILED
+&&&& FAILED texRandStress
+&&&& FAILED uint_arith
+
+make RELEASE=1 -f Makefile.dblsmoke ${app}
+running using perl:
+perl smoke.pl -config=release -testname=xxx

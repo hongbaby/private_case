@@ -1,0 +1,23 @@
+Note: If you already run cuda apps, please leverage the test result for this case.
+
+1. Build CUDA app uvmStress. Please follow wiki https://wiki.nvidia.com/engwiki/index.php/Tesla_swqa_manual_testing_tips#How_to_build_cuda_stuffs
+2. Run test
+
+perl smoke.pl -config=release -testname=uvmStress
+
+3. Reboot system.
+
+Error occurs under Opensuse42.2 + CUDA9.0 + Driver 384.76 + Pasal6, passed after change CUDA9.1.85 + Driver 387.26
+
+Device 0: Tesla P6
+testutils::random seed value: 2769238042
+(thread 139827632502592 [t0]) At /home/jeff/sw/rel/gpgpu/toolkit/r9.0/cuda/apps/uvmStress/../common/dfontaine/raiiutils.hpp:163:
+    expected pETBL->struct_size >= sizeof(ETBL)
+Test state is:
+  Thread 139827632502592 [t0]:
+    raiiutils.hpp:160: Declared at /home/jeff/sw/rel/gpgpu/toolkit/r9.0/cuda/apps/uvmStress/uvmStress.cpp:14
+
+terminate called after throwing an instance of 'testsuite::TestConditionFailedException'
+ERROR:  /home/jeff/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/uvmStress  returned non-zero exit value: 134
+&&&& FAILED uvmStress
+------Solution: Sync code to the CL number

@@ -1,0 +1,20 @@
+1. CUDA API - cudaEventRecord asynchronous (Linux Edition):
+一般N/A掉，因为是要图形输出。
+
+2. GPU memory leak and XID check by Caffe (AlexNet)
+一般N/A掉
+
+3. Large memory operation ( VRAM > 10G)：
+make的时候报错：
+/usr/lib64/gcc/x86_64-suse-linux/4.8/../../../../x86_64-suse-linux/bin/ld: cannot find -lmkl_intel_lp64
+/usr/lib64/gcc/x86_64-suse-linux/4.8/../../../../x86_64-suse-linux/bin/ld: cannot find -lmkl_gnu_thread
+/usr/lib64/gcc/x86_64-suse-linux/4.8/../../../../x86_64-suse-linux/bin/ld: cannot find -lmkl_core
+collect2: error: ld returned 1 exit status
+Makefile:19: recipe for target 'testMEM' failed
+make: *** [testMEM] Error 1
+
+Solution：
+原因是因为mkl没安装，把本地的mkl copy到/opt/intel/mkl/11.2.1/ 解决。
+
+4. CUDA API - Call cudaDeviceReset and cudaIPC
+http://nvbugs/2010160

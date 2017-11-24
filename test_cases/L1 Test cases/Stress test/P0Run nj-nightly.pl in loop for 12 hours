@@ -1,0 +1,21 @@
+1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/cublas-loop/nj_nightly-loop.pl
+2. cp nj_nightly-loop.pl $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cublas/
+3. cp -rf /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+4. cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cublas
+perl nj_nightly-loop.pl
+
+Error message:
+App generated a core dump
+&&&& FAILED cublasTest -Rgels_batch -Ps -N200 -C -ocrc
+current time: 11:21:40
+&&&& RUNNING cublasTest -Rgels_batch -Pc -N200 -C -ocrc
+Can't exec "/home/jeff/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/cublasTest": No such file or directory at nj_nightly.pl line 1395.
+App exits with status 72057594037927935
+
+Solution:
+$P4ROOT/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cublas/目录之前估计有被make clobber,需要重新编译下cublas make RELEASE=1 -j 40
+
+
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cublas/
+sudo dmesg -c
+perl nj_nightly.pl -build=release -config=dvs -mkl -loop=4 -binpath=$P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/ -libpath=/usr/local/cuda/lib64/ 2>&1 | tee /home/$USER/alex_ws/Stress/nj-nightly/nj-nightly-loop_${TK_VER}_${DRV_VER}.log

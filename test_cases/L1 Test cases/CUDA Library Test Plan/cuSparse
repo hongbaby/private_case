@@ -1,0 +1,32 @@
+cuSparse test - L0: # around 50 minutes
+1. build runtime
+2. build cublas
+3. build thrust
+p4 sync -f //sw/rel/gpgpu/toolkit/r9.1/thrust/...@TK_CL
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
+make RELEASE=1
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
+make RELEASE=1
+
+4. build cusparse:
+p4 sync //sw/rel/gpgpu/toolkit/r9.1/cusparse/...@TK_CL
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0/cusparse
+make RELEASE=1 -j 20
+
+5. cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+
+6. Mount or map p4matrice source.
+For Linux:
+mkdir /mnt/teslaswqash
+sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
+mount //10.19.193.205/manual/matrices/p4matrices
+
+cd /home/jeff/sw/rel/gpgpu/toolkit/r9.1/cusparse
+
+7. perl ./sparse_nightly.pl -build=release -config=dvs -mkl -matrix_path=/mnt/teslaswqash/matrices/p4matrices 2>&1 | tee /home/jeff/kerry_ws/cusparse.txt
+
+
+spblas2test:
+Follow above steps
+1. go to //sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+./spblas2test -Pd -Rgemvi

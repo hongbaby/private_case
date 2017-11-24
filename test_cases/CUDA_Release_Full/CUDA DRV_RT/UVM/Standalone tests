@@ -1,0 +1,7 @@
+case: UVM - Race conditions check in Prefetch semaphore handling (RCCA for bug 1801934)
+steps:
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/1801934_uvm_segfault_cudaMemPrefechAsync/test_prefetch_offload.cu
+1. compile: /usr/local/cuda/bin/nvcc -o test test_prefetch_offload.cu
+2. run app:
+for i in `seq 1 10`; do echo "&&&& Running $i"; ./test && echo -e "&&&& PASSED $i" || echo -e "&&&& FAILED $i"\n;done
+3. No xid and segfault in "dmesg"

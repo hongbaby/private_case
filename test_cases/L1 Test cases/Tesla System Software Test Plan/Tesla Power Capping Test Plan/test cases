@@ -1,0 +1,9 @@
+All test cases under this module checked.
+1. Verify the InfoROM PWR Object:
+nvidia-smi -q | grep "Inforom Version" -A10
+
+2. nvidia-smi -q | grep "Power Management   " -A7
+
+Other test cases：
+Verify power draw with 8-pin connector： 这个一般N/A，需要重接电源线
+Connect the 8-pin external power cable only on 6-pin + 8-pin GPU

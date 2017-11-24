@@ -1,0 +1,6 @@
+1. NVML Auto - X server enable and disable
+      1. Download package from
+      http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_[branch]_Release_Linux_AMD64_unix-build_Driver_Tesla
+      which CL equal to testing driver CL
+
+      2. enable X server

@@ -1,0 +1,5 @@
+1. MPMandlebrot
+Skip (NA) if no NV display GPU available
+
+2. Phoronix OpenCL Benchmark Test
+Skip (NA) if no NV display GPU available	

@@ -1,0 +1,109 @@
+1. ECC Mode (this is only for Fermi or newer chipset)
+enable:  nvidia-smi -e 1
+disable: nvidia-smi -e 0
+#01 Successfully enable/disable ECC mode as root.
+	sudo nvidia-smi -e 1 -i $DEVICE_ID
+	sudo nvidia-smi -r -i $DEVICE_ID
+
+#02 Verify that operation not allowed as non-root.
+	sudo nvidia-smi -e 0 -i $DEVICE_ID
+	sudo nvidia-smi -r -i $DEVICE_ID
+	nvidia-smi -e 1 -i $DEVICE_ID # should see 'Insufficient Permissions'
+
+#03 Verify that total/location-based volatile ECC errors are recorded when ECC is enabled and N/A when it is disabled
+	nvidia-smi -q
+		# - under the 'ECC Erros -> volatile', 'Device Memory' and 'Total' should NOT be 'NA' for both 'Single Bit' and 'Double Bit' when ECC enabled
+		# - under the 'ECC Erros -> volatile', 'Device Memory' and 'Total' should be 'NA' for both 'Single Bit' and 'Double Bit' when ECC disabled
+
+#04 With updated inforom, verify that total/location-based aggregate ECC errors are recorded when ECC is enabled.
+	# usually skip this step as should be careful for updateing inforom
+
+#05 Without updated inforom, verify that total aggregate ECC errors are recorded when ECC is enabled.
+	# usually skip this step as should be careful for updateing inforom
+
+
+
+2. Verify changing GOM requires root (K20m/K20Xm Only)
+    1. Login as non root
+    2. try to change GOM mode in nvML
+    3. it should give error
+    4. Login as root
+    5. change GOM mode in nvML
+    6. reboot machine
+    6. mode should be changed according what you set before.
+
+3. NVML Manual - Clocks Throttle Reasons for GPU idle and Performance limiter
+    	1. nvidia-smi -q -i $DEVICE_ID
+      2. In Terminal 1:  nvidia-smi -q -d performance,pids,power -l 1 -i $DEVICE_ID
+      3. ./$P4ROOT/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/bin/x86_64_Linux_release/bindless_stress或者运行Benchmark下的.go在Terminal2
+      4. 观察Terminal 1种的Clocks Throttle Reasons下面的Idle会由Active变成Not Active
+      5. Ctrl + C Terminal2种的程序，会发现Terminal 1种的Clocks Throttle Reasons下面的Idle会由Active变成Not Active
+
+4. NVML Manual - Clocks Throttle Reasons for SW power capping
+      1. 查询当前的power状态： nvidia-smi -q -i 0 | grep "Power Readings" -A7 (查出Min Power Limit)
+      2. sudo nvidia-smi -i 0 -pl xx(把Power Limit设置值为1中的Min Power Limit)
+      3. Let GPU in idle status: nvidia-smi -q -d power,performance -i 0 (keep Idle in Active status)
+      4. In terminal 1, keep running "nvidia-smi -q -d power,performance -lms 100 -i $DEVICE_ID"
+      5. In terminal 2, keep running dgemm(就是Benchmark的case， 运行.go)
+      6. 观察terminal 1种，如果Power Draw的值大于Power Limit，这时候 Clocks Throttle Reasons下面的SW Power Cap应该由Not Active 变成Active
+
+5. NVML Manual - Clocks Throttle Reasons for HW break by External HW break (K10, K20Xm and K20m only)
+      usually NA this due to physical cable and operation needed for this test and we dont have the cable
+
+Verify that GPU reset takes under 5 seconds-Linux only
+      #01 Run "time nvidia-smi -r -i " as ROOT
+      su
+      echo 1 | sudo -S time nvidia-smi -r -i $DEVICE_ID
+      time nvidia-smi -r -i $DEVICE_ID
+      #02 Check the "real" value is less than 5 seconds.
+      #03 Run "nvidia-smi -q -i " to verify that the specified GPU already reset
+
+Verify boards can be linked at PCI Gen3 speed (K40 and afterward)
+      1. Set PM=1 (nvidia-smi -pm 1)
+      2. terminal1: nvidia-smi -i $DEVICE_ID --format=csv --query-gpu=pcie.link.gen.current,pcie.link.gen.max -l 1
+          if no cuda app running, then cie.link.gen.current should be 1
+      3. Terminal2: nvidia-smi -q -i $DEVICE_ID -d performance -l 1
+          if no cuda app running, then Performance State should be P8
+      4. Terminal 3: Go to $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+          ./bindless_stress
+      5. Will see  cie.link.gen.current changed to 3 in terminal 1, Performance State changed to P0 in Terminal2
+
+nvidia-smi dmon manual testing (Kepler and above)
+      #01 Run nvidia-smi dmon. Check there is meaningful scrolling data being created at frequency of 1 sec. (Note: Currently only 4 GPUs can be reported. See bug 1724567)
+      nvidia-smi dmon
+
+      #02 Run nvidia-smi dmon -i [index/PCI bus/UUID], check there is scrolling data being created for specified device.
+      nvidia-smi dmon -i $DEVICE_ID
+
+      #03 Run nvidia-smi dmon -d 3. Check there is meaningful scrolling data being created at frequency of 3 sec.
+      nvidia-smi dmon -d 3
+
+      #04 Run nvidia-smi dmon -c 2. Check the 2 loops of statistic are created.
+      nvidia-smi dmon -c 2
+      nvidia-smi dmon -c 5 -i $DEVICE_ID -d 2
+
+      #05 Run nvidia-smi dmon -o DT. Check the date(D) and time(T) are output.
+      nvidia-smi dmon -o DT
+
+      #06 Run nvidia-smi dmon -f /tmp/log. Check the statistic is log to specified file, rather than to stdout.
+      rm -f /tmp/log
+      sudo nvidia-smi dmon -f /tmp/log
+      #07 From 2nd terminal, check the log file is correctly written with the output
+      tail -f /tmp/log
+
+nvidia-smi daemon manual testing (Kepler and above)
+      1. sudo nvidia-smi daemon
+      2. ps -ax | grep nvidia-smi
+      3. sudo ls -lt /var/log/nvstats/
+
+
+nvidia-smi replay manual testing (Kepler and above):
+    1. sudo nvidia-smi replay -f /var/log/nvstats/$(sudo ls -t /var/log/nvstats/ |head -1) -r temp
+
+
+General:
+
+NVIDIASMI - Power Capping check
+    1. Check Power Capping isn't mark as N/A by nvidia-smi command
+    2. Check Power Reading also no N/A there by nvidia-smi -q -d Power
+    3.

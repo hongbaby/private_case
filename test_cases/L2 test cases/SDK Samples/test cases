@@ -1,0 +1,4 @@
+1. Running cuda-memcheck on cuda Samples
+python run_sample_linux.py -p /home/jeff/NVIDIA_CUDA-9.1_Samples -b /home/jeff/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -m
+python run_sample_linux.py -p ~/NVIDIA_CUDA-9.1_Samples -b ~/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -n
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200365949&cmtNo=
