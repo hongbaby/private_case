@@ -1,5 +1,16 @@
-1. MPMandlebrot
+1.Bandwidth Kernel test with ECC on and off
+  1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/bandwidth_kernel.zip
+  2. make
+  3. enable ECC, run bandwidth kernel script 5 times and note down the average time.
+     sudo nvidia-smi -e 1
+     ./test
+  4. disable ECC, run bandwidth kernel script 5 times and note down the average time.
+     sudo nvidia-smi -e 0
+     ./test
+------the ECC-OFF value should be slightly less than the ECC-ON value for Temps Copy.
+
+2. MPMandlebrot
 Skip (NA) if no NV display GPU available
 
-2. Phoronix OpenCL Benchmark Test
-Skip (NA) if no NV display GPU available	
+3.Phoronix OpenCL Benchmark Test
+Skip (NA) if no NV display GPU available

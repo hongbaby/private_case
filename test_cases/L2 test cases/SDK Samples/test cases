@@ -1,4 +1,10 @@
 1. Running cuda-memcheck on cuda Samples
-python run_sample_linux.py -p /home/jeff/NVIDIA_CUDA-9.1_Samples -b /home/jeff/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -m
-python run_sample_linux.py -p ~/NVIDIA_CUDA-9.1_Samples -b ~/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -n
-https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200365949&cmtNo=
+  1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/run_sample_linux.py
+  2. keep 'wmctrl' installed, can check by command which wmctrl
+  3. python run_sample_linux.py -p /home/jeff/NVIDIA_CUDA-9.1_Samples -b /home/jeff/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -m
+     python run_sample_linux.py -p ~/NVIDIA_CUDA-9.1_Samples -b ~/NVIDIA_CUDA-9.1_Samples/bin/x86_64/linux/release --cuda-home=/usr/local/cuda -n
+     https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200365949&cmtNo=
+
+2. CUDA Sample - bandwidth benchmark (variant)
+
+3. CUDA Math - Large Matrix multiply

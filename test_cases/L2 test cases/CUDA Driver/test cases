@@ -16,5 +16,49 @@ make: *** [testMEM] Error 1
 Solution：
 原因是因为mkl没安装，把本地的mkl copy到/opt/intel/mkl/11.2.1/ 解决。
 
-4. CUDA API - Call cudaDeviceReset and cudaIPC
-http://nvbugs/2010160
+11. Backward compatibility - verify Linux shared object name (Linux Only)
+  wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/prop.c
+  nvcc -o prop_9.1.85 prop.c -lcudart
+  ./prop_9.1.85
+  ldd prop_9.1.85
+
+12. CUDA API - cudaMemcpy2D  D2D copy
+  p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug200329789/...
+  nvcc sample.cu
+  ./a.out
+
+13. Compile fp16_correctness with strict-aliasing
+   cd /home/xxx/sw/gpgpu/cuda/apps>
+   p4 sync -f //sw/gpgpu/cuda/apps/fp16_correctness/...
+   nvcc -Xcompiler -Werror=strict-aliasing -O3 fp16_correctness.cu -c fp16_correctness.o
+
+14. CUDA API - Call cudaDeviceReset and cudaIPC
+    1. p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug2010160/...
+    2. go to rcca_bug2010160
+    3. mkdir build
+    4. cmake .. -DSM_LIST=xx (SM value, like 35, 61...)
+    5. make
+    6. sudo rmmod nvidia_uvm nvidia_drm nvidia_modeset  nvidia
+    7. sudo modprobe nvidia NVreg_EnableStreamMemOPs=1
+    8. For the case, we just focus on enable/disable device reset, the command should be:
+      1> ./ipc_device_reset -r 1  (enable device reset)
+      2> ./ipc_device_reset -r 0  (disable device reset)
+      http://nvbugs/2010160
+
+Error occurred:
+kerry@dhcp-10-19-192-210:/home/jeff/sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug2010160/build> ./ipc_device_reset
+Sender thread starting
+Receiver thread starting
+Error: Don't support cuStreamWaitValue32
+Sender wait finished.
+Error: Don't support cuStreamWaitValue32
+
+
+15. Multiple contexts on single GPU:
+    p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug1920213/...
+    cd $P4ROOT/sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug1920213/
+    $nvcc 1920213_repro.cu -o repro
+    Open a new terminal and run nvidia-smi "nvidia-smi -l 1" in a loop (for catching the processes of "./repro" after step 6).
+    Run "./loop" file to run 12 intances of repro program
+    $./loop
+    In the NVSMI loop terminal, you should see 12 processes of "./repro" and finally they all exit.
