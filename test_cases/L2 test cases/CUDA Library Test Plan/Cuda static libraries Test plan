@@ -1,0 +1,134 @@
+cuda samples:
+1. BoxFilterNPP using nppi, nppc,culibos, and freeimage static libaries ( Linux only)
+   go to cd ~/NVIDIA_CUDA-9.0_Samples/7_CUDALibraries/boxFilterNPP
+   # nvcc -ccbin g++ -m64 -gencode arch=compute_61,code=compute_61 -o boxFilterNPP boxFilterNPP.o -L../common/FreeImage/lib/ -L../common/FreeImage/lib/linux -L../common/FreeImage/lib/linux/x86_64 -lnppi_static -lnppc_static -lculibos -lfreeimage
+   # nvcc -ccbin g++ -m64 -gencode arch=compute_61,code=compute_61 -o boxFilterNPP boxFilterNPP.o -L../common/FreeImage/lib/ -L../common/FreeImage/lib/linux -L../common/FreeImage/lib/linux/x86_64 -lnppif_static -lnppisu_static -lnppc_static -lculibos -lfreeimage
+   make clean
+   make RELEASE=1
+   ./boxFilterNPP
+   ldd ./boxFilterNPP
+
+2. conjugateGradient using cublas, cusparse, and culibos sattic libraries (Linux only)
+    cd ~/NVIDIA_CUDA-7.0_Samples/7_CUDALibraries/conjugateGradient/
+    make clean
+    make RELEASE=1
+    ./conjugateGradient
+    ldd ./conjugateGradient
+
+3. MersenneTwisterGP11213 using curand, and culibos static libraries (Linux only)
+    cd ~/NVIDIA_CUDA-7.0_Samples/7_CUDALibraries/MersenneTwisterGP11213/
+    make clean
+    make RELEASE=1
+    ./MersenneTwisterGP11213
+    ldd ./MersenneTwisterGP11213
+
+4. Static library verify (Linux only)
+For libcurand_static:
+    cd ~/NVIDIA_CUDA-9.0_Samples/7_CUDALibraries/MC_EstimatePiP
+    make clean
+    sed -i 's/lcurand/lcurand_static\ \-lculibos/g' Makefile
+    make RELEASE=1
+    ldd MC_EstimatePiP
+    ./MC_EstimatePiP
+
+For libnvgraph_static:
+    cd ~/NVIDIA_CUDA-9.0_Samples/7_CUDALibraries/nvgraph_Pagerank
+    make clean
+    sed -i 's/lnvgraph/lnvgraph_static\ \-lcurand_static\ \-lcusolver_static\ \-lcublas_static\ \-lcusparse_static\ \-lculibos/g' Makefile
+    make
+    ldd nvgraph_Pagerank
+    ./nvgraph_Pagerank
+
+For libcusolver_static:
+    cd ~/NVIDIA_CUDA-9.0_Samples/7_CUDALibraries/cuSolverSp_LinearSolver
+    sed -i 's/lcusolver\ \-lcusparse/lcusolver_static\ \-lcusparse_static\ \-lcublas_static\ \-lculibos/g' Makefile
+    make clean
+    make
+    ldd ./cuSolverSp_LinearSolver
+    ./cuSolverSp_LinearSolver
+
+
+Black Box Samples:
+1. simpleCUFFT_callback  using cufft and culibos static libaries  (Linux only).
+   p4 sync //sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cudalibTesting/...@${TK_CL}
+   make RELEASE=1 -j 20
+   ./simpleCUFFT_callback
+   ldd ./simpleCUFFT_callback   -----The cuda libraries should NOT appear in the output of static sample
+
+2. AllInc_static using cublas, cufft, culibos, curand, cusparse, nppc, nppi and npps statilc libaries (Linux only).
+  p4 sync //sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cudalibTesting/...@${TK_CL}
+  go to //sw/rel/gpgpu/toolkit/r9.1/cudalibTesting
+  make RELEASE=1 # for dynamic samples
+  make RELEASE=1 STATIC=1 # for static samples
+  ./AllInC_static
+   ldd ./AllInC_static
+
+3. conjugateGradientPrecond_static using cublas, cusparse and culibos static libaries  (Linux only).
+    cd ~/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_releaase
+    Launch the samples:
+    ./conjugateGradientPrecond
+    ./conjugateGradientPrecond_static
+    ldd ./conjugateGradientPrecond
+    会看到类似于下面的信息：
+    libcublas.so.9.1 (0x00007f6f6e707000)
+    libcusparse.so.9.1 (0x00007f6f6b033000)
+    ldd ./conjugateGradientPrecond_static
+    -----The cuda libraries should NOT appear in the output of static sample
+
+4. MC_EstimatePip_static using curand and culibos static libraries (Linux only).
+   cd ~/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_releaase
+   Launch the samples:
+   ./MC_EstimatePiP
+   ./MC_EstimatePiP_static
+   ldd ./MC_EstimatePiP
+   应该会看到类似于libcurand.so.9.1的cuda library
+   ldd ./MC_EstimatePiP_static
+   不会看到上面的cuda library
+
+5. sampleNPP_static using nppc, npps, nppi and culibos static libaries (Linux only).
+    cd ~/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_releaase
+    Launch the samples:
+    ./sampleNPP
+    ./sampleNPP_static
+    ldd ./sampleNPP，结果如下：
+    linux-vdso.so.1 (0x00007ffe4e7b5000)
+    libnppc.so.9.1 (0x00007f2b17d01000)
+    libnpps.so.9.1 (0x00007f2b171f3000)
+    libnppisu.so.9.1 (0x00007f2b16f7d000)
+    libnppidei.so.9.1 (0x00007f2b165e1000)
+    libnppist.so.9.1 (0x00007f2b154fd000)
+    librt.so.1 => /lib64/librt.so.1 (0x00007f2b152f5000)
+    libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f2b150d8000)
+    libdl.so.2 => /lib64/libdl.so.2 (0x00007f2b14ed4000)
+    libstdc++.so.6 => /usr/lib64/libstdc++.so.6 (0x00007f2b14b4b000)
+    libm.so.6 => /lib64/libm.so.6 (0x00007f2b1484e000)
+    libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f2b14637000)
+    libc.so.6 => /lib64/libc.so.6 (0x00007f2b14294000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007f2b17f7a000)
+
+    ldd ./sampleNPP_static
+    linux-vdso.so.1 (0x00007ffe9f9a8000)
+    librt.so.1 => /lib64/librt.so.1 (0x00007f6aa65f1000)
+    libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f6aa63d4000)
+    libdl.so.2 => /lib64/libdl.so.2 (0x00007f6aa61d0000)
+    libstdc++.so.6 => /usr/lib64/libstdc++.so.6 (0x00007f6aa5e47000)
+    libm.so.6 => /lib64/libm.so.6 (0x00007f6aa5b4a000)
+    libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f6aa5933000)
+    libc.so.6 => /lib64/libc.so.6 (0x00007f6aa5590000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007f6aa67f9000)
+
+6. simpleCUBLAS_static using cublas and culibos static libaries (Linux only).
+    cd ~/sw/rel/gpgpu/toolkit/r7.0/bin/x86_64_Linux_releaase
+Launch the samples:
+./simpleCUBLAS
+./simpleCUBLAS_static
+     ldd ./simpleCUBLAS
+     libcublas.so.9.1 (0x00007f09ece6e000)
+     ldd ./simpleCUBLAS_static
+     no cuda libraies
+
+7. 	Prepare to build 6 samples which link against the static libraries of installed testing toolkit (Linux only).
+    cd NPP
+    make RELEASE=1
+    generate some libs like libnppisu_static,libnppist_static,libnppidei_static....
+    cp -rfv /usr/local/cuda-9.1/lib64/* bin/x86_64_Linux_release

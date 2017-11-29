@@ -52,3 +52,19 @@
 
 4. MPS service check:
 		pass
+
+5. CUDA Driver API -  cuCtxCreate:
+		cd /home/kerry/kerry_ws/L1_TestCase
+		mkdir cuDrv_cuCtxCreate_bug1411053
+		wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/cuDrv_cuCtxCreate_bug1411053/cuCtxCreate_bug_1411053.cpp
+		wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/cuDrv_cuCtxCreate_bug1411053/drvapi_error_string.h
+		wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/cuDrv_cuCtxCreate_bug1411053/helper_string.h
+
+		nvcc -gencode arch=compute_xx,code=sm_xx -I. -o test cuCtxCreate_bug_1411053.cpp -lcuda
+
+		Note: If you have multiple GPUs in the devices with different compute level, see below as example.
+		GPU0 (Fermi GF110, compute level 2.0)
+		GPU1(Kepler GK110, compute level 3.5)
+		nvcc -gencode arch=compuete_20,code=sm_20 -gencode arch=compuet_35,code=sm_35 -I. -o test cuCtxCreate_bug_1411053.cpp -lcuda
+
+		./test

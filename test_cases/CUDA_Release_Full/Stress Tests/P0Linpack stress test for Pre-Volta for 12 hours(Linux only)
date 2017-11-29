@@ -1,13 +1,15 @@
 Note: This case is only for Pre-Volta (except P100)
 1. Download OpenMPI and install OpenMPI:
 $ sudo rm -rf /usr/local/openmpi openmpi-2.1.0
-$ wget https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.0.tar.bz2
+$ wget --user=swqa --passord=test https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.0.tar.bz2
 $ tar jxvf openmpi-2.1.0.tar.bz2
 $ cd openmpi-2.1.0
 $ ./configure --with-cuda=/usr/local/cuda --with-hwloc=internal --prefix=/usr/local/openmpi
 $ make -j 40
 $ sudo make install
-$ sudo ln -sf /usr/local/openmpi/lib/libmpi.so /usr/local/openmpi/lib/libmpi.so.1
+$ sudo ln -sf /usr/local/openmpi/lib/libmpi.so /usr/local/openmpi/lib/libmpi.so.12
+For openSUSE:
+$ sudo ln -sf /usr/local/openmpi/lib64/libmpi.so /usr/local/openmpi/lib64/libmpi.so.12
 Note: Please always use the latest of OpenMPI for test.
 export PATH=/usr/local/openmpi/bin:${PATH}
 

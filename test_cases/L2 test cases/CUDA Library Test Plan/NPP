@@ -1,0 +1,37 @@
+1. CUDA API - nppiEvenLevelsHost_32s
+    1. Add a for loop in  ${CUDA_PATH}/samples/7_CUDALibraries/histEqualizationNPP/histEqualizationNPP.cpp
+        // compute levels values on host
+        Npp32s levelsHost[levelCount];
+        NPP_CHECK_NPP(nppiEvenLevelsHost_32s(levelsHost, levelCount, 0, binCount));
+       // Add for loop here
+        for (int i = 0; i < 10; i++) {
+            printf("levelhost is %d\n", levelsHost[i]);
+        }
+      // compute the histogram
+
+     2. make RELEASE=1
+     3. ./histEqualizationNPP
+
+2. CUDA API - nppGetGpuComputeCapability
+    1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/linux/450892_nppGetGpuComputeCapability.tar.gz
+    2. tar -xvf 450892_nppGetGpuComputeCapability.tar.gz
+    3. go to nppGetGpuComputeCapability
+    4. make
+    5. ./cuda_sm
+
+    Note:
+    For cuda 9.0 and pascal GPU.
+    such as sm_61.
+    1. Add NPP_CUDA_6_1 after NPP_CUDA_5_3 in cuda_sm.cu
+          case NPP_CUDA_5_3: sprintf(nameFromNPP, "NPP_CUDA_5_3\n"); break;
+          case NPP_CUDA_6_1: sprintf(nameFromNPP, "NPP_CUDA_6_1\n"); break;
+    2. Using below command to build.
+    nvcc cuda_sm.cu -o cuda_sm -L/usr/local/cuda/lib64 -lnppc -lnppisu
+
+3. NPP - Image Wrap Perspective Quad_16u_C1R (Linux Edition)
+    1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/NppQuadTest.cpp
+    2. nvcc -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -I/usr/local/cuda/include -o test -lnppi NppQuadTest.cpp
+    [Note]
+    1>.Please figure out exactly compute capacity of GPU device for option "arch =  " and "code="
+    2>.For cuda 9.0   replace "-lnppi" with " -lnppidei -lnppig"
+    3. ./test

@@ -41,4 +41,4 @@ change password to your root password
 5.  cd /home/kerry/LINPACK
 ./isv_linux.py -c isv_linux.cfg -s amber
 
-6. ./isv_linux.py -c isv_linux.cfg -t amber   (大概2个多小时)
+6. ./isv_linux.py -c isv_linux.cfg -t amber   (1个多小时)

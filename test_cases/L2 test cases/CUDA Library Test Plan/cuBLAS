@@ -1,9 +1,15 @@
-1. cuBlas test - L1:
+1. cuBlas test - L1:  # at least 7 hours totally
   1. Refer to wiki to build cublas testsuite
   2. export LD_LIBRARY_PATH=$P4ROOT/sw/tools/linux/mkl/11.0.4/lib/intel64
   3. cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/rx.x/bin/x86_64_Linux_release
-  4. run cublas L0 test
-    $ perl nj_nightly.pl –build=release -config=nightly -deviceApi -mkl  ------跑hang住了。
+  4. run cublas L0 test  # around 6 housrs
+    $ perl nj_nightly.pl –build=release -config=nightly -deviceApi -mkl  -----1个fail
+@@@@ hgemm_strided_batch : 1 tests failed
+@@@@ hgemm_strided_batch test FAILED
+&&&& FAILED cublasTest -Rgemm_strided_batch -Ph -N100 -n2000 -m2000 -k2000 -c40 -Y -K -algorithm99 -div8 -C -ocrc -G
+Failures       : 1
+
     http://nvbugs/200349901
+
   5. run cublas Dbl L0 test  # around 1 hour, score 100
     $ perl  nj_nightlyDbl.pl -build=release -config=nightly -deviceApi -mkl

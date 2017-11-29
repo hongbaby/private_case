@@ -1,0 +1,32 @@
+1. Memory Allocate test - CUDA Driver
+    p4 sync -f //sw/qa/integrated/Tesla/manual/cudaapi/alloc/...
+    cp -r //sw/qa/integrated/Tesla/manual/cudaapi/alloc /home/kerry/kerry_ws/L1_TestCase/
+    nvcc -gencode arch=compute_xx,code=sm_xx -o alloc_drv alloc_drv.cpp -lcuda -Iinc
+
+    Note: If you have multiple GPUs in the devices with different compute level, see below as example.
+    GPU0 (Fermi GF110, compute level 2.0)
+    GPU1(Maxwell GK110, compute level 3.5)
+    nvcc -gencode arch=compuete_20,code=sm_20 -gencode arch=compuet_35,code=sm_35 -o alloc_drv alloc_drv.cpp -lcuda
+
+    ./alloc_drv
+
+2. Memory Allocate test - CUDA Runtime:
+    p4 sync -f //sw/qa/integrated/Tesla/manual/cudaapi/alloc/...
+    cp -r //sw/qa/integrated/Tesla/manual/cudaapi/alloc /home/kerry/kerry_ws/L1_TestCase/
+    nvcc -gencode arch=compute_xx,code=sm_xx -o alloc_rt alloc_rt.cpp
+
+    Note: If you have multiple GPUs in the devices with different compute level, see below as example.
+    GPU0 (Fermi GF110, compute level 2.0)
+    GPU1(Maxwell GK110, compute level 3.5)
+    nvcc -gencode arch=compuete_20,code=sm_20 -gencode arch=compuet_35,code=sm_35 -o alloc_rt alloc_rt.cp
+
+    ./arroc_rt
+
+3. Cuda Memory Info check:
+   wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ts_linux/test_src/Cudamem.tar.bz2
+   tar xvf xx.bz2
+   make
+   Step2: ./Cudamem
+   Step3: nvidiasmi -q -i x -d memory' in another terminal (where x is the device ID)
+
+   ---- Compare the Memory Usage in 'Used'  in step 2 versus step 3, The memory 'Used' should be matching

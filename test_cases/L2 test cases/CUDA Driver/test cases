@@ -1,10 +1,45 @@
-1. CUDA API - cudaEventRecord asynchronous (Linux Edition):
-一般N/A掉，因为是要图形输出。
+在执行这边相关的case时，可以先mount 下面的东西到机器上。
+sudo mkdir -p /mnt/hwswqa/PPSWQA/TeslaTeam/Tools
+sudo mount -t cifs //netapp-hq07/hwswqa/PPSWQA/TeslaTeam/Tools/ /mnt/hwswqa/PPSWQA/TeslaTeam/Tools/ -o user=kerryq,domain=NVIDIA.COM
+if mount fail, please install: sudo apt install cifs-utils
 
-2. GPU memory leak and XID check by Caffe (AlexNet)
+1. CUDA API-tex1Dfetch:
+  wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L2_Test%20cases/cuda_api_tex1Dfetch/test.cu
+  set environment variable:  CUDA_VISIBLE_DEVICES=0
+  nvcc -DDIM=1 -arch=sm_xx -o dim1 test.cu
+  nvcc -DDIM=2 -arch=sm_xx -o dim2 test.cu
+  ./dim1
+  ./dim2
+
+2. CUDA API  cudaCreateTextureObject - Bindless textures bound to Linear Memory
+  wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L2_Test%20cases/cudaCreateTextureObject/test.cu
+  nvcc test.cu
+  ./a.out
+
+3. CUDA API - cudaEventRecord asynchronous (Linux Edition):
+   nvcc -gencode arch=compute_xx,code=sm_xx -I/usr/local/cuda/samples/common/inc -I. -o blocking_execution_enable simpleStreams_blocking_execution_enable.cu
+   nvcc -gencode arch=compute_xx,code=sm_xx -I/usr/local/cuda/samples/common/inc -I. -o blocking_execution_disable simpleStreams_blocking_execution_disable.cu
+   launch nvvp
+   select "new session" in file tab
+   Input file path for binary blocking_execution_enable. Click Next
+   Click finish
+   After profiling, go to "Detail" tab in the bottom
+   Click each init_array(int*, int*, int*), ensure all arrays kernels asynchronous.  ???? not sure how to do?
+
+4. 3D Surface:
+   cp -r /mnt/hwswqa/PPSWQA/TeslaTeam/Tools/surfaces3D /home/kerry/kerry_ws/
+   nvcc -arch=sm_xx -I. -o surf3d core.cu TestEnvSurfaces.cu
+   ./surf3d
+
+5. Time consume on cudaHostRegister/cudaHostUnregister
+  cp -r /mnt/hwswqa/PPSWQA/TeslaTeam/Tools/for_bug_925669 /home/kerry/kerry_ws/
+  nvcc -arch sm_xx -lcublas -lcudart -o test test.c
+  ./test 1024 10240 1024 result.log
+
+6. GPU memory leak and XID check by Caffe (AlexNet)
 一般N/A掉
 
-3. Large memory operation ( VRAM > 10G)：
+7. Large memory operation ( VRAM > 10G)：
 make的时候报错：
 /usr/lib64/gcc/x86_64-suse-linux/4.8/../../../../x86_64-suse-linux/bin/ld: cannot find -lmkl_intel_lp64
 /usr/lib64/gcc/x86_64-suse-linux/4.8/../../../../x86_64-suse-linux/bin/ld: cannot find -lmkl_gnu_thread
@@ -16,23 +51,23 @@ make: *** [testMEM] Error 1
 Solution：
 原因是因为mkl没安装，把本地的mkl copy到/opt/intel/mkl/11.2.1/ 解决。
 
-11. Backward compatibility - verify Linux shared object name (Linux Only)
+8. Backward compatibility - verify Linux shared object name (Linux Only)
   wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/prop.c
   nvcc -o prop_9.1.85 prop.c -lcudart
   ./prop_9.1.85
   ldd prop_9.1.85
 
-12. CUDA API - cudaMemcpy2D  D2D copy
+9. CUDA API - cudaMemcpy2D  D2D copy
   p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug200329789/...
   nvcc sample.cu
   ./a.out
 
-13. Compile fp16_correctness with strict-aliasing
+10. Compile fp16_correctness with strict-aliasing
    cd /home/xxx/sw/gpgpu/cuda/apps>
    p4 sync -f //sw/gpgpu/cuda/apps/fp16_correctness/...
    nvcc -Xcompiler -Werror=strict-aliasing -O3 fp16_correctness.cu -c fp16_correctness.o
 
-14. CUDA API - Call cudaDeviceReset and cudaIPC
+11. CUDA API - Call cudaDeviceReset and cudaIPC
     1. p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug2010160/...
     2. go to rcca_bug2010160
     3. mkdir build
@@ -54,7 +89,7 @@ Sender wait finished.
 Error: Don't support cuStreamWaitValue32
 
 
-15. Multiple contexts on single GPU:
+12. Multiple contexts on single GPU:
     p4 sync //sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug1920213/...
     cd $P4ROOT/sw/qa/integrated/Tesla/manual/Rcca_bug/rcca_bug1920213/
     $nvcc 1920213_repro.cu -o repro

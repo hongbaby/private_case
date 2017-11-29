@@ -1,0 +1,7 @@
+1. CUFFT coverage test:  # around 2 days
+  1. Build cufft first
+  2. perl regress.pl -precision=dp -test-list-file=./test/coverage.test.cache_use -build=release
+  3. perl regress.pl -precision=sp -test-list-file=./test/coverage.test.cache_use -build=release
+
+2. CUFFT fp16 test(sm53 and above) -L1:
+   1. perl regress.pl -build=release -test-list-file=test/cufft_fp16_power_of_2_L1.test

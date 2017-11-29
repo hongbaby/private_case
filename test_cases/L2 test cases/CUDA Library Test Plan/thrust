@@ -1,0 +1,35 @@
+1. Thrust - head files compilation check (RCCA for bug 1780464):
+    1. mkdir -p /tmp/thrust
+cd /tmp/thrust
+find /usr/local/cuda/include/thrust -type f -name "*.h" | sed -e '/\/tbb\//{N;D;}' -e '/\/omp\//{N;D;}' |sed -e "/\/detail\//{N;D;}" > /tmp/list.out
+sed -i 's/\/usr\/local\/cuda\/include\///g' /tmp/list.out
+for i in `cat /tmp/list.out`;do for y in `echo $i | sed -e 's/\.h/\.cu/g' -e 's/\//\_/g'`; do echo -e "#include <$i>" > ./$y; done; done
+for m in `ls *.cu`;do echo -e "\nint main()\n{\n}" >> ./$m;done
+
+  2.
+    echo -e "
+    NVCC = /usr/local/cuda/bin/nvcc
+    object = \$(shell find . -type f -name '*.cu' |  sed -e 's/.\///g' -e 's/\.cu/.run/g' | sort -rn)
+
+    all: \$(object)
+
+    \$(object): %.run: %.cu
+    \t \${NVCC} \$< -o \$@ 2>/dev/null
+
+    clean:
+    \trm -rf *.o *.run
+    " > Makefile
+
+  3. make -j20 -k > /dev/null 2>&1
+     make -k 2>&1 | grep -oP "\*\*\* \[\K.*(?=\])" | sed 's/.run/.cu/g' > /tmp/error.out
+
+
+2. Thrust - min_element with bare device pointers (RCCA for bug 1780489)
+   1. echo -e "#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\nint main()\n{\n\tfloat *in,*d_in;\n\tin=(float*)malloc(100*sizeof(float));\n\tcudaMalloc((void**)&d_in,100*sizeof(float));\n\tfor(int i=0;i<100;i++){in[i]=1;}\n\tcudaMemcpy(d_in,in,100*sizeof(float),cudaMemcpyHostToDevice);\n\tfloat *hresult=thrust::min_element(in , in+ 100);\n\tfloat *dresult=thrust::min_element(thrust::device, d_in , d_in+ 100);\n}\n" > test.cu
+   2. nvcc -o test test.cu
+   3. for i in `seq 1 10`;do ./test && echo -e "&&&& PASSED" || echo -e "&&&& FAILED";done
+
+3. Thrust - calling vector_base::clear without default constructor (RCCA for bug 1799081)
+    echo -e "#include <thrust/device_vector.h>\nstruct Foo\n{\n Foo(int N){}\n};\nint main(int argc, char *argv[])\n{\n thrust::device_vector<Foo> v;\n v.clear();\n return 0;\n}\n" > test.cu
+    nvcc -o test test.cu
+    for i in `seq 1 10`;do ./test && echo -e "&&&& PASSED" || echo -e "&&&& FAILED";done
