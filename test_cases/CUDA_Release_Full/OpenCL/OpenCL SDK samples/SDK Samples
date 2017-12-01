@@ -4,7 +4,7 @@ OpenCL SDK samples 4.2: (around 36 test cases)
     mkdir -p /home/kerry/kerry_ws/OpenCL/
     cd /home/kerry/kerry_ws/OpenCL/
     rm -rf *
-    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/jeff/devrel_jeff.tar
+    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/devrel_jeff.tar
     tar -xvf devrel_jeff.tar
     cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/
     make clobber

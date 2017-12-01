@@ -1,3 +1,5 @@
+运行amber需要1个多小时。
+
 方法一：
 Download and install Amber
 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/tools/ISV/AMBER/amber16_2017.tar.gz

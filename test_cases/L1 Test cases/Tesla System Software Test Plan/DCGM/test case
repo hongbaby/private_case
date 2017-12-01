@@ -1,20 +1,36 @@
 Test cases under this module around 11, all checked.
 
 1. DCGM Integration Tests Framework
-      1. Get the package from the regular DCGM dvs build:
-      http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r384_00_Release_Linux_AMD64_unix-build_Driver/
+    ##1. Get the package from the regular DCGM dvs build:
+    ##http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r384_00_Release_Linux_AMD64_unix-build_Driver/
+    1. make sure DCGM is not installed:
+      rpm -qa | grep datacenter-gpu-manager
+      dpkg -l | grep datacenter-gpu-manager
 
+    2. if correct DCGM version not installed, please download from
+      \\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r${DRV_BRANCH}\r${DRV_BRANCH}_00\${DRV_BRANCH}_*\testing_dcgm\x86_64
+
+    3. install DCGM:
+      sudo dpkg -i datacenter-gpu-manager_*amd64.deb
+		  sudo rpm -ivh datacenter-gpu-manager-*.x86_64.rpm
+
+    4. download local repo for cuda-drivers + cuda-drivers-diagnostic installer
+      http://cuda-internal/release-candidates/packaging/387_00/linux/387.26/local_installers/
+      sudo apt install *.deb
+      sudo apt update
+      sudo apt install cuda-drivers-diagnostic
 
 
 2. EUD testing：# check if support EUD testing, check https://confluence.nvidia.com/display/CQ/EUD+Supported+GPUs
     1. Uninstall nvidia driver:
         sudo zypper remove "*nvidia*"
-    2. Download .rpm EUD:
+    2. Download .rpm or .deb EUD:
     http://cuda-internal/release-candidates/packaging/387_00/linux/387.26/local_installers/
     3. sudo zypper install *.rpm
     关于EUD的测试，只能是.rpm或者.deb的包，安装完后应该有cuda-drivers和cuda-drivers-diagnostic.
     4. sudo zypper install cuda-drivers=387.26-1 cuda-drivers-diagnostic=387.26-1
-    5.  rpm -qa | grep cuda-drivers-diagnostic
+    5.  rpm -qa | grep cuda-drivers-diagnostic  -----opensuse
+        dpkg -l | grep cuda-drivers-diagnostic  -----ubuntu
         -------应该能看到类似于： cuda-drivers-diagnostic-387.26-1.x86_64
 
     6. Download DCGM from \\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r387\r387_00\387.20_23026625\testing_dcgm\x86_64

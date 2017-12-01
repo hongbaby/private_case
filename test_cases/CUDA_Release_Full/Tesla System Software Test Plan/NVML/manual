@@ -24,7 +24,7 @@ All test cased under this checked.  12 test cases
     Terminal 2:
     cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
     while :; do ./memset &! ./memset &! ./memset; sleep 0; done
-    ------No terminal can work.
+    ------No cuda apps terminal can work.
 
     sudo nvidia-smi -i $DEVICE_ID -c 3 # EXCLUSIVE_PROCESS
     Terminal 1:
@@ -33,10 +33,38 @@ All test cased under this checked.  12 test cases
     Terminal 2:
     cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
     while :; do ./memset &! ./memset &! ./memset; sleep 0; done
-    ------Only one terminal can work.
+    ------Only one terminal can work. 报错like： all CUDA-capable devices are busy or unavailable
 
 3. Resetting GPUs in a loop for 30 mins
 If have 2 GPU:
 for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0 && nvidia-smi -r -i 1; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
 If only have 1 GPU:
 for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
+
+
+4. General:
+   1. nvidia-smi -L
+   2. Verify that "nvidia-smi -l" results in expected looping behavior, with and without the "-q" option.
+   3. Verify that 'nvidia-smi' with '--query-gpu=', '--query-supported-clocks=' and '--query-compute-apps=' work as expected
+   and allow selecting only specified fields(list of available options is documented in 'nvidia-smi --help-query-')
+   4. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-gpu.sh
+   5. export DEVICE_ID=0
+   6. ./NVML_L1_general_run_all_query-gpu.sh  | grep -i unknown  # !!! since from r384, "Unkonwn" is not available anymore.
+   7. nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=<...>
+      也可 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-supported-clocks.sh
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=timestamp
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=gpu_name
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=gpu_bus_id
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=gpu_serial
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=gpu_uuid
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=memory # or 'mem'
+      nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=graphics # or 'gr'
+  8.  nvidia-smi -i $DEVICE_ID --format=csv --query-compute-apps=<...>
+      # below commands will not output any data if there's NO ongoing CUDA process, should have one running before launching these commands
+      from another terminal, firstly launch 2+ CUDA Apps to be running, then run NVML_L1_general_run_all_query-compute-apps.sh in the meantime.
+      Detail:  Terminal 1: set CUDA_VISIBLE_DEVICES=1, running an apps, such as $P4ROOT/sw/rel/gpgpu/toolkit/r9.x/bin/x86_64_Linux_release, ./nbody
+      Termianl 2: set CUDA_VISIBLE_DEVICES=2, running an apps, such as $P4ROOT/sw/rel/gpgpu/toolkit/r9.x/bin/x86_64_Linux_release, ./bindless_stress
+      Termianl 3: set CUDA_VISIBLE_DEVICES=2, ./NVML_L1_general_run_all_query-compute-apps.sh
+      只可看到./bindless_stress的进程信息， 如果Terminal1种的CUDA_VISIBLE_DEVICES也为2，则在Termianl3中运行时可看到2个process。
+
+      也可 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-compute-apps.sh

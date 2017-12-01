@@ -1,8 +1,15 @@
 !!!At least two GPUs (the same model)
 
-1.  cd $P4ROOT/sw/rel/gpgpu/toolkit/${CUDA_VER}/bin/x86_64_Linux_release
+1.  cd $P4ROOT/sw/rel/gpgpu/toolkit/${CUDA_VER}/cuda/apps
 make RELEASE=1 cuP2P
 make RELEASE=1 peer2peer
+make RELEASE=1 peer2peer_array
+make RELEASE=1 peer2peer_rt
+make RELEASE=1 peer2host2peer
+make RELEASE=1 peer2host2peer_rt
+make RELEASE=1 multigpu
+make RELEASE=1 multigpu22
+make RELEASE=1 multigpuboard
 
 Testlist.txt:
 cuP2P
@@ -22,6 +29,8 @@ $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/multigpu_data_files
 $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/multigpu22_data_files
 ../multigpu22
 
-for others:
+for others运行:
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/cuda/apps
 perl smoke.pl -config=release -testname=cuP2P
+或者到bin目录下
+./xxxx

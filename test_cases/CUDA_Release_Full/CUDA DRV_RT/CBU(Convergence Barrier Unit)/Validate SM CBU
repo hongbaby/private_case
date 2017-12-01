@@ -27,7 +27,7 @@ make cuda RELEASE=1
 2. cd $P4ROOT/sw/gpgpu/cuda/apps
  make cbu_stress.clean && make cbu_stress.release # or debug
  make sm_cbu_basic.clean && make sm_cbu_basic.release
-perl smoke.pl -config=release -testname=cbu_stress
+perl smoke.pl -config=release -testname=cbu_stress(或者直接到$P4ROOT/sw/gpgpu/bin/x86_64_Linux_release下, ./cbu_stress)
 perl smoke.pl -config=release -testname=sm_cbu_basic
 
 Error message:

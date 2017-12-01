@@ -66,7 +66,7 @@ sudo chmod u+s /usr/bin/unix-build
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0
 make cuda RELEASE=1 USE_AGNOSTIC_TOOLCHAIN=1
 
-4) cp -rPfv /usr/local/cuda/lib64/*  ./sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/
+4) cp -rPfv /usr/local/cuda/lib64/*  $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/
 
 5) build cuda apps
 Execute step 1 to step 3 to build runtime.
