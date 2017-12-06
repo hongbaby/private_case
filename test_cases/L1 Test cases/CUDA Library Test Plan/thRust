@@ -10,4 +10,4 @@ cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Li
 
 3. run test: # around 8 minutes
 $ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
-$ perl internal/test/thrust_nightly.pl -build=release
+$ perl internal/test/thrust_nightly.pl -build=release 2>&1

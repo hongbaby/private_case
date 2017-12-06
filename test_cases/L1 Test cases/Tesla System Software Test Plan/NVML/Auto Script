@@ -2,5 +2,34 @@
       1. Download package from
       http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_[branch]_Release_Linux_AMD64_unix-build_Driver_Tesla
       which CL equal to testing driver CL
-
       2. enable X server
+      3. tar xvf *.tgz
+      4. tar xvf testing2.tar
+      5. su
+      6. cd testing2
+      7. python main.py
+      8. python main.py --non-root-user=xxxx
+      Failed in DGX-Station
+      Bug: https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200345694&cmtNo=
+
+2. NVML Auto - ECC enable and disable
+      1. Download package from
+      http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_[branch]_Release_Linux_AMD64_unix-build_Driver_Tesla
+      which CL equal to testing driver CL
+
+      2. enable ECC by nvidia-smi
+      sudo nvidia-smi -e 1
+
+      3. cd testing2
+      4. su
+      5. python main.py
+      6. diable ECC
+      7. python main.py
+
+3. NVML Auto - Run testing with Admin and Normal user
+      1. Download package from
+      http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_[branch]_Release_Linux_AMD64_unix-build_Driver_Tesla
+      which CL equal to testing driver CL
+
+      2. cd testing2
+      3. run python main.py with root or non-root

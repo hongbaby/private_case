@@ -1,0 +1,33 @@
+1. Host memory leak check by using cudaMallocHost ( Linux)
+    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/host_memory_leak.zip
+    unzip host_memory_leak.zip
+    cd host_memory_leak
+    make
+    sudo nvidia-smi -pm 0 -i x
+    free -m
+    ./go --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
+    sudo nvidia-smi -pm 1 -i x
+    free -m
+    ./go --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
+
+2. GPU memory leak check during P2P operation
+    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/mem_leak_p2p.tar.bz2
+    tar xvf mem_leak_p2p.tar.bz2
+    make
+    sudo nvidia-smi -pm 1 -i x
+    ./mem_leak_p2p
+    Enter to exit the process
+    Run nvidia-smi, insure that no GPU memory is used in "Memory-Usage" .
+
+3. GPU memory leak check without calling cudaFree
+    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/mem_leak_without_cudaFree.tar.bz2
+
+4. Host memory allocate check with large memory allocation (Linux 32GB RAM available)
+    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/cudaMallocHost_largememory.zip
+    
+5. CPU Memory Leak in multi-threads application
+    p4 sync //sw/qa/integrated/Tesla/manual/cudaapi/bug200291808/...
+    cd //sw/qa/integrated/Tesla/manual/cudaapi/bug200291808/
+    nvcc -arch=sm_xx -I$P4ROOT/sw/tools/boost/boost_1_54_0 -L$P4ROOT/sw/tools/boost/boost_1_54_0/lib/Linux64  test.cu -lboost_thread -lboost_system
+    LD_LIBRARY_PATH=$P4ROOT/sw/tools/boost/boost_1_54_0/lib/Linux64 ./a.out
+    Another terminal check top mem value should not change

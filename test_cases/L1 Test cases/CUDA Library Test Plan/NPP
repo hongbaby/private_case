@@ -9,7 +9,7 @@ p4 sync //sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/incl
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
 make RELEASE=1
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/NPP
-make RELEASE=1 TESTNPP=1 -j 20
+make RELEASE=1 TESTNPP=1 I_AM_SLOPPY=1 -j20
 
 3. Copy libraries from local install path to binpath:
 cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
@@ -29,7 +29,7 @@ export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017
 TestNPP_L1:
 1. For step 1- 3 follow above steps
 2. Run L1 test:
-$ ./TestNPP -q -r -s -t Root/Functional/Image/FilterBorderTests/*
+$ ./TestNPP -q -r -s -t Root/Functional/Image/FilterBorderTests/*  # 很快
 
 TestNPP_L2: # around 20 minutes
 1. For step1-3 follow above steps:

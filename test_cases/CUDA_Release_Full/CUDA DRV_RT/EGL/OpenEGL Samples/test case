@@ -1,0 +1,8 @@
+1. EGL and CUDA Interop:
+wget --user=swqa --password=test
+
+tar xvf xxx.tar
+unset CUDA_VISIBLE_DEVICES
+./tinyegl
+
+2. 

@@ -9,17 +9,17 @@ cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Li
 
 
 Test cases:
-1. cuDense_nightly:
+1. cuDense_nightly: # around 7 minutes
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
 perl script/cudense/cudense_nightly.pl -build=release -config=nightly
 
-2. glu_nightly:
+2. glu_nightly: # around 6 minutes
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
 sudo mkdir -p /mnt/teslaswqash/
 sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
 perl script/glu/glu_nightly.pl -build=release -config=nightly -matrix_path=/mnt/teslaswqash/matrices/p4matrices/
 
-3. pegasus_nightly
+3. pegasus_nightly #around 6 minutes
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
 sudo mkdir -p /mnt/teslaswqash/
 sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry

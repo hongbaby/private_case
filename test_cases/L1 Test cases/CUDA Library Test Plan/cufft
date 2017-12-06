@@ -1,4 +1,4 @@
-1. Sync and Build cuFFt:
+1. Sync and Build cuFFt: # total around 60 minutes
 p4 sync //sw/rel/gpgpu/toolkit/r9.1/cufft/...@${TK_CL}
 p4 sync //sw/rel/gpgpu/toolkit/r9.1/cudalibtools/...@${TK_CL}
 p4 sync //sw/tools/fftw/fftw-3.3.4/include/...
