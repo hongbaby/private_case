@@ -24,10 +24,30 @@
 
 4. Host memory allocate check with large memory allocation (Linux 32GB RAM available)
     wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/cudaMallocHost_largememory.zip
-    
+
 5. CPU Memory Leak in multi-threads application
     p4 sync //sw/qa/integrated/Tesla/manual/cudaapi/bug200291808/...
     cd //sw/qa/integrated/Tesla/manual/cudaapi/bug200291808/
     nvcc -arch=sm_xx -I$P4ROOT/sw/tools/boost/boost_1_54_0 -L$P4ROOT/sw/tools/boost/boost_1_54_0/lib/Linux64  test.cu -lboost_thread -lboost_system
     LD_LIBRARY_PATH=$P4ROOT/sw/tools/boost/boost_1_54_0/lib/Linux64 ./a.out
     Another terminal check top mem value should not change
+
+6. Memory Allocate test - CUDA Runtime
+   p4 sync //sw/qa/integrated/Tesla/manual/cudaapi/...
+   cd $P4ROOT/sw/qa/integrated/Tesla/manual/cudaapi/alloc
+   mkdir -p /home/$USER/test && cp $P4ROOT/sw/qa/integrated/Tesla/manual/cudaapi/alloc/alloc_rt.cpp /home/$USER/test/
+   cd /home/$USER/test
+   nvcc -gencode arch=compute_xx,code=sm_xx -o alloc_rt alloc_rt.cpp
+   ./alloc_rt
+
+   Note: If you have multiple GPUs in the devices with different compute level, see below as example.
+    GPU0 (Fermi GF110, compute level 2.0)
+    GPU1(Maxwell GK110, compute level 3.5)
+    nvcc -gencode arch=compuete_20,code=sm_20 -gencode arch=compuet_35,code=sm_35 -o alloc_rt alloc_rt.cpp
+
+7. Memory Allocate test - CUDA Driver
+    mkdir -p /home/$USER/test && cp $P4ROOT/sw/qa/integrated/Tesla/manual/cudaapi/alloc/alloc_drv.cpp /home/$USER/test/
+    mkdir -p /home/$USER/test && cp -r $P4ROOT/sw/qa/integrated/Tesla/manual/cudaapi/alloc/inc /home/$USER/test/
+    cd /home/$USER/test
+    nvcc -gencode arch=compute_xx,code=sm_xx -o alloc_drv alloc_drv.cpp -lcuda -Iinc
+    ./alloc_drv

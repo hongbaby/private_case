@@ -4,7 +4,7 @@ p4 sync //sw/rel/gpgpu/toolkit/r9.1/curand/...@${TK_CL}
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
 make RELEASE=1
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/curand
-make RELEASE=1
+make RELEASE=1 -j20
 
 2. cp -rvf /usr/local/cuda/lib64/lib* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
 

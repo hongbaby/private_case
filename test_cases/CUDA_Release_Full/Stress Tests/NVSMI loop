@@ -1,0 +1,5 @@
+1. NVSMI loop:
+sudo reboot
+sudo nvidia-smi -pm 0
+for i in `seq 1 100`; do echo "&&&& Running $i"; nvidia-smi -L ;done
+dmesg

@@ -1,2 +1,3 @@
-go to $P4ROOT/sw/rel/gpgpu/toolkit/rx.x/bin/x86_64_Linux_release
+export TK_VERSION=9.x
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/bin/x86_64_Linux_release
 ./host_semaphore

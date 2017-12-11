@@ -35,7 +35,9 @@ make RELEASE=1 -j20 uint2flt_rd
 make RELEASE=1 -j20 uint_arith
 make RELEASE=1 -j20 ullmod
 
-2. perl smoke.pl -config=release --test-list-file=/home/jzhong/Tools/npu_smoke.txt 2>&1 | tee /home/jzhong/Tools/nps_smoke.log
+2.
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.x/cuda/apps
+perl smoke.pl -config=release --test-list-file=/home/$USER/KERRY/NPU/npu_smoke_list.txt 2>&1 | tee /home/$USER/KERRY/NPU/nps_smoke.log
 cat nps_smoke.log | grep -i fail
 for failed:
 jzhong@dgxstation-s1:~/Tools$ more nps_smoke.log | grep -i fail

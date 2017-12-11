@@ -1,0 +1,27 @@
+1. Fedora:
+    .rpm local install:
+    sudo yum clean all
+    1. sudo rpm --install cuda-repo-<distro>-<version>.<architecture>.rpm
+     ------之后可通过 sudo rpm -qa | grep cuda,想删除的话用sudo rpm -e `rpm -qa | grep cuda`
+    2. Clean DNF repository cache
+        $ sudo dnf clean expire-cache
+    3. Install CUDA
+        $ sudo dnf install cuda
+
+      The CUDA driver installation may fail if the RPMFusion non-free repository is enabled. In this case, CUDA installations should temporarily disable the RPMFusion non-free repository:
+      $ sudo dnf --disablerepo="rpmfusion-nonfree*" install cuda
+
+    .rpm uninstall:
+      sudo dnf remove "*cuda*"
+      sudo dnf remove "*nvidia*"
+
+2. ubuntu系统:
+    .deb local install:
+    1. sudo dpkg -i cuda-repo-<distro>_<version>_<architecture>.deb
+    2. sudo apt-key add /var/cuda-repo-<version>/7fa2af80.pub
+    3. sudo apt update
+    4. sudo apt install cuda
+
+    .deb uninstall:
+    sudo apt-get --purge remove "*cuda*
+    sudo apt-get --purge remove "*nvidia*"

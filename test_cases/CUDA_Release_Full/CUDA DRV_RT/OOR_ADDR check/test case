@@ -1,0 +1,7 @@
+!!!Volta only
+1. OOR_ADDR(oor_check) Test Validation:
+export TK_VERSION=9.x
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/cuda/apps
+make oor_check.release
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/cuda/apps/oor_check
+vim volta_testcase.py

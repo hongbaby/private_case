@@ -12,7 +12,7 @@ export NVBLAS_CONFIG_FILE=$P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cublas/testMg/nvblas
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cudalibtools
 make RELEASE=1
 
-cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cudalibtools
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cublas
 make RELEASE=1 MKL=1 -j 40
 
 2. Prep MKL library:

@@ -18,8 +18,8 @@ wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members
 
 
 	5. Run samples:------大概3小时
-
-     python /home/kerry/run_sample_linux.py -p /home/kerry/NVIDIA_CUDA-9.0_Samples -b /home/kerry/NVIDIA_CUDA-9.0_Samples/bin/x86_64/linux/release/ --cuda-home=/usr/local/cuda
+		 sudo init 3
+     python /home/kerry/run_sample_linux.py -p /home/$USER/NVIDIA_CUDA-9.0_Samples -b /home/$USER/NVIDIA_CUDA-9.0_Samples/bin/x86_64/linux/release/ --cuda-home=/usr/local/cuda
 
 
 		 ==============================================================+

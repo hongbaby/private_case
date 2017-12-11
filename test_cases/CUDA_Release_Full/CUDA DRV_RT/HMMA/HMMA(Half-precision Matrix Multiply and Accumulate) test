@@ -1,1 +1,8 @@
 !!!Volta only
+
+1. HMMA(Half-precision Matrix Multiply and Accumulate) test:
+
+p4 sync //sw/gpgpu/cuda/apps/wmma/...
+make wmma.release
+cd ~/sw/gpgpu/bin/x86_64_Linux_release
+./wmma --testPrefix wmma 2>&1 | tee /home/$USER/KERRY/L0_TestCase/hmma_wmma.output

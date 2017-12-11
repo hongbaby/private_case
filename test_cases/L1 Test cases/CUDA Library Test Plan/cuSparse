@@ -11,7 +11,7 @@ make RELEASE=1 -j20
 4. build cusparse:
 p4 sync //sw/rel/gpgpu/toolkit/r9.1/cusparse/...@TK_CL
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0/cusparse
-make RELEASE=1 MKL=1 -j20
+make RELEASE=1 -j20
 
 5. cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
 

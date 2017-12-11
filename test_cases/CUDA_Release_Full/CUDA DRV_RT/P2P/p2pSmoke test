@@ -1,15 +1,15 @@
 !!!At least two GPUs (the same model)
 
 1.  cd $P4ROOT/sw/rel/gpgpu/toolkit/${CUDA_VER}/cuda/apps
-make RELEASE=1 cuP2P
-make RELEASE=1 peer2peer
-make RELEASE=1 peer2peer_array
-make RELEASE=1 peer2peer_rt
-make RELEASE=1 peer2host2peer
-make RELEASE=1 peer2host2peer_rt
-make RELEASE=1 multigpu
-make RELEASE=1 multigpu22
-make RELEASE=1 multigpuboard
+make RELEASE=1 cuP2P -j20
+make RELEASE=1 peer2peer -20
+make RELEASE=1 peer2peer_array -j20
+make RELEASE=1 peer2peer_rt -j20
+make RELEASE=1 peer2host2peer -j20
+make RELEASE=1 peer2host2peer_rt -j20
+make RELEASE=1 multigpu -j20
+make RELEASE=1 multigpu22 -j20
+make RELEASE=1 multigpuboard -j20
 
 Testlist.txt:
 cuP2P

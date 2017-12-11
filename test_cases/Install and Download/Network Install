@@ -1,0 +1,40 @@
+ubuntu系统
+
+清除现有的cuda， driver
+Sudo apt-get remove --purge "*cuda*" "*nvidia*"
+
+1） 进入路劲：
+test@test-nvidia:/etc/apt/sources.list.d$ pwd
+/etc/apt/sources.list.d
+
+2） 查看cuda.repo.list是否存在，存在的话，修改里面的内容；不存在的话，创建。
+
+Sudo vim cuda.repo.list
+
+修改link：deb http://cuda-internal/release-candidates/9.1/candidates/Prod/08/repos/ubuntu1704/x86_64 /
+
+3） sudo apt-get update
+
+4）Sudo apt-get install cuda
+
+
+FC系统
+清除现有的cuda， driver
+Sudo yum remove "*cuda*" "*nvidia*"
+
+1) 进入路径：
+[test@fedora25 yum.repos.d]$pwd
+/etc/yum.repos.d
+
+2）查看cuda.repo是否存在。 存在的话，修改里面东东；不存在的话，创建该文件
+Sudo vim cuda.repo
+
+[cuda]
+name=cuda
+baseurl=http://cuda-internal/release-candidates/9.1/candidates/Prod/08/repos/fedora25/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=http://cuda-internal/release-candidates/9.1/candidates/Prod/08/repos/fedora25/x86_64/7fa2af80.pub
+
+3）sudo yum clean all
+4) Sudo yum install cuda
