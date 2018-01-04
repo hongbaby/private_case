@@ -25,3 +25,14 @@
     .deb uninstall:
     sudo apt-get --purge remove "*cuda*
     sudo apt-get --purge remove "*nvidia*"
+
+3. driver upgrade的测试：
+    install .rpm/.deb 的driver
+    sudo dnf/apt install cuda-drivers
+
+    在源里面添上新driver的地址，然后update
+    sudo yum clean all 
+    sudo apt update
+
+    最后升级:
+    sudo apt/yum upgrade cuda-drivers

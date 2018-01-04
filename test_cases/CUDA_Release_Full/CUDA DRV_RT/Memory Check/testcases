@@ -5,10 +5,10 @@
     make
     sudo nvidia-smi -pm 0 -i x
     free -m
-    ./go --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
+    ./go --gpucount xx --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
     sudo nvidia-smi -pm 1 -i x
     free -m
-    ./go --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
+    ./go --gpucount xx --testloop 100   # ----Another terminal, "free -m" Memory in "used column" will not be increased consistently.
 
 2. GPU memory leak check during P2P operation
     wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/Memory_Check/mem_leak_p2p.tar.bz2

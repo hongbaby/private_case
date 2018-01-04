@@ -1,7 +1,10 @@
 !!!Volta only
+Note: This test case needs run with root permission.
+http://nvbugs/2003847/4
+
 1. OOR_ADDR(oor_check) Test Validation:
 export TK_VERSION=9.x
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/cuda/apps
 make oor_check.release
-cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/cuda/apps/oor_check
-vim volta_testcase.py
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/bin/x86_64_Linux_release
+python ../../cuda/apps/oor_check/volta_testcases.py

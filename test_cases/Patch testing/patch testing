@@ -1,0 +1,25 @@
+Run cublas test suite
+wget http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS/SW_23271902.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz
+tar xvf SW_23271902.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz
+
+tar xvf cublas.tar.bz2
+cd cublas
+perl nj_nightly.pl -build=release -mkl
+
+
+Cublas Patch install:
+Fedora:
+sudo rpm -i patch-name.rpm
+sudo dnf clean all
+#sudo dnf check-update
+sudo dnf update
+ll /usr/local/cuda/lib64/libcublas*
+
+Ubuntu:
+sudo dpkg -i patch-name.deb
+
+Federo:
+
+强制升级：
+sudo yum --best --allowerasing install cuda-cublas-9-0
+sudo yum --best --allowerasing install cuda-cublas-dev-9-0

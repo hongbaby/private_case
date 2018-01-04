@@ -34,6 +34,7 @@ Test cases under this module around 11, all checked.
         -------应该能看到类似于： cuda-drivers-diagnostic-387.26-1.x86_64
 
     6. Download DCGM from \\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r387\r387_00\387.20_23026625\testing_dcgm\x86_64
+      new from: \\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r387\r387_00\387.40_23308726
     7. Install: sudo zypper install datacenter-gpu-manager-1.3.0-1.x86_64ss
         Make sure DCGM is working:
         sudo nv-hostengine

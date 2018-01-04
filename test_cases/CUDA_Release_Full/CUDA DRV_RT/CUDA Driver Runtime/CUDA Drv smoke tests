@@ -57,7 +57,7 @@ sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev lib
 3) build cuda runtime.
 // build without agnostic
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1
-make cuda RELEASE=1
+make cuda RELEASE=1 -j40
 
 // build cuda runtime with agnostic
 sudo cp $P4ROOT/sw/misc/linux/unix-build /usr/bin
@@ -77,6 +77,6 @@ cd $P4ROOT/sw/rel/gpgpu/toolkit/r8.0/cuda/apps
 make RELEASE=1 ${app you want to build}
 
 6)Run `perl smoke.pl -config=release` in cuda/apps folder.
-
+perl smoke.pl -config=release 2>&1 | tee
 7)Check the log file cuda/apps/smoke.txt. For any failed app, repeat step 4 with additional
  “--testname=failed_app_name” option 5 times before report a bug(If all 5 retest still failed).

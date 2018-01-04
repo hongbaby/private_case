@@ -10,7 +10,7 @@ make RELEASE=1 cnp_basic_multithread -j10
 make RELEASE=1 cnp_basic_multiwarp -j10
 make RELEASE=1 cnp_batch_launch -j10
 make RELEASE=1 cnp_blockid -j10
-make RELEASE=1 cnp_clusterbomb -j10
+make RELEASE=1 I_AM_SLOPPY=1 cnp_clusterbomb -j10
 make RELEASE=1 cnp_cpusync -j10
 make RELEASE=1 cnp_dgemm_gt200 -j10
 make RELEASE=1 cnp_fibonacci -j10
@@ -18,7 +18,7 @@ make RELEASE=1 cnp_func_attributes -j10
 make RELEASE=1 cnp_globalwrite -j10
 make RELEASE=1 cnp_gridadd -j10
 make RELEASE=1 cnp_hellopcas -j10
-make RELEASE=1 cnp_kMeansClustering -j10
+make RELEASE=1 I_AM_SLOPPY=1 cnp_kMeansClustering -j10
 make RELEASE=1 cnp_launchDisorder -j10
 make RELEASE=1 cnp_launchstress -j10
 make RELEASE=1 cnp_lmem -j10
@@ -55,7 +55,7 @@ cnp_basic_multithread
 cnp_basic_multiwarp
 cnp_batch_launch
 cnp_blockid
-cnp_clusterbomb
+cnp_clusterbomb -----fail
 cnp_cpusync
 cnp_dgemm_gt200
 cnp_fibonacci
@@ -63,7 +63,7 @@ cnp_func_attributes
 cnp_globalwrite
 cnp_gridadd
 cnp_hellopcas
-cnp_kMeansClustering
+cnp_kMeansClustering  ------fail
 cnp_launchDisorder
 cnp_launchstress
 cnp_lmem
@@ -114,3 +114,12 @@ cnp_tail_recursive_lu_decomp
 cnp_simple_lu_decomp
 
 3. 运行：perl smoke.pl -config=release ---test-list-file=cnp_L0.txt 2>&1 | tee /home/jeff/kerry_ws/NPU_Smoke/NPU_Smoke_Test_1117.stdout
+
+如果编译的时候遇到error像：
+cc1plus: all warnings being treated as errors
+/home/jeff/sw/rel/gpgpu/toolkit/r9.0/build/project_old.mk:1357: recipe for target 'cnp_clusterbomb.o' failed
+make[1]: *** [cnp_clusterbomb.o] Error 1
+/home/jeff/sw/rel/gpgpu/toolkit/r9.0/build/solution.mk:349: recipe for target 'cnp_clusterbomb' failed
+make: *** [cnp_clusterbomb] Error 2
+
+可加上I_AM_SLOPPY=1参数

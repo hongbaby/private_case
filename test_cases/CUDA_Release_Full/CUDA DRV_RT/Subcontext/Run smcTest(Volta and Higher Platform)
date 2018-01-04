@@ -4,4 +4,4 @@ cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/cuda/apps
 make smcTest RELEASE=1
 nvidia-cuda-mps-control –d
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/bin/x86_64_Linux_release/
-.smcTest
+./smcTest

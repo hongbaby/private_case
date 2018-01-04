@@ -23,7 +23,7 @@ All test cased under this checked.  12 test cases
     while :; do ./memset &! ./memcpy &! ./streamStress; sleep 1; done
     Terminal 2:
     cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
-    while :; do ./memset &! ./memset &! ./memset; sleep 0; done
+    while :; do ./memset; sleep 0; done
     ------No cuda apps terminal can work.
 
     sudo nvidia-smi -i $DEVICE_ID -c 3 # EXCLUSIVE_PROCESS
@@ -32,7 +32,7 @@ All test cased under this checked.  12 test cases
     while :; do ./memset &! ./memcpy &! ./streamStress; sleep 1; done
     Terminal 2:
     cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
-    while :; do ./memset &! ./memset &! ./memset; sleep 0; done
+    while :; do ./memset; sleep 0; done
     ------Only one terminal can work. 报错like： all CUDA-capable devices are busy or unavailable
 
 3. Resetting GPUs in a loop for 30 mins
@@ -49,6 +49,11 @@ for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting 
    and allow selecting only specified fields(list of available options is documented in 'nvidia-smi --help-query-')
    4. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-gpu.sh
    5. export DEVICE_ID=0
+nvidia-smi --query-gpu=driver_version --format=csv
+nvidia-smi --query-compute-apps=gpu_name,pid,name --format=csv
+nvidia-smi --query-supported-clocks=gpu_name,mem,graphics --format=csv
+nvidia-smi --query-gpu=gpu_name,clocks.sm,compute_mode,pstate --format=csv
+
    6. ./NVML_L1_general_run_all_query-gpu.sh  | grep -i unknown  # !!! since from r384, "Unkonwn" is not available anymore.
    7. nvidia-smi -i $DEVICE_ID --format=csv --query-supported-clocks=<...>
       也可 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-supported-clocks.sh
@@ -68,3 +73,7 @@ for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting 
       只可看到./bindless_stress的进程信息， 如果Terminal1种的CUDA_VISIBLE_DEVICES也为2，则在Termianl3中运行时可看到2个process。
 
       也可 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-compute-apps.sh
+
+9. Backwards Compatability:
+Go to ~/nvml/testing2/apps/nvsmi-archive
+分别测试目录下nvidia-smi

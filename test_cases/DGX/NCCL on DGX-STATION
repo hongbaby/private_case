@@ -13,11 +13,12 @@ rm -rf nccl-tests
 git clone https://github.com/NVIDIA/nccl-tests.git
 cd ~/nccl-tests
 rm -rf build
-make MPI=1 MPI_HOME=/usr/local/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr
+make MPI=1 MPI_HOME=/usr/lib/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr
 
 ls ~/nccl-tests/build/
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/nccl/single_perf_4gpu.sh
 cp single_perf_4gpu ~/nccl-tests/build/
 ./single_perf_4gpu.sh
 
 grep -Ei 'fail|error' ~/nccl-tests/build/*.log
-dmesg -T |grep -Ei 'fail|error'
+dmesg -T |grep -Ei 'fail|error' ------check dmesg to see if have PCIe Bus Error

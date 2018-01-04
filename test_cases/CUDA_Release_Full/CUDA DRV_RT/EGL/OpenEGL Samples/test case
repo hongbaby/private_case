@@ -1,8 +1,8 @@
 1. EGL and CUDA Interop:
-wget --user=swqa --password=test
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/openegl_samples.tar.gz
 
 tar xvf xxx.tar
 unset CUDA_VISIBLE_DEVICES
 ./tinyegl
 
-2. 
+2.

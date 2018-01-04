@@ -16,7 +16,7 @@
 		ulimit -Hn   ---- make sure they are 16384
 		7. cd mps_common
 		perl mps_smoke.plx --config=release
-
+----in DGX Station, around 
 
 2. Remove support for Ctrl-C behavior on MPS:
 		1. Start nvidia-cuda-mps-server and monitor the CUDA process from NVSMI:

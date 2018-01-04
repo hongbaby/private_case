@@ -1,6 +1,6 @@
 !!!! Running main.py requires PM to be On, so as Non-ROOT user you have to enable PM first.
 !!!! Running main.py as ROOT, it will automatically enable PM if it is Off, and unset CUDA_VISIBLE_DEVICES if it has been set.
-
+Related bugs in DGX: 1979820  200372290
 1. Download NVML package from:
 http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r387_00_Release_Linux_AMD64_unix-build_Driver_Tesla/
 选择number号小于或者等于Driver change list number.

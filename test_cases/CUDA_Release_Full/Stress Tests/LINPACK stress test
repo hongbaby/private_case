@@ -24,7 +24,7 @@ wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automat
 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/boost_1_58_0.tar.bz2
 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/simpledrvquery.tar.gz
 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/hpl_2017.tar.gz
-
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/hpl-2.0_FERMI_v15.tar.gz
 #  scp jzhong@isv-cudaminer:~/Sources/* /home/kerry/Sources
 
 4. If you test dual GPUs, please edit isv_test_dual.cfg(isv_linux.cfg). If you have only one GPU, you need to edit isv_test.cfg
