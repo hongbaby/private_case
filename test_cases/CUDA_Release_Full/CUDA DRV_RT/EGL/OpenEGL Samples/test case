@@ -5,4 +5,6 @@ tar xvf xxx.tar
 unset CUDA_VISIBLE_DEVICES
 ./tinyegl
 
-2.
+# if error "cannot find -lEGL", then install mesa-libEGL-devel
+vim makefile
+LDFLAGS +=   -lEGL  -L. -L/usr/lib/nvidia-384/  -----具体位置可参考/usr/xxx，可到/usr目录下查找sudo find . -name 'libEGL*'

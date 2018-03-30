@@ -10,6 +10,20 @@
 Other test cases no issue
 
 Issue found when running : NVPD Manual- print notices to syslog on state transitions
+steps:
+1. login as root,
+2. nvidia-persistenced --verbose --persistence-mode –-user=non-root-user
+3. Ps –A |grep nvidia (find the daemon pid)
+4. Kill daemon pid
+5. cat /var/log/messages |grep "nvidia-persistenced"
+6.kill $(pidof nvidia-persistenced)
+7. cat /var/log/messages |grep "nvidia-persistenced"
+
+NVPD Manual- verify CUDA app starts almost instantly with persistence mode on
+在DGX机器上，在测上面的case时，需要把sudo mv /usr/bin/nvidia-persistence /usr/bin/nvidia-persistenced.bak
+time /home/test/p4/sw/rel/gpgpu/toolkit/r${TK_BRANCH}/bin/x86_64_Linux_release/bindless_stress > /dev/null 2>&1
+测完之后再弄回来
+pm off的情况下花费的时间要比pm on的时间长
 2017-11-15T15:42:38.664923+08:00 dhcp-10-19-192-210 nvidia-persistenced: Verbose syslog connection opened
 2017-11-15T15:42:38.665839+08:00 dhcp-10-19-192-210 nvidia-persistenced: Directory /var/run/nvidia-persistenced will not be removed on exit
 2017-11-15T15:42:38.665977+08:00 dhcp-10-19-192-210 nvidia-persistenced: Now running with user ID 1000 and group ID 100

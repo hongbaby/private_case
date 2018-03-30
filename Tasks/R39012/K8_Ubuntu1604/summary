@@ -1,0 +1,4 @@
+Kernel patch:
+http://linuxqa/people/rmorell/kaiser/
+
+1. 在Ubuntu16上，用4.14的kernel尝试安装390.12的driver安装不成功，所以卸载kernel重新安装390.12的driver

@@ -1,8 +1,11 @@
+dcgm和driver版本没有关系，当前最新的dcgm版本是1.3.3
+
 1. DCGM Integration Tests Framework:
 For DGX Station, it defaults installed the DCGM
 dpkg -l | grep -i datacenter-manager*
 查版本号： dcgmi --version
 nvvs --version查出来结果是384.69, 从384.81之后，testing的脚本
+1.3.3  file://builds/linuxbuilds/release/dcgm/rel/gpu_drv/r387/r387_00/387.40_23308726/testing_dcgm/x86_64/
 
 2. 然后到\\builds\linuxbuilds\release\dcgm\rel\gpu_drv\r384\r384_00\384.101_23105125\testing_dcgm找到对应版本的最新，执行脚本。
 3. 安装cuda driver diagnostic if not has diagnostic:

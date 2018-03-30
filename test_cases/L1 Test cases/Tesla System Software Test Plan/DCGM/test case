@@ -39,7 +39,10 @@ Test cases under this module around 11, all checked.
         Make sure DCGM is working:
         sudo nv-hostengine
         dcgmi discovery -l
+        nvidia-smi -pm 1
         You should see all supported GPUs listed
     8. Go to _out/Linux_amd64_release/testing
+        su
+        1
         python run_nvvs_diagnostic.py -h
     9. python run_nvvs_diagnostic.py 1 0

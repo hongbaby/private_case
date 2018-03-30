@@ -9,13 +9,10 @@ test@test-nvidia:/etc/apt/sources.list.d$ pwd
 
 2） 查看cuda.repo.list是否存在，存在的话，修改里面的内容；不存在的话，创建。
 
-Sudo vim cuda.repo.list
-
+sudo vim cuda.repo.list
 修改link：deb http://cuda-internal/release-candidates/9.1/candidates/Prod/08/repos/ubuntu1704/x86_64 /
-
-3） sudo apt-get update
-
-4）Sudo apt-get install cuda
+sudo apt-get update
+sudo apt-get install cuda
 
 
 FC系统
@@ -38,3 +35,50 @@ gpgkey=http://cuda-internal/release-candidates/9.1/candidates/Prod/08/repos/fedo
 
 3）sudo yum clean all
 4) Sudo yum install cuda
+sudo dnf update
+如果想指定package安装的话，用sudo dnf update package_name
+SLES系统：
+cd /etc/zypp/repos.d
+
+================================================================
+在测TRD时，Fedora25系统，比如在源http://cuda-internal/release-candidates/TeslaCertification/TRD7_Linux_384.111/fedora25/x86_64/下想安装384.111，但此路径下
+不但有384.111还有387.26更高的版本，所以在做upgrade或者源测试时，指定版本。
+可先尝试：
+sudo yum install --exclude *387* cuda-drivers cuda-drivers-diagnostic ------如果还是有387的版本，可尝试下面的命令
+sudo dnf install cuda-drivers-384.111 akmod-nvidia-2:384.111 xorg-x11-drv-nvidia-kmodsrc-2:384.111
+如果一直有Failed to initizlize NVML: Driver/library version mismatch
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nvidia
+modinfo nvidia （看是否是期望的版本）
+sudo akmods --force
+
+Feroda指定版本install patch，可用类似于下面的命令：
+sudo yum install cuda-cublas-9-1-9.1.85.1-1 cuda-cublas-dev-9-1-9.1.85.1-1
+上面的9.1.85.1-1是你需要安装的版本号
+
+
+
+
+对于SLES如果报：Failed to initialize NVML: Insufficient Permissions
+Solution:
+1. change to root, nvidia-smi; 然后再change to user, nvidia-smi可解决
+2. sudo vim /etc/modprobe.d/50-nvidia.conf; sudo reboot
+
+
+RedHat:
+1)	sudo yum remove “*cuda*” “*nvidia*”
+2)	sudo vim /etc/yum.repos.d/cuda.repo
+[cuda]
+name=cuda
+baseurl= http://cuda-repo/release-candidates/TeslaCertification/TRD7_Linux_384.111/rhel7/ppc64le/
+enabled=1
+gpgcheck=1
+gpgkey= http://cuda-repo/release-candidates/TeslaCertification/TRD7_Linux_384.111/rhel7/ppc64le/7fa2af80.pub
+3)	sudo yum clean all
+4)	sudo yum install cuda-toolkit-9-0
+5)	sudo yum install --exclude *387* cuda-drivers cuda-drivers-diagnostic
+But driver upgrade test has an issue on RHEL6.9 , you can refer to the bug I filed,
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200378143&cmtNo=
+sudo zypper install cuda-drivers-390.46 x11-video-nvidiaG04-390.46 nvidia-computeG04-390.46 nvidia-glG04-390.46
+
+Centos
+指定版本：

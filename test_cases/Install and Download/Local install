@@ -31,7 +31,7 @@
     sudo dnf/apt install cuda-drivers
 
     在源里面添上新driver的地址，然后update
-    sudo yum clean all 
+    sudo yum clean all
     sudo apt update
 
     最后升级:

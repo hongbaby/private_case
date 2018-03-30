@@ -80,3 +80,6 @@ make RELEASE=1 ${app you want to build}
 perl smoke.pl -config=release 2>&1 | tee
 7)Check the log file cuda/apps/smoke.txt. For any failed app, repeat step 4 with additional
  “--testname=failed_app_name” option 5 times before report a bug(If all 5 retest still failed).
+
+如果碰到类似于cudaIpc控制台hang住，可杀掉进程，让程序继续运行下去。把代码cuda apps下的cudaIpc sync到最新的。再次运行
+perl smoke.pl -config=release --testname=cudaIpc

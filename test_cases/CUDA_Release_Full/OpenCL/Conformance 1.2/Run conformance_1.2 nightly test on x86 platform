@@ -39,3 +39,10 @@ https://wiki.nvidia.com/nvcompute/index.php/NVCompute/NVIDIAOpenCL/Building_conf
 
 Failed case:
 OpenGL Interop (http://nvbugs/200104420)
+
+Ubuntu17.10上编译错误：
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200377673&cmtNo=
+Workaround:
+~/sw/gpgpu/opencl/conformance_1.2/nvidia/tests/test_conformance/images/image_helpers.h
+的483行
+加上#undef issubnormal

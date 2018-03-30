@@ -37,6 +37,23 @@ export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017
 
 2. Run L2 test: # around 20 minutes
 ./TestNPP -v 2 -q -t Root/Functional/* 2>&1 | tee /home/kerry/kerry_ws/testnpp_L2.txt
+bug: 2072915
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_NOT_SUPPORTED_MODE_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_RESIZE_FACTOR_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_INTERPOLATION_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_MIRROR_FLIP_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_MOMENT_00_ZERO_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_THRESHOLD_NEGATIVE_LEVEL_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_THRESHOLD_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_CONTEXT_MATCH_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_FFT_FLAG_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_FFT_ORDER_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_STEP_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_SCALE_RANGE_ERROR
+&&&& FAILED Root/Functional/Core/ErrorCodeTest/NPP_DATA_TYPE_ERROR
+
+
+
 
 3. Classified failures.
 

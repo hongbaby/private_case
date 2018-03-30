@@ -1,3 +1,5 @@
+跑nvml时，先重启下机器。
+
 !!!! Running main.py requires PM to be On, so as Non-ROOT user you have to enable PM first.
 !!!! Running main.py as ROOT, it will automatically enable PM if it is Off, and unset CUDA_VISIBLE_DEVICES if it has been set.
 Related bugs in DGX: 1979820  200372290
@@ -11,22 +13,25 @@ http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r387_00_Release_Linu
 Testing result:
 Passed 372 / 378 tests.
 Score: 98.41
-https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200290731&cmtNo=
-Error message:
-- Test test_sampling_timestamp_order
-            - Test on device <NvmlDevice 00000000:81:00.0> - Tesla P6
-                Starting CudaCtxCreateAdvancedApp with AppRunner #257: /home/jeff/kerry_t...
-                stdout in _out_runLogs/app_257_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stdout.txt
-                stderr in _out_runLogs/app_257_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stderr.txt
-                This test might take a while...
-                Starting CudaCtxCreateAdvancedApp with AppRunner #258: /home/jeff/kerry_t...
-                stdout in _out_runLogs/app_258_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stdout.txt
-                stderr in _out_runLogs/app_258_cuda_ctx_create_64bit_--ctxCreate_00000000.81.00.0_--busyGpu_00000000.81_stderr.txt
-                This test might take a while...
-                ERROR: Traceback (most recent call last):
-                ERROR:    File "/home/jeff/kerry_tools/SW_23075377_Tesla/testing2/test_utils.py", line 202, in wrapper
-                ERROR:     fn(*args, **kwds)
-                ERROR:    File "/home/jeff/kerry_tools/SW_23075377_Tesla/testing2/tests/test_samples.py", line 289, in test_sampling_timestamp_order
-                ERROR:     " order of timestamps" % (samplingList[i].name))
-                ERROR:  AssertionError: For Gpu Utilization sampling, the samples are not arranged in ascending order of timestamps
-            << Test Main::module tests.test_samples::test_sampling_timestamp_order::on device <NvmlDevice 00000000:81:00.0> - Tesla P6 - FAILED
+200327113；200272031；200290731;200214300; 200354310
+
+
+如果想指定某个item在某个指定的GPU上跑：
+su
+python main.py -d 0,1 -f item_name
+
+
+==========================
+nvml相关的代码可在：
+$P4ROOT/sw/rel/gpu_drv/r3xx/r3xx_00/apps/nvml/testing2下，如果此路径的话可以p4 sync下来.
+可在此目录下用
+grep -ir item_name(如test_topology_get_upstream_devices)找到item的代码路径，比如这个命令返回：
+./tests/test_topology.py:def test_topology_get_upstream_devices(device):
+可进入到tests目录下用p4 changes test_topology.py来查看相关的代码改动：
+jeff@jeff-ubuntu16-1:~/sw/rel/gpu_drv/r390/r390_00/apps/nvml/testing2/tests$ p4 changes test_topology.py
+Change 23363626 on 2018/01/04 by pshit@pnkj_r390_00_1 'Fixing NVML test 'test_topology'
+Change 23136549 on 2017/11/15 by pshit@pnkj_r390_00_1 '[NVML] Fixing the test framewor'
+Change 23088517 on 2017/11/05 by rajijain@rj-integ 'r390_00<=stage_rel@23087757 Cop'
+Change 22897480 on 2017/09/25 by rajijain@rj-integ 'r390_00<=stage_rel@22896518 Cop'
+Change 22842053 on 2017/09/13 by builder@swio-ssbui-x86-win7 'Bug 1990504 - Branched all file'
+接下来可尝试用p4 describe -S 22897480 |grep test_topology_get_upstream_device 来定位从哪个CL出现这个问题

@@ -1,0 +1,22 @@
+安装完SLES12系统后，可能会安装软件不成功，可下载系统源到/etc/zypp/repos.d
+sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/system/SLES12repo.repo
+sudo wget --user=swqa --password=testhttp://10.19.193.206/teslaswqash_manual/members/kerry/system/sles.repo
+sudo zypper refresh
+
+在安装完cuda后，编译cuda sample前安装
+sudo zypper install freeglut-devel libX11-devel libXi-devel libXmu-devel make Mesa-libGLU-devel
+不然图形化相关的sample不会被编译
+
+sudo systemctl stop SuSEfirewal12.service
+sudo service sshd restart
+service SuSEfirewall2_init  stop
+
+
+>>> WARNING - libEGL.so not found, please install libEGL.so <<<
+>>> WARNING - egl.h not found, please install egl.h <<<
+>>> WARNING - eglext.h not found, please install eglext.h <<<
+sudo ln -sf /usr/X11R6/lib64/libEGL.so.1 /usr/lib64/libEGL.so
+
+
+libGL.so not found
+sudo ln -sf /usr/X11R6/lib64/libGL.so.1 /usr/lib64/libGL.so

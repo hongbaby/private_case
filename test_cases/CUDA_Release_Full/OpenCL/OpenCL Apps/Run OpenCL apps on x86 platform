@@ -21,3 +21,7 @@ p4 sync -f //sw/dev/gpu_drv/cuda_a/...
      perl smoke.pl -config=release -testname=xxx 2>&1|tee log.out.FAILED
 
 	1. dmesg -T #check the more detailed error info
+
+
+有可能在F25系统上，上面的第四步会失败，可参考https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200317645&cmtNo=
+可把其它系统上的bin目录copy过来，直接运行。

@@ -5,6 +5,23 @@ tar xvf SW_23271902.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz
 tar xvf cublas.tar.bz2
 cd cublas
 perl nj_nightly.pl -build=release -mkl
+建议把/usr/local/cuda/lib64放在LD_LIBRARY_PATH的最前面， 建议先把bin/x86_64_Linux_release下想关的文件mv到bak文件里：
+类似于:
+1. Install patch, and check if libcublas* and libnvblas* files are installed. Version is correct.
+
+2. run nvblas
+mkdir ~/cublas_patch3
+cd cublas
+wget http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS/SW_23547044.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz
+tar xvf SW_23547044.0_gpu_drv_r384_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz
+cd bin/x86_64_Linux_release
+mkdir bak
+mv libcu* libnvblas* bak
+cd ../../cublas
+export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64
+perl cublasMg_nightly.pl -build=release -config=xxxx
+
+
 
 
 Cublas Patch install:

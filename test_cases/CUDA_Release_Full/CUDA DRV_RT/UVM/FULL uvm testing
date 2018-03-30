@@ -21,7 +21,7 @@ a. tar xf dvs-Linux-amd64-release-uvm-test.tar.bz2
 
 5. remove the uvm module:
 
-a. sudo rmmod nvidia_uvm
+a. sudo rmmod nvidia_uvm----dgx上如果遇到rmmod不掉，可以尝试sudo service nvidia-docker stop
 
 
 6. loaded uvm module with  driver mode 8 by default:
@@ -42,7 +42,7 @@ Optional test:
 ./uvm_test --mode stress
 
 8. Reboot system
-
+-------有可能有xid在dmesg，可参考 http://nvbugs/1974093，not a bug
 Issue found in DGX Station:
 jzhong@dgxstation-s1:~/Installer/UVM_23022220$ ./uvm_test
 (thread 140177435666176 [t0]) At gpu-utils.cpp:1213:
@@ -53,4 +53,8 @@ jzhong@dgxstation-s1:~/Installer/UVM_23022220$ ./uvm_test
 Could not Alloc a client
 
 &&&& uvm_test test FAILED
-------The issue root cause is: NVM version should be consistent with Driver CL.
+------The issue root cause is: NVM version should be consistent with Driver CL
+
+有任何的失败，可通过下面的命令debug，并且在有错误时执行log脚本贴在bug里，比如下面在运行write_atomicity* 相关的item失败会hang住，可单独运行下面的命令，然后
+执行nvidia-bug-report.sh生成log
+./uvm_test --testPrefix write_atomicity -v

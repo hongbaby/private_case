@@ -77,3 +77,8 @@ nvidia-smi --query-gpu=gpu_name,clocks.sm,compute_mode,pstate --format=csv
 9. Backwards Compatability:
 Go to ~/nvml/testing2/apps/nvsmi-archive
 分别测试目录下nvidia-smi
+
+10. Topology check:
+nvidia-smi topo -m
+for IBM Power and DGX, should show NV2 or NV3
+for other PCI system, should show PCI connection topo.

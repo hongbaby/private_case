@@ -24,6 +24,10 @@ disable: nvidia-smi -e 0
 
 
 2. Verify changing GOM requires root (K20m/K20Xm Only)
+		nvidia-smi -q -i $DEVICE_ID|grep "GPU Operation" -A3
+		nvidia-smi --gom=1 -i $DEVICE_ID
+		sudo nvidia-smi --gom=0 -i $DEVICE_ID
+		sudo nvidia-smi --gom=2 -i $DEVICE_ID
     1. Login as non root
     2. try to change GOM mode in nvML
     3. it should give error
@@ -42,7 +46,7 @@ disable: nvidia-smi -e 0
 4. NVML Manual - Clocks Throttle Reasons for SW power capping
       1. 查询当前的power状态： nvidia-smi -q -i 0 | grep "Power Readings" -A7 (查出Min Power Limit)
       2. sudo nvidia-smi -i 0 -pl xx(把Power Limit设置值为1中的Min Power Limit)
-      3. Let GPU in idle status: nvidia-smi -q -d power,performance -i 0 (keep Idle in Active status)
+      3. Let GPU in idle status: nvidia-smi -q -d power,performance -i 0 (keep Idle in Active status) nvidia-smi -q -l 1可以让GPU变成active
       4. In terminal 1, keep running "nvidia-smi -q -d power,performance -lms 100 -i $DEVICE_ID"
       5. In terminal 2, keep running dgemm(就是Benchmark的case， 运行.go)
       6. 观察terminal 1种，如果Power Draw的值大于Power Limit，这时候 Clocks Throttle Reasons下面的SW Power Cap应该由Not Active 变成Active

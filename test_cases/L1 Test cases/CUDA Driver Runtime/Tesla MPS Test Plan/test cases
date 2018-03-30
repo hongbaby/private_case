@@ -1,4 +1,4 @@
-1. MPS smoke test  # test in DGX Station, around 50 minutes
+1. MPS smoke test  # test in DGX Station, around 50 minutes ------> 35以上的support
 		1. build cuda apps ----- if not done before, go to $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cuda/apps
 		make RELEASE=1 -j 20
 		2. Copy libiaries from local install path to binpath:
@@ -16,7 +16,7 @@
 		ulimit -Hn   ---- make sure they are 16384
 		7. cd mps_common
 		perl mps_smoke.plx --config=release
-----in DGX Station, around 
+----in DGX Station, around
 
 2. Remove support for Ctrl-C behavior on MPS:
 		1. Start nvidia-cuda-mps-server and monitor the CUDA process from NVSMI:
@@ -29,7 +29,12 @@
 			1. Terminal 1 sudo nvidia-cuda-mps-control -d
 			2. Terminal 1: ps -A | grep nvidia-cuda-mps
 			3. Terminal 1: nvidia-smi -l
-			4. Terminal 2: run Linpack: cd /home/kerry/hpl-2.0_FERMI_v15/bin/CUDA
+			cd /home/$USER/testing/Linpack/HPL/hpl-2.0_FERMI_v15
+			make clean
+			make arch=CUDA -j40
+			4. Terminal 2: run Linpack: cd /home/kerry/testing/Linpack/HPL/hpl-2.0_FERMI_v15/bin/CUDA
+			dgx station上，做完linpack的配置后，直接到LINPACK_STRESS/bin/CUDA下./run_stress，要跑一会
+
 			mpirun -np 1 ./run_linpack
 			kerry@dhcp-10-19-192-210:/home/jeff/kerry_tools/hpl-2.0_FERMI_v15/bin/CUDA> mpirun -np 1 ./run_linpack
 			/home/jeff/kerry_tools/hpl-2.0_FERMI_v15/bin/CUDA/xhpl: error while loading shared libraries: libcudart.so.9.0: cannot open shared object file: No such file or directory

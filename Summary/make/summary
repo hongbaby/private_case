@@ -1,0 +1,25 @@
+Fedora system:
+1. 在编译cuda sample时cudaDecodeGL失败，报类似下面的错：
+/usr/local/cuda-9.1/bin/nvcc -ccbin g++   -m64      -Xcompiler -no-pie -gencode arch=compute_30,code=compute_30 -o cudaDecodeGL FrameQueue.o ImageGL.o VideoDecoder.o VideoParser.o VideoSource.o cudaModuleMgr.o cudaProcessFrame.o dynlink_cuda.o dynlink_nvcuvid.o videoDecodeGL.o  -L/usr/lib64/nvidia -lGL -lGLU -lX11 -lglut -lcuda -L../../common/lib/linux/x86_64 -lcudart -lnvcuvid -lGLEW
+/usr/bin/ld: cannot find -lnvcuvid
+collect2: error: ld returned 1 exit status
+Makefile:404: recipe for target 'cudaDecodeGL' failed
+make: *** [cudaDecodeGL] Error 1
+
+原因是分开安装cuda-toolkit和driver，会导致安装完,在下面的目录下没有生成第一条的软连接：
+[cudaDecodeGL]$ ll /usr/lib64/libnvcuvid.so*
+lrwxrwxrwx 1 root root      20 12月 20 20:59 /usr/lib64/libnvcuvid.so -> libnvcuvid.so.390.12------没生成
+lrwxrwxrwx 1 root root      20 12月 20 20:59 /usr/lib64/libnvcuvid.so.1 -> libnvcuvid.so.390.12
+-rwxr-xr-x 1 root root 2477008 12月 20 23:27 /usr/lib64/libnvcuvid.so.390.12
+
+solution:
+sudo dnf install cuda-runtime-9-1,会生成上面的软连接，解决问题。
+
+或者直接安装
+sudo dnf install cuda-toolkit-9-1
+sudo dnf install nvidia-drivers而不是cuda-drivers可以解决这个问题。
+
+
+cannot find -lOpenCL
+Ubuntu
+sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so

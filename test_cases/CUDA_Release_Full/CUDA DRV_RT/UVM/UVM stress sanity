@@ -21,3 +21,7 @@ terminate called after throwing an instance of 'testsuite::TestConditionFailedEx
 ERROR:  /home/jeff/sw/rel/gpgpu/toolkit/r9.0/bin/x86_64_Linux_release/uvmStress  returned non-zero exit value: 134
 &&&& FAILED uvmStress
 ------Solution: Sync code to the CL number
+
+su
+​echo 0 > /proc/sys/kernel/yama/ptrace_scope
+./uvm_test -t access_remote_memory

@@ -15,3 +15,6 @@ OpenCL SDK samples 4.2: (around 36 test cases)
     sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so
 
     cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/bin/linux/release/
+
+From Ubuntun16.10:
+Before running opencl, we need do following things:

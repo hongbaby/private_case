@@ -33,7 +33,7 @@ change password to your root password
 :1,$ s/xxx/xxx/g
 
 5.  cd /home/kerry/kerry_ws/LINPACK
-./isv_linux.py -c isv_linux.cfg -s linpack
+./isv_linux.py -c isv_linux.cfg -s linpack_stress
 遇到的问题：
 2017-11-16 15:02:57 INFO : Installing package "python-numpy-devel"...
 2017-11-16 15:02:58 ERROR: Failed to install package: python-numpy-devel
@@ -56,9 +56,10 @@ Choose from above solutions by number or cancel [1/2/3/c] (c): c
 
 6. cd /home/kerry/kerry_ws/LINPACK
 If you run one GPU, please use command
-./isv_test.py -c isv_test.cfg -t linpack
+./isv_test.py -c isv_test.cfg -t linpack_stress
 If you run dual GPU, please use command
-./isv_test.py -c isv_test_dual.cfg -t linpack
+./isv_test.py -c isv_test_dual.cfg -t linpack_stress
+对于dgxstation，因为不能reset，把isv_test.cfg里的gpu_rst_stgy的值设为none,gpu_id为0,1,2,3
 
 Note:  Lock the GPU clock to highest and disable AutoBoost on all target GPUs before test.
 nvidia-smi -q查询, nvidia-smi -q -d SUPPORTED_CLOCKS ---查询GPU是否支持
