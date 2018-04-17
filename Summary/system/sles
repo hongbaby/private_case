@@ -5,6 +5,10 @@ sudo zypper refresh
 
 在安装完cuda后，编译cuda sample前安装
 sudo zypper install freeglut-devel libX11-devel libXi-devel libXmu-devel make Mesa-libGLU-devel
+sudo zypper install freeglut-devel libX11-devel libXi-devel libXmu-devel make Mesa-libGLU-devel
+
+Read more at: http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ixzz5CFwlig2t
+Follow us: @GPUComputing on Twitter | NVIDIA on Facebook
 不然图形化相关的sample不会被编译
 
 sudo systemctl stop SuSEfirewal12.service
@@ -20,3 +24,10 @@ sudo ln -sf /usr/X11R6/lib64/libEGL.so.1 /usr/lib64/libEGL.so
 
 libGL.so not found
 sudo ln -sf /usr/X11R6/lib64/libGL.so.1 /usr/lib64/libGL.so
+
+
+SLES系统启动x server：
+sudo service display-manager start
+
+查看x server的命令：
+service display-manager status

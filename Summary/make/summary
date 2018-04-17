@@ -23,3 +23,15 @@ sudo dnf install nvidia-drivers而不是cuda-drivers可以解决这个问题。
 cannot find -lOpenCL
 Ubuntu
 sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so
+
+
+WARNING - egl.h not found, please install egl.h <<<
+>>> WARNING - eglext.h not found, please install eglext.h <<<:
+cd /usr/include
+sudo mkdir KHR
+cd KHR
+sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/Scripts/khrplatform.h
+
+如果还是报错：
+go to /usr/include
+sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/Scripts/EGL.zip

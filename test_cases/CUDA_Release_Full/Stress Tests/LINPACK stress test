@@ -1,9 +1,5 @@
 1. cd /home/kerry/LINPACK
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/common_utils_linux.py
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux.cfg
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux.py
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/isv_linux_dual.cfg
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX/test_utils_linux.py
+wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX.zip
 
 2.mkdir Sources under /home/kerry
 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/automation/ISV_Linux/Sources/cmake-3.6.3.tar.gz

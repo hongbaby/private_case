@@ -16,6 +16,8 @@
 		ulimit -Hn   ---- make sure they are 16384
 		7. cd mps_common
 		perl mps_smoke.plx --config=release
+
+		perl -I . mps_smoke.plx --config=release解决运行问题
 ----in DGX Station, around
 
 2. Remove support for Ctrl-C behavior on MPS:
@@ -26,7 +28,7 @@
 		sudo kill $(pidof nvidia-cuda-mps-control)
 
 3. Stress Test with MPS
-			1. Terminal 1 sudo nvidia-cuda-mps-control -d
+			1. Terminal 1 nvidia-cuda-mps-control -d   ---->不能加sudo
 			2. Terminal 1: ps -A | grep nvidia-cuda-mps
 			3. Terminal 1: nvidia-smi -l
 			cd /home/$USER/testing/Linpack/HPL/hpl-2.0_FERMI_v15

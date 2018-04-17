@@ -24,3 +24,9 @@ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cuSolver
 sudo mkdir -p /mnt/teslaswqash/
 sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
 perl script/pegasus/pegasus_nightly.pl -build=release -config=nightly -matrix_path=/mnt/teslaswqash/matrices/p4matrices/
+
+
+在ubuntu17.10上编译有问题的话可以尝试：
+类似于这样的错：
+/usr/bin/ld: /home/test/sw/tools/linux/mkl/11.0.4/lib/intel64/libiomp5.a(z_Linux_util.o): relocation R_X86_64_32 against `.rodata.str1.4' can not be used when making a shared object; recompile with -fPIC
+make RELEASE=1 NVCC_LDFLAGS="-Xcompiler -no-pie"

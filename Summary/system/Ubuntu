@@ -16,3 +16,22 @@ Can't locate common.pl in @INC (@INC contains: /etc/perl /usr/local/lib/x86_64-l
 BEGIN failed--compilation aborted at mps_smoke.plx line 17.
 可能是Ubuntu17.10的perl版本不合适，运行时用
 perl -I. mps_smoke.plx --config=release
+
+
+Linux Installer - Disk avaliable size check：
+sudo fdisk -l
+u盘分区可参考https://zybuluo.com/fanisfun/note/677301
+cd /mnt
+sudo mkdir par_4g
+sudo mkdir par_4m
+sudo mount -t auto /dev/xxx /mnt/par_4g
+sudo mount -t auto /dev/xxx /mnt/par_4m
+./cuda_9.2.88_396.14_linux.run -extract=/mnt/par_4m -----应该报没有足够的空间
+./cuda_9.2.88_396.14_linux.run -extract=/mnt/par_4g -----成功
+sudo umount /mnt/par_4m
+sudo mount -t auto /dev/xxx /tmp  U盘的4m盘mount到tmp
+./cuda_9.2.88_396.14_linux.run ------应该报没有足够的空间
+sudo umount /tmp
+sudo mkdir /foo
+sudo mount -t auto /dev/sde4 /foo
+./cuda_9.2.88_396.14_linux.run -tmpdir /foo  ------应该报没有足够的空间
