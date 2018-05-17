@@ -31,3 +31,18 @@ sudo service display-manager start
 
 查看x server的命令：
 service display-manager status
+
+Testing summary：
+Cannot recover from Error : “ Oh no! Something has gone wrong. A problem has occurred and the system can’t recover. Please log out and try again.”
+
+The condition this error occurs is as follows:
+
+-        VGA Display in the BIOS is set to “Onboard” display as the Primary
+
+-        $  sudo zypper install cuda-drivers nvidia-gfxG04-kmp-default    [installs nvidia-glG04 (overwrites the Onboard display driver)]
+
+-        $  sudo /sbin/reboot
+
+I kept getting this error and was not able to recover (could not reboot to text mode or graphical) until I rebooted and changed the VGA Display in the BIOS to “Offboard”.
+
+Summary:  When testing the above OS's, verify which VGA Display is set as the priority. If NV GL driver will be installed, set the VGA Display to "Offboard"

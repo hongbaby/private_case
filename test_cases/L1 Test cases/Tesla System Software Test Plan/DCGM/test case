@@ -47,3 +47,5 @@ Test cases under this module around 11, all checked.
         1
         python run_nvvs_diagnostic.py -h
     9. python run_nvvs_diagnostic.py 1 0
+
+关于EUD的测试，就是最后的结果pass，也需要查看nvvs_diag.log的结果是否有SKIP

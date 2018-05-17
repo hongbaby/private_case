@@ -35,3 +35,10 @@ sudo umount /tmp
 sudo mkdir /foo
 sudo mount -t auto /dev/sde4 /foo
 ./cuda_9.2.88_396.14_linux.run -tmpdir /foo  ------应该报没有足够的空间
+
+
+*************************************************************************
+对于一个ubuntu的新系统，比如Ubuntu17
+安装完系统需要安装g++-multilib,不然有可能编译不成功。
+安装driver前先安装sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+然后安装driver，如果编译的时候遇到类似于cannot find lGL等错，需要到/usr目录下看看链接的方式对不对

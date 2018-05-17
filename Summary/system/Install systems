@@ -1,0 +1,5 @@
+Ubuntu:
+安装Ubuntu的时候，因为连接的是NVIDIA的显卡，可能出现界面一直黑屏，可以设置显卡选项nomodeset解决问题。
+方法：
+https://blog.csdn.net/cheneykl/article/details/79111618
+在进入安装前，按e键，然后在quiet splash之后加上nomodeset,按F10进入系统安装可解决黑屏问题。不同的系统可能稍微有点不一样。
