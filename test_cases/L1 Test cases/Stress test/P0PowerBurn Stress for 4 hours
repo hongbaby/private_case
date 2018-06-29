@@ -1,6 +1,6 @@
-1. wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/pwrburn64
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/pwrburn.cu
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/powerburn/Makefile
+1. wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/powerburn/pwrburn64
+wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/powerburn/pwrburn.cu
+wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/powerburn/Makefile
 
 2. vim pwrburn.cu
 uncomment #include <sys/time.h>

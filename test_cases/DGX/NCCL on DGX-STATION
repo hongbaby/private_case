@@ -16,7 +16,7 @@ rm -rf build
 make MPI=1 MPI_HOME=/usr/lib/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr
 
 ls ~/nccl-tests/build/
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/nccl/single_perf_4gpu.sh
+
 cp single_perf_4gpu ~/nccl-tests/build/
 ./single_perf_4gpu.sh
 

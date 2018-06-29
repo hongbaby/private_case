@@ -1,0 +1,22 @@
+1. DGX上卸载cuda并且重新安装
+sudo dpkg --purge `dpkg -l |grep cuda |awk '{print $2}'|grep 9-0`
+or
+sudo apt remove  --purge `dpkg -l |grep cuda |awk '{print $2}'|grep 9-0`
+sudo apt-get update
+sudo apt-get install cuda-toolkit-9-0
+
+2. p4 info:
+export P4PORT=P4sw:2006
+export P4USER=kerryq
+export P4ROOT=/home/lab
+export GPGPU_COMPILER_EXPORT=/home/$USER/compiler384/x86_64_Linux_release
+export DRIVER_ROOT=$P4ROOT/sw/rel/gpu_drv/r384/r384_00/
+export NV_TOOLS=$P4ROOT/sw/tools
+export PATH=/usr/local/cuda/bin/:$PATH
+
+
+3. nvidia remove in cuda10.0
+sudo apt remove --purge "libnvidia-*410"
+sudo apt remove --purge "nvidia-*410"
+
+4. sudo apt remove  --purge "datacenter*fabric*"

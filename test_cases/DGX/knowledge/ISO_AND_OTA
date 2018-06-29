@@ -1,0 +1,84 @@
+弄之前确保/raid目录挂在/dev/sdb1上
+可用df -h查看，如果没的话用sudo mount /dev/sdb1 /raid
+ISO安装：
+1. VNC登录到跳板机
+10.32.208.99
+vnc
+123
+
+2. copy the information:
+在安装之前copy下你需要的ip信息：
+/etc/network/interface
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface(选择合适的网卡)
+auto xxxx
+iface xxx inet static
+       address 10.33.3.154
+       netmask 255.255.255.192
+       network 10.33.3.128
+       broadcast 10.33.3.191
+       gateway 10.33.3.129
+       # dns-* options are implemented by the resolvconf package, if installed
+       dns-nameservers 10.20.28.252
+       dns-search nvidia.com
+/etc/init.d/networking restart
+
+
+3.login BMC ip in internet
+Media -> Virtual Media Wizard,选择CD/DVD Media1，然后重启机器F8选择CD，安装时选择without raid
+4. 安装完会自动安装好driver
+5. 需要手动安装sudo apt install cuda-toolkit-9-0
+
+如果需要刷InfoROM:
+获取到合适的InfoROM version：
+\\builds\linuxbuilds\release\InfoROM\Images\GV100\pg503.0202\00.01
+\\builds\linuxbuilds\release\InfoROM\Images\GP100\ph400.0202\00.01
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nvidia
+\\builds\linuxbuilds\release\GFWTools\NVFlash\internal\5.440.0\linux\x64
+nvflash_eng --flashinforom xxx
+
+如果需要刷BIOS：
+\\builds\Prerelease\BIOS\GV100
+
+
+OTA:
+安装已经安装好3.1.6（举例），这里要升级到3.1.7
+https://docs.google.com/document/d/1O4hA2aa0pq4czIyZH5LF-nez6TqoerMWDWAaZTkjSIY/edit
+1. sudo vim /etc/systemd/system/docker.service.d/docker-override.conf
+ExecStart=--bip=192.168.127.1/24 --fixed-cidr=192.168.127.128/25
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+2. sudo vim /etc/apt/sources.list.d/dgx.list (or /etc/apt/sources.list.d/dgxstation.list for DGXStation
+comment the default deb and add below address
+deb http://cuda-internal/release-candidates/repos/dgxserver-internal/ xenial main multiverse restricted universe
+
+3. sudo vim /etc/apt/preferences.d/nvidia
+Pin: origin cuda-internal.nvidia.com
+
+4. sudo apt update
+sudo apt dist-upgrade
+sudo reboot
+
+5. On server, make sure that nv_peer_mem was built and loaded:
+lsmod | grep nv_peer_mem
+If the output shows no nv_peer_mem module loaded, run the command
+sudo apt-get install --reinstall mlnx-ofed-kernel-dkms nvidia-peer-memory-dkms
+That should load nv_peer_mem, but if it doesn’t,  (verify as in step 5.1) run
+ sudo modprobe nv_peer_mem
+Verify nv_peer_mem is loaded
+
+
+DGX2 ISO:
+file://builds/linuxbuilds/release/OSImage/DGXServer/4.0.0/
+1. login BMC
+2. choose image，然后重启
+3. 选择UEFI的方式
+4.安装直至完成
+5.网络方式选择enp6s0

@@ -1,0 +1,25 @@
+1. 在运行程序前，确保下面的service是起着的。
+check fabricmanager status:
+sudo systemctl status nvidia-fabricmanager or sudo service nvidia-fabricmanager status
+sudo systemctl stop nvidia-fabricmanager
+sudo  systemctl start nvidia-fabricmanager
+
+2. DGX2 reset GPU:
+http://nvbugs/2112122
+暂时只能sudo nvidia-smi -r
+
+3.DGX2测试DCGM和EUD相关的case时，需要找到和系统自带的/usr/bin下的dcgmi md5sum相等的测试包
+系统自带的dcgmi位置：
+/usr/bin
+server上的包位置
+file://builds/linuxbuilds/daily/dcgm/rel/gpu_drv/r400/r400_00/包下面的deb包，
+dpkg -x datacenter* ./
+/usr/bin下的dcgmi,nvvs
+
+3. BMC Login
+https://bmc-xpl-evt-10
+BMC Firmware version check:
+sudo ipmitool mc info
+
+4. Remove DGX2 nvidia:
+sudo apt remove --purge `dpkg -l | grep 410.17-0ubuntu1 | awk '{print $2}'`

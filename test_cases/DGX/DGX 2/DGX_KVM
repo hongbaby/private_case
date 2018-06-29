@@ -1,0 +1,49 @@
+1.	Converting host to KVM mode
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1706954&isTemplate=true
+2.	Converting host back to non-KVM mode
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1722728&isTemplate=true
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1724327&isTemplate=true
+3.	Create and launch 16 GPU x 1 VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1719973&isTemplate=true
+4.	Create and launch 8 GPU x 2 VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1719980&isTemplate=true
+5.	Create and launch 4 GPU x 4 VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1719984&isTemplate=true
+6.	Create and launch 2 GPU x 8 VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1719988&isTemplate=true
+7.	Create and launch 1 GPU x 16 VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1719992&isTemplate=true
+8.	Create and launch any power of 2 GPU VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1725138&isTemplate=true
+9.	Enable MMIO on VM
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1725815&isTemplate=true
+
+1. Converting host back to non-KVM mode:
+Until we have a newer dgx-kvm-sw package, the WAR to convert host back to non-KVM mode is to
+edit /var/lib/dpkg/info/dgx-kvm-sw.postrm to change ‘fabricmanager’ to ‘nvidia-fabricmanager’
+and then purge the dgx-kvm-sw package
+
+2. 如果发现sudo apt update时， cuda-internal有问题，可尝试
+sudo vi /etc/systemd/resolved.conf，然后
+[Resolve]
+Domains=nvidia.com
+
+或者/etc/resolv.conf
+search nvidia.com 
+
+3. Coverting host to KVM mode:
+sudo vi  /etc/apt/sources.list.d/dgx.list to append the following line...
+deb [trusted=yes] http://10.110.48.24:8000/ /
+sudo apt update
+sudo  apt-get -y install  dgx-kvm-sw
+sudo reboot
+# nvidia-smi
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+dmesg | grep vfio_pci
+lspci -nnk -d 10de:1db8
+sudo virt-host-validate
+
+4. 在Host上查看VM里的ip
+virsh net-dhcp-leases default
+
+5.

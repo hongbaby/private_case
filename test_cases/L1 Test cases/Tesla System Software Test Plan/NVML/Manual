@@ -55,6 +55,7 @@ disable: nvidia-smi -e 0
       usually NA this due to physical cable and operation needed for this test and we dont have the cable
 
 Verify that GPU reset takes under 5 seconds-Linux only
+1949996
       #01 Run "time nvidia-smi -r -i " as ROOT
       su
       echo 1 | sudo -S time nvidia-smi -r -i $DEVICE_ID

@@ -83,3 +83,9 @@ perl smoke.pl -config=release 2>&1 | tee
 
 如果碰到类似于cudaIpc控制台hang住，可杀掉进程，让程序继续运行下去。把代码cuda apps下的cudaIpc sync到最新的。再次运行
 perl smoke.pl -config=release --testname=cudaIpc
+cudaIpc在9.0上需要sync到最新的代码
+
+cuModuleLoad failed 999:
+可尝试看~/.nv/ComputeCache是否是root权限，需要改成$USER权限可解决问题。
+sudo chown lab.lab ~/.nv/ComputeCache/ -R
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200402170&cmtNo=

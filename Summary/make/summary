@@ -35,3 +35,11 @@ sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/me
 如果还是报错：
 go to /usr/include
 sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/Scripts/EGL.zip
+
+
+error: /usr/bin/ld: cannot find -lEGL
+collect2: error: ld returned 1 exit status
+Makefile:368: recipe for target 'EGLStreams_CUDA_Interop' failed
+make: *** [EGLStreams_CUDA_Interop] Error 1
+sudo apt install libegl1-mesa-dev
+sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev

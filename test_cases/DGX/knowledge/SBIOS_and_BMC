@@ -1,0 +1,31 @@
+SBIOS升级：要shutdown机器
+https://confluence.nvidia.com/display/DGXSoftware/Software+Versions
+file://netapp-tw/public/Alger/DGX-1V/FW_Updates/SBIOS/
+VNC登录到跳板机
+10.32.208.99/123
+
+shutdown 机器
+BMC登录到机器
+Firmware update -> BIOS Update, choose Firmware to upload, choose the .bin file
+升级完成后，重启机器进入BIOS，按F9，然后再按F10进入系统。
+
+
+BMC升级:可以不用shutdown
+file://netapp-tw/public/Alger/DGX-1V/FW_Updates/BMC_FW/---->需要看具体的地址
+VNC登录到跳板机
+10.32.208.99/123
+
+shutdown 机器
+BMC登录到机器
+Firmware update -> Firmware Update, choose Firmware to upload, choose the .bin file
+升级完成后，重启机器进入BIOS，按F9，然后再按F10进入系统。
+
+Reset BMC:
+To reset BMC if you are already login to the host..
+
+# sudo ipmitool mc reset cold
+
+
+To reset the BMC if you are on a remote host…
+
+# sudo ipmitool mc -I lanplus -H  <your.BMC.ip>   -U <your.BMC.login>  -P  <your.BMC.password>  reset  cold

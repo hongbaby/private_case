@@ -1,0 +1,34 @@
+1. 跳板机：
+ssh root@rhel6-swqa-shanghai  10.32.208.79
+PWD: cudaqash
+vnc password: password
+
+ssh root@ubuntu-bridge-teslaswqa   10.32.208.98
+swqa/nvidia
+VNC Password:111111
+
+2. 刷BIOS：
+获取到合适的bios version：
+\\builds\linuxbuilds\release\InfoROM\Images\GP100\ph400.0202\00.01
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nvidia
+\\builds\linuxbuilds\release\GFWTools\NVFlash\internal\5.440.0\linux\x64
+nvflash_eng --flashinforom xxx
+
+3. 刷雷电分位：
+Step 1: https://www.asus.com/tw/Motherboard-Accessory/ThunderboltEX-3/HelpDesk_Download/下载匹配雷电卡型号的Driver和FW Update Tool和FW分位，这里我的雷电卡型号是ThunderboltEX3,
+在上面的链接里可以下载。
+也可从本地下载http://10.19.193.205/teslaswqash_manual/members/kerry/system/eGPU/
+
+Step 2: Install Driver in Windows 10, 安装完之后会有一个像雷电一样标志的icon
+
+Step 3: 然后cmd到TbtFwUpdate_1.0.0.15_release目录下，输入TbtFwUpdate.exe,然后应该会跳出Thunderbolt Firmwaree Update Tool的窗口，应该是自动填上.bin file,
+如果报"Failed to load Thunderbolt(TM) controllers through WMI"可能是因为雷电口没弄好。应该能安装成功。
+安装完之后，可参照https://plugable.com/thunderbolt-3/support/是否刷成功了分位。
+
+相关文档
+http://pocketnix.org/posts/eGPUs%20under%20Linux%3A%20an%20advanced%20guide
+http://benyouhui.it168.com/thread-5690462-1-1.html
+
+装完后重启机器，插上雷电接口，lspci |grep -i nvidia是否能列出eGPU的device,能的话表示识别成功。
+检查/sys/bus/thunderbolt/devices/0-x/autorized的值是否为1，如果不是
+echo 1 > /sys/bus/thunderbolt/devices/0-x/autorized

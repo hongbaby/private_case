@@ -4,7 +4,7 @@ confirmed with Jeff, we just need to run the scripts no need to focus the perfor
 mkdir -p /home/kerry/kerry_ws/Benchmark/${TK_VER}_${DRV_VER}/
 cd /home/kerry/kerry_ws/Benchmark/${TK_VER}_${DRV_VER}/
 #rm -rf /home/kerry/kerry_ws/Benchmark/*
-wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/jeff/tools/latest.tar
+wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/jeff/tools/latest.tar
 # b. extract and run Benchmark tests script
 # 10 Mins
 cd /home/kerry/kerry_ws/Benchmark/${TK_VER}_${DRV_VER}/

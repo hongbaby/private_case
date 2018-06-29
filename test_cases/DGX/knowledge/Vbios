@@ -1,0 +1,17 @@
+BIOS相关的信息：
+https://confluence.nvidia.com/display/DGXSoftware/Software+Versions
+
+刷image：
+swqacompute080.nvidia.com--10.32.208.99
+Please follow below doc to know how to do OTA on DGX Product
+
+2.XXX
+https://docs.google.com/document/d/1rctaBBbhPS_O1Al2Mxz4yBjDkcmI-iqPh0njDzgYXAg/edit
+
+3.XXX
+https://docs.google.com/document/d/1O4hA2aa0pq4czIyZH5LF-nez6TqoerMWDWAaZTkjSIY/edit
+
+
+刷VBIOS：
+\\builds\Prerelease\BIOS\GV100
+nvflash_eng xxx.rom -i x

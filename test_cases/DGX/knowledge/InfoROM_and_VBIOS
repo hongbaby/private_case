@@ -1,0 +1,17 @@
+如果需要刷InfoROM:
+获取到合适的InfoROM version：
+\\builds\linuxbuilds\release\InfoROM\Images\GV100\pg503.0202\00.01
+\\builds\linuxbuilds\release\InfoROM\Images\GP100\ph400.0202\00.01
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nvidia
+如果dgx上rmmod不掉，可以关掉PM,docker和fabrickmanager
+
+下载nvflash_eng
+\\builds\linuxbuilds\release\GFWTools\NVFlash\internal\5.440.0\linux\x64
+nvflash_eng --flashinforom xxx
+
+
+刷VBIOS：
+https://cftt.nvidia.com/HwqaCheckout/Content/Task.aspx?id=910
+\\builds\Prerelease\BIOS\GV100
+nvflash_eng xxx.rom -i x
+nvflash_eng xxx.nvr

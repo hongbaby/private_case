@@ -1,5 +1,7 @@
 1. cd /home/kerry/LINPACK
 wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX.zip
+wget --user=cqauser --password=cqatest http://10.19.195.1/manual/
+
 
 2.mkdir Sources under /home/kerry
 wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/automation/ISV_Linux/Sources/cmake-3.6.3.tar.gz
@@ -30,6 +32,10 @@ change password to your root password
 
 5.  cd /home/kerry/kerry_ws/LINPACK
 ./isv_linux.py -c isv_linux.cfg -s linpack_stress
+
+在DGX上，如果遇到指定所有的GPUfail的话，可用
+./isv_linux.py -c isv_linux.cfg -t linpack_perf
+然后到LINPACK_PERF目录下改变run_stress中的LOOP值直接运行./run_stress来跑stress
 遇到的问题：
 2017-11-16 15:02:57 INFO : Installing package "python-numpy-devel"...
 2017-11-16 15:02:58 ERROR: Failed to install package: python-numpy-devel
