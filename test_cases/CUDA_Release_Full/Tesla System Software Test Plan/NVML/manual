@@ -37,9 +37,9 @@ All test cased under this checked.  12 test cases
 
 3. Resetting GPUs in a loop for 30 mins
 If have 2 GPU:
-for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0 && nvidia-smi -r -i 1; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
+for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i";  echo labuser | sudo -S nvidia-smi -r -i 0 && echo labuser | sudo -S nvidia-smi -r -i 1; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
 If only have 1 GPU:
-for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; nvidia-smi -r -i 0; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
+for i in `seq 1 500`; do echo "--<$(date +"%Y-%m-%d %H:%M:%S")-- &&&& Resetting $i"; echo labuser | sudo -S nvidia-smi -r; done 2>&1 | tee /home/jeff/kerry_ws/Resetting_GPUs_Stress_${TK_VER}_${DRV_VER}.log
 
 
 4. General:
@@ -73,7 +73,7 @@ nvidia-smi --query-gpu=gpu_name,clocks.sm,compute_mode,pstate --format=csv
       只可看到./bindless_stress的进程信息， 如果Terminal1种的CUDA_VISIBLE_DEVICES也为2，则在Termianl3中运行时可看到2个process。
 
       也可 wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/NVML_L1_general_run_all_query-compute-apps.sh
-
+      ./nbody -benchmark -numbodies=2000000 -device=0
 9. Backwards Compatability:
 Go to ~/nvml/testing2/apps/nvsmi-archive
 分别测试目录下nvidia-smi

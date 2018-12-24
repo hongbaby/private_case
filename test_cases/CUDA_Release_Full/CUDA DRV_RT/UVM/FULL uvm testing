@@ -21,7 +21,10 @@ a. tar xf dvs-Linux-amd64-release-uvm-test.tar.bz2
 
 5. remove the uvm module:
 
-a. sudo rmmod nvidia_uvm----dgx上如果遇到rmmod不掉，可以尝试sudo service nvidia-docker stop
+a. sudo rmmod nvidia_uvm----dgx上如果遇到rmmod不掉，可以尝试sudo service nvidia-docker stop和sudo service docker stop
+如果18.04上rmmod不掉尝试关掉下面的东西：
+cd /etc/systemd/system
+sudo service nvsm-* stop
 
 
 6. loaded uvm module with  driver mode 8 by default:

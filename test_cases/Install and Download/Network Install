@@ -80,5 +80,10 @@ But driver upgrade test has an issue on RHEL6.9 , you can refer to the bug I fil
 https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200378143&cmtNo=
 sudo zypper install cuda-drivers-390.46 x11-video-nvidiaG04-390.46 nvidia-computeG04-390.46 nvidia-glG04-390.46
 
+warning: vulkan-filesystem-1.0.61.1-2.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+sudo rpm -ivp vulkan-filesystem-1.0.61.1-2.el7.noarch.rpm --force --nodeps
+https://blog.csdn.net/nirendao/article/details/79313025
+
+
 Centos
 指定版本：

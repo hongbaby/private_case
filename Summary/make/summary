@@ -30,11 +30,11 @@ WARNING - egl.h not found, please install egl.h <<<
 cd /usr/include
 sudo mkdir KHR
 cd KHR
-sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/Scripts/khrplatform.h
+sudo wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/script_kerry/Scripts/khrplatform.h
 
 如果还是报错：
 go to /usr/include
-sudo wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/Scripts/EGL.zip
+sudo wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/script_kerry/Scripts/EGL.zip
 
 
 error: /usr/bin/ld: cannot find -lEGL
@@ -43,3 +43,10 @@ Makefile:368: recipe for target 'EGLStreams_CUDA_Interop' failed
 make: *** [EGLStreams_CUDA_Interop] Error 1
 sudo apt install libegl1-mesa-dev
 sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+
+查看 cd /usr/lib/x86_64-linux-gnu
+sudo ln -s mesa-egl/libEGL.so libEGL.so
+
+如果遇到"Couldn't get address of eglCreateStreamKHR()"错时，可尝试查看
+cd /usr/lib/x86_64-linux-gnu
+sudo ln -s /usr/lib/nvidia-xxx/libEGL.so libEGL.so

@@ -21,7 +21,7 @@ mkdir /mnt/teslaswqash
 sudo mount -t cifs //teslaswqash/manual/ /mnt/teslaswqash -o user=kerry,password=kerry
 mount //10.19.193.205/manual/matrices/p4matrices
 
-cd /home/jeff/sw/rel/gpgpu/toolkit/r9.1/cusparse
+cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cusparse
 
 7. perl ./sparse_nightly.pl -build=release -config=dvs -mkl -matrix_path=/mnt/teslaswqash/matrices/p4matrices 2>&1 | tee /home/jeff/kerry_ws/cusparse.txt
 

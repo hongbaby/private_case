@@ -15,3 +15,11 @@ https://cftt.nvidia.com/HwqaCheckout/Content/Task.aspx?id=910
 \\builds\Prerelease\BIOS\GV100
 nvflash_eng xxx.rom -i x
 nvflash_eng xxx.nvr
+
+如果刷不了，可以用：
+sudo ./nvflash_eng -4 -5 -6 g503_0204_896__8800430004.rom -i 0
+sudo ./nvflash_eng -4 -5 -6 g503_0204_896__8800430004.rom -i 1
+...
+sudo ./nvflash_eng  --flashinforom G5030280_NGN.ifr 一个一个刷
+
+DGX 1V 32G NGN: \\netapp-hq07\hwswqa\PPSWQA\TeslaTeam\Tools\DGX-1\DGX-1V-32GB-NGN-VBIOS

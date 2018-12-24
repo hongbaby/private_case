@@ -4,7 +4,7 @@ OpenCL SDK samples 4.2: (around 36 test cases)
     mkdir -p /home/kerry/kerry_ws/OpenCL/
     cd /home/kerry/kerry_ws/OpenCL/
     rm -rf *
-    wget --user=swqa --password=test http://10.19.193.206/teslaswqash_manual/members/kerry/L0_Testcases/devrel_jeff.tar
+    wget --user=cqauser --password=cqatest http://10.19.195.1/manual/automation/CUDA_Linux_Auto/OpenCL/devrel.tar
     tar -xvf devrel_jeff.tar
     cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/
     make clobber
@@ -13,7 +13,7 @@ OpenCL SDK samples 4.2: (around 36 test cases)
     sudo cp -rfPv /usr/lib64/nvidia/libOpenCL.so* /usr/lib64/
     # if has make error, please try to soft link in ubuntu as below
     sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so
-
+related bug:https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=1685868&cmtNo=
     cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/bin/linux/release/
 
 From Ubuntun16.10:

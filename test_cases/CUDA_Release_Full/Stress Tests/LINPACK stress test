@@ -1,6 +1,6 @@
 1. cd /home/kerry/LINPACK
-wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX.zip
-wget --user=cqauser --password=cqatest http://10.19.195.1/manual/
+#wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/automation/ISV_Linux/ISV_LINUX.zip
+wget --user=cqauser --password=cqatest http://10.19.195.1/manual/automation/ISV_Linux/ISV_LINUX.tar.gz
 
 
 2.mkdir Sources under /home/kerry
@@ -32,6 +32,7 @@ change password to your root password
 
 5.  cd /home/kerry/kerry_ws/LINPACK
 ./isv_linux.py -c isv_linux.cfg -s linpack_stress
+./isv_linux.py -c isv_linux.cfg -s dgemm
 
 在DGX上，如果遇到指定所有的GPUfail的话，可用
 ./isv_linux.py -c isv_linux.cfg -t linpack_perf
@@ -55,7 +56,7 @@ Problem: python-numpy-devel-1.13.3-158.1.x86_64 requires python-numpy = 1.13.3, 
 Choose from above solutions by number or cancel [1/2/3/c] (c): c
 2017-11-16 15:02:58 DEBUG: Error Output: root's password:
 解决办法：  卸载本地的python-numpy-devel
-
+DGXStation 32G 不支持单GPU跑run_stress
 6. cd /home/kerry/kerry_ws/LINPACK
 If you run one GPU, please use command
 ./isv_test.py -c isv_test.cfg -t linpack_stress

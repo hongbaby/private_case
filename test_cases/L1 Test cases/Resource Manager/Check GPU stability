@@ -1,0 +1,15 @@
+1. Check GPU stability if system clock is changed
+while true;  do
+
+   echo labuser | sudo -S date -Ins -s $(date -Ins -d '-6 hour')
+
+   sleep 1
+
+   echo labuser | sudo -S date -Ins -s $(date -Ins -d '+6 hour')
+
+   sleep 1
+
+done
+2. open another terminal, and turn off PM
+3. nvidia-smi -l 1
+4. Check for failure by looking for RmInitAdapter failures in dmesg, or any system hangs, etc 

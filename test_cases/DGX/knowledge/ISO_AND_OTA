@@ -29,9 +29,29 @@ iface xxx inet static
        dns-search nvidia.com
 /etc/init.d/networking restart
 
+sudo ip addr flush enp1s0f0
+sudo systemctl restart networking.service
+
+对于Ubuntu18.04， interfaces已经不起作用，需要到/etc/netplan下设置static ip,然后sudo netplan apply
+https://www.tecmint.com/configure-network-static-ip-address-in-ubuntu/
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp1s0f0:
+      dhcp4: no
+      addresses: [10.33.3.136/24]
+      gateway4:  10.33.3.129
+      nameservers:
+        addresses: [10.20.28.252]
+        search: [nvidia.com]
+
+
 
 3.login BMC ip in internet
-Media -> Virtual Media Wizard,选择CD/DVD Media1，然后重启机器F8选择CD，安装时选择without raid
+Media -> Virtual Media Wizard,选择CD/DVD Media1，然后重启机器F2/F8选择CD（如果不行的话，尝试选择Virtual CD），安装时选择without raid
 4. 安装完会自动安装好driver
 5. 需要手动安装sudo apt install cuda-toolkit-9-0
 
@@ -77,8 +97,18 @@ Verify nv_peer_mem is loaded
 
 DGX2 ISO:
 file://builds/linuxbuilds/release/OSImage/DGXServer/4.0.0/
+\\netapp-hq18\platformsw\DGXServer\4.0.0\2018-07-03
 1. login BMC
 2. choose image，然后重启
 3. 选择UEFI的方式
 4.安装直至完成
 5.网络方式选择enp6s0
+
+Repro steps:
+1. Login into BMC "https://xxxxx/";; with lab/lab, navigate to "Remote Control"->"Launch KVM"
+2. Load local DGX OS image file and click Start Media
+3. Boot into the system from Virtual CD-ROM
+4. The system is stuck on file copy on the first re-image
+5. Click "Power"->"Reset Server", and then try again
+6. The Virtual Media will always be ejected automatically while trying to boot from Vitual CD-ROM.
+$ sudo ipmitool mc -I lanplus -H 10.33.1.92 -U lab -P lab reset cold

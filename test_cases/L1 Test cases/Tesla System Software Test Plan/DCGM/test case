@@ -20,6 +20,7 @@ Test cases under this module around 11, all checked.
       sudo apt update
       sudo apt install cuda-drivers-diagnostic
 
+    5. python main.py --no-lint
 
 2. EUD testing：# check if support EUD testing, check https://confluence.nvidia.com/display/CQ/EUD+Supported+GPUs
     1. Uninstall nvidia driver:

@@ -18,6 +18,10 @@ steps:
 5. cat /var/log/messages |grep "nvidia-persistenced"
 6.kill $(pidof nvidia-persistenced)
 7. cat /var/log/messages |grep "nvidia-persistenced"
+对于dgx需要做以下操作，如果step2有问题的话：
+sudo mv /etc/systemd/system/nvidia-persistenced.service.d/dgx-persistence-override.conf /etc/systemd/system/nvidia-persistenced.service.d/dgx-persistence-override.conf_bak
+sudo mv /lib/udev/rules.d/71-nvidia.rules /lib/udev/rules.d/71-nvidia.rules_bak
+
 
 NVPD Manual- verify CUDA app starts almost instantly with persistence mode on
 在DGX机器上，在测上面的case时，需要把sudo mv /usr/bin/nvidia-persistence /usr/bin/nvidia-persistenced.bak

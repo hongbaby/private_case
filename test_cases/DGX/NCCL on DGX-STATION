@@ -7,18 +7,32 @@ sudo apt-cache search 'nccl'
 sudo apt install libnccl2 libnccl-dev
 
 2. DGX Station应该默认安装好openmpi,如果没安装需要手动安装。
+wget https://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-1.10.7.tar.bz2
+sudo rm -rf /usr/local/openmpi openmpi-1.10.7
+tar jxvf openmpi-1.10.7.tar.bz2
+cd openmpi-1.10.7
+./configure --enable-mpi-cxx --with-cuda=/usr/local/cuda --with-hwloc=internal --prefix=/usr/local/openmpi --with-ucx=no
+make -j 40
+sudo make install
+sudo ln -sf /usr/local/openmpi/lib/libmpi.so /usr/local/openmpi/lib/libmpi.so.1
+
 3. sudo apt-get install -y git
 cd ~
 rm -rf nccl-tests
 git clone https://github.com/NVIDIA/nccl-tests.git
 cd ~/nccl-tests
 rm -rf build
+make MPI=1 MPI_HOME=/usr/local/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr  ----如果编译不过，确认下step1里的nccl 包是否安装。
 make MPI=1 MPI_HOME=/usr/lib/openmpi CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr
 
 ls ~/nccl-tests/build/
 
 cp single_perf_4gpu ~/nccl-tests/build/
 ./single_perf_4gpu.sh
+wget --user=swqa --passwor=test http://10.19.193.205/teslaswqash_manual/members/kerry/script_kerry/Scripts/single_perf_4gpu.sh
+./all_reduce_perf: error while loading shared libraries: libmpi.so.12: cannot open shared object file: No such file or directory
 
+solution:
+在single_perf_4gpu.sh里LD_LIBRARY_PATH加上export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/openmpi/lib
 grep -Ei 'fail|error' ~/nccl-tests/build/*.log
 dmesg -T |grep -Ei 'fail|error' ------check dmesg to see if have PCIe Bus Error

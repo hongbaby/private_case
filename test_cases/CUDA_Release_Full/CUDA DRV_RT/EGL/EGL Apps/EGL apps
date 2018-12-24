@@ -58,7 +58,7 @@ sudo ln -sf /usr/X11R6/lib64/libEGL.so.1 /usr/lib64/libEGL.so
 ../EGLStream_interop_basic
 
 运行失败，可尝试
-sudo cp -rfPv /usr/lib/nvidia-xxx/libEGL* /usr/lib64/
+sudo cp -rfPv /usr/lib/nvidia-396/libEGL* /usr/lib64/
 
 Error 2:
 在尝试运行EGL相关的case时，报如下的错：

@@ -6,7 +6,7 @@ make RELEASE=1
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/curand
 make RELEASE=1 -j20
 
-2. cp -rvf /usr/local/cuda/lib64/lib* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/
+2. cp -rvf /usr/local/cuda/lib64/lib* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release/  ----Sometimes this is necessary
 
 3. run:
 perl curand_smoke.pl -build=release  # (around 7 minutes)

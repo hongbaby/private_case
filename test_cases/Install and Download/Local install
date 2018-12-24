@@ -13,7 +13,6 @@
 
     .rpm uninstall:
       sudo dnf remove "*cuda*"
-      sudo dnf remove "*nvidia*"
 
 2. ubuntu系统:
     .deb local install:
@@ -36,3 +35,13 @@
 
     最后升级:
     sudo apt/yum upgrade cuda-drivers
+
+4. R384+CUDA10
+sudo apt install cuda-drivers
+sudo apt install cuda-toolkit-10-0
+sudo apt-get install cuda-compat-10-0
+echo "/usr/local/cuda-10.0/compat" | sudo tee /etc/ld.so.conf.d/cuda-10-0-compat.conf
+sudo ldconfig
+回到别的driver的时候，要记得删除这个文件
+sudo rm -rf /etc/ld.so.conf.d/cuda-10-1-compat.conf
+sudo ldconfig

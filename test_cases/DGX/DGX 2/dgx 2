@@ -22,4 +22,4 @@ BMC Firmware version check:
 sudo ipmitool mc info
 
 4. Remove DGX2 nvidia:
-sudo apt remove --purge `dpkg -l | grep 410.17-0ubuntu1 | awk '{print $2}'`
+sudo apt remove --purge `dpkg -l | grep 410.72-0ubuntu1 | awk '{print $2}'`

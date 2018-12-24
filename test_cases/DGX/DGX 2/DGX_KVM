@@ -19,9 +19,18 @@ http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1725138&isTemplate=true
 http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1725815&isTemplate=true
 
 1. Converting host back to non-KVM mode:
-Until we have a newer dgx-kvm-sw package, the WAR to convert host back to non-KVM mode is to
-edit /var/lib/dpkg/info/dgx-kvm-sw.postrm to change ‘fabricmanager’ to ‘nvidia-fabricmanager’
-and then purge the dgx-kvm-sw package
+#Until we have a newer dgx-kvm-sw package, the WAR to convert host back to non-KVM mode is to
+#edit /var/lib/dpkg/info/dgx-kvm-sw.postrm to change ‘fabricmanager’ to ‘nvidia-fabricmanager’----this step is skipped now.
+
+sudo apt-get purge --auto-remove dgx-kvm-sw
+rm -rf /etc/qemu-quirks.nvidia        # remnants of the older tar installation of qemu
+rm -rf /usr/share/qemu
+rm /usr/libexec/qemu-bridge-helper
+rm /usr/bin/qemu*
+rm /usr/bin/ivshmem*
+rm /usr/bin/virtfs-proxy-helper
+sudo apt-get update
+sudo apt-get install dgx-kvm-sw
 
 2. 如果发现sudo apt update时， cuda-internal有问题，可尝试
 sudo vi /etc/systemd/resolved.conf，然后
@@ -29,13 +38,14 @@ sudo vi /etc/systemd/resolved.conf，然后
 Domains=nvidia.com
 
 或者/etc/resolv.conf
-search nvidia.com 
+search nvidia.com
 
 3. Coverting host to KVM mode:
 sudo vi  /etc/apt/sources.list.d/dgx.list to append the following line...
-deb [trusted=yes] http://10.110.48.24:8000/ /
+#deb [trusted=yes] http://10.110.48.24:8000/ /
+deb [trusted=yes] http://10.110.48.24:8000/release/ /
 sudo apt update
-sudo  apt-get -y install  dgx-kvm-sw
+sudo  apt-get install  dgx-kvm-sw
 sudo reboot
 # nvidia-smi
 NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
@@ -46,4 +56,10 @@ sudo virt-host-validate
 4. 在Host上查看VM里的ip
 virsh net-dhcp-leases default
 
-5.
+5.When openin/report bugs, please include the following output so we can identify all the images that are being used.
+From the host run:
+dpkg -l | grep -e dgx-kvm -e qemu
+
+From the VM, run
+cat /etc/dgx-release
+dpkg -l | grep -e dgx-kvm

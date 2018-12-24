@@ -2,7 +2,7 @@
 ssh root@rhel6-swqa-shanghai  10.32.208.79
 PWD: cudaqash
 vnc password: password
-
+可以用Remote Desktop Connection, 10.32.208.99 TuN/123
 ssh root@ubuntu-bridge-teslaswqa   10.32.208.98
 swqa/nvidia
 VNC Password:111111

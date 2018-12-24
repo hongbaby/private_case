@@ -1,1 +1,2 @@
 1. __NVML_DBG_FILE=nvml_trace.log __NVML_DBG_LVL=DEBUG
+2.sudo nvidia-bug-report.sh

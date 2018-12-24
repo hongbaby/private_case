@@ -1,0 +1,40 @@
+1. ....python2.5: /lib/ld-linux.so.2: bad ELF interpreter: No such file or directory
+sudo yum install libstdc++.so.6
+
+2. Error in PREUN scriptlet in rpm package 3xxx
+su -c 'rpm -e --noscripts nvidia-driver-418.04-4.el7.x86_64'
+
+3. RHEL register:
+https://wiki.nvidia.com/engwiki/index.php/Red_Hat_Network
+Website:  https://rhn.redhat.com
+username: nvidiacorp
+password: g0g0nv1d1a3d
+
+4. lynx install:
+http://lynx.invisible-island.net/release/
+./configure
+sudo yum install ncurses
+sudo yum install ncurses-devel.x86_64
+make
+sudo make install
+lynx to checck if intalled success.
+
+5. 系统源信息配置：
+http://10.19.195.1/oses/rhel7.6-server-x86_64/
+
+fox example： RHEL7.6
+echo "[tesla-swqa]" >/etc/yum.repos.d/tesla-swqa.repo
+echo "name=Tesla SWQA Server Source" >>/etc/yum.repos.d/tesla-swqa.repo
+echo "baseurl=http://10.19.195.1/oses/rhel7.6-server-x86_64/" >>/etc/yum.repos.d/tesla-swqa.repo
+echo "gpgcheck=0" >>/etc/yum.repos.d/tesla-swqa.repo
+echo "enabled=1" >>/etc/yum.repos.d/tesla-swqa.repo
+echo "gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release" >>/etc/yum.repos.d/tesla-swqa.repo
+chmod 644 /etc/yum.repos.d/tesla-swqa.repo
+
+6. libvdpau:
+http://mirror.centos.org/centos/7.6.1810/os/x86_64/Packages/
+
+
+VNC:
+yum install -y tigervnc-server xorg-x11-fonts-Type1
+https://www.linuxtechi.com/install-configure-vnc-server-centos-7-rhel-7/

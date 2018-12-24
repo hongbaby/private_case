@@ -1,5 +1,6 @@
 Ubuntu17.04
 Ubuntu17.10
+对于ubuntu系统而言，装完系统后，要确保g++-multilib装上，不然很可能和编译工作相关的都不work
 After install cuda
 sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
 sudo apt-get install g++-multilib
@@ -38,7 +39,10 @@ sudo mount -t auto /dev/sde4 /foo
 
 
 *************************************************************************
-对于一个ubuntu的新系统，比如Ubuntu17
+对于一个ubuntu的新系统，比如Ubuntu17/18
 安装完系统需要安装g++-multilib,不然有可能编译不成功。
 安装driver前先安装sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
 然后安装driver，如果编译的时候遇到类似于cannot find lGL等错，需要到/usr目录下看看链接的方式对不对
+
+对于.run的安装driver后，生成的driver的链接信息都在/usr/lib/x86_64-linux-gnu目录下；对于.deb的安装driver后，生成的driver的链接信息都在/usr/lib/nvidia-39x/目录下。
+对于rpm的安装driver后，生成的driver的链接信息都在/usr/lib64/nvidia

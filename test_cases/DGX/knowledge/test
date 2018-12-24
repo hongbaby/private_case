@@ -1,9 +1,14 @@
 1. DGX上卸载cuda并且重新安装
 sudo dpkg --purge `dpkg -l |grep cuda |awk '{print $2}'|grep 9-0`
 or
-sudo apt remove  --purge `dpkg -l |grep cuda |awk '{print $2}'|grep 9-0`
+sudo apt remove  --purge `dpkg -l |grep cuda |awk '{print $2}'|grep 10-0`
 sudo apt-get update
 sudo apt-get install cuda-toolkit-9-0
+
+DGX上卸载driver并且重新安装
+sudo apt remove --purge `dpkg -l | grep -i 410.68-0ubuntu | awk '{print $2}'`
+sudo apt update
+sudo apt install cuda-drivers cuda-drivers-diagnostic
 
 2. p4 info:
 export P4PORT=P4sw:2006
@@ -20,3 +25,7 @@ sudo apt remove --purge "libnvidia-*410"
 sudo apt remove --purge "nvidia-*410"
 
 4. sudo apt remove  --purge "datacenter*fabric*"
+
+
+DGX Info:
+dgx 2.1.4 no docker, please NA
