@@ -50,3 +50,6 @@ sudo ln -s mesa-egl/libEGL.so libEGL.so
 如果遇到"Couldn't get address of eglCreateStreamKHR()"错时，可尝试查看
 cd /usr/lib/x86_64-linux-gnu
 sudo ln -s /usr/lib/nvidia-xxx/libEGL.so libEGL.so
+
+
+关于cuda apps下的vulkan_interop_apitest运行失败，可以sync到TOT，但是不仅仅sync vulkan_interop_apitest还需要sync vulkan_interop_common

@@ -26,3 +26,25 @@ perl regress.pl -test-list-file=./test/callbacks.test -build=release # (around 4
 
 4. CUFFT - composite kernels strided test (sm35 or higher)
 ./regress.pl -config=release -test-list-file=test/coverage/composite_kernels_strided.test # (around 6 minutes)
+
+编译问题：
+Linking executable /home/swqa/p4sw/sw/rel/gpgpu/toolkit/r10.1/bin/x86_64_Linux_release/cufftbench_static
+/bin/ld: cannot find /usr/lib/libquadmath.so.0.0.0
+collect2: error: ld returned 1 exit status
+make[4]: *** [/home/swqa/p4sw/sw/rel/gpgpu/toolkit/r10.1/bin/x86_64_Linux_release/cufftbench_static_nocallback] Error 1
+make[3]: *** [cufftbench_static_nocallback] Error 2
+make[3]: *** Waiting for unfinished jobs....
+/home/swqa/p4sw/sw/rel/gpgpu/toolkit/r10.1/../../../../tools/fftw/fftw-3.3.4/fftw.mk:55: USE_STATIC_FFTW=
+/home/swqa/p4sw/sw/rel/gpgpu/toolkit/r10.1/cufft/branches/TOT/tests/bench/cufftbench_fake.mk:5: LIBRARIES=cufft_fake culibos fftw3f fftw3f_threads fftw3 fftw3_threads fftw3l fftw3l_threads fftw3q fftw3q_threads m quadmath m
+ALL_SASS_ARCHITECTURES is [30 35 37 50 52 60 61 70 75]
+/bin/ld: cannot find /usr/lib/libquadmath.so.0.0.0
+collect2: error: ld returned 1 exit status
+make[4]: *** [/home/swqa/p4sw/sw/rel/gpgpu/toolkit/r10.1/bin/x86_64_Linux_release/cufftbench] Error 1
+make[3]: *** [cufftbench] Error 2
+
+Solution:
+install:
+https://rpmfind.net/linux/centos/7.6.1810/os/x86_64/Packages/libquadmath-4.8.5-36.el7.x86_64.rpm
+sudo rpm -ivp libquadmath-4.8.5-36.el7.x86_64.rpm --force --nodeps
+cd /usr/lib/gcc/x86_64-redhat-linux/4.8.2
+sudo ln -sf ../../../../lib64/libquadmath.so.0.0.0 libquadmath.so

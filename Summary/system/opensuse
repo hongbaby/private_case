@@ -1,7 +1,12 @@
-1. 对于opensuse42.3新系统，如果.run的方式装driver,需要把sudo zypper rm drm-kmp-default, 给remove掉，不然driver装不成功。
+1. 对于opensuse42.3新系统，如果.run的方式装driver,需要把sudo zypper rm drm-kmp-default, 给remove掉，然后reboot，不然driver装不成功。
 https://doc.opensuse.org/release-notes/x86_64/openSUSE/Leap/42.3/  1.5
 bug: https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200337028&cmtNo=
 
 2. g++: No such file
-sudo zypper install gcc-c++
+sudo zypper install gcc-c++ gcc-fortran
+sudo zypper install libstdc++.so.6
 sudo zypper install freeglut-devel libX11-devel libXi-devel libXmu-devel make Mesa-libGL-devel
+
+3. 如果碰到: nvidia-smi
+Failed to initialize NVML: Insufficient Permissions
+solution： sudo usermod -a -G video username    重新关掉terminal即可生效

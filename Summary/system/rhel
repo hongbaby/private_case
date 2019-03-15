@@ -9,6 +9,7 @@ https://wiki.nvidia.com/engwiki/index.php/Red_Hat_Network
 Website:  https://rhn.redhat.com
 username: nvidiacorp
 password: g0g0nv1d1a3d
+https://kerneltalks.com/howto/how-to-enable-repository-using-subscription-manager-in-rhel/
 
 4. lynx install:
 http://lynx.invisible-island.net/release/
@@ -34,7 +35,23 @@ chmod 644 /etc/yum.repos.d/tesla-swqa.repo
 6. libvdpau:
 http://mirror.centos.org/centos/7.6.1810/os/x86_64/Packages/
 
+7. 安装cuda之前，需要
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 VNC:
 yum install -y tigervnc-server xorg-x11-fonts-Type1
 https://www.linuxtechi.com/install-configure-vnc-server-centos-7-rhel-7/
+10.19.194.64:3
+
+need to add a proxy IP address to /etc/hosts file.
+172.20.214.41  developer.download.nvidia.com
+
+sudo yum install freeglut-devel libX11-devel libXi-devel libXmu-devel make mesa-libGLU-devel
+sudo yum install perl-Env-1.04-2.el7.noarch
+
+Error:
+Job for vncserver@:x.service failed because a configured resource limit was exceeded. See "systemctl status vncserver@:1.service" and "journalctl -xe" for details.
+cd /tmp/.X11-unix
+sudo rm -rf
+sudo systemctl start vncserver@:3.service
+sudo systemctl enable vncserver@:3.service

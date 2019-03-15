@@ -1,0 +1,69 @@
+nvatp/Atp67$23
+
+1. 创建bridge的步骤
+$ sudo brctl addbr br0
+$ sudo /sbin/ip link set dev br0 up
+$ sudo vi /etc/network/interfaces
+网卡为static ip：
+auto br0
+iface br0 inet static
+   address <ip address>
+   netmask <netmask address>
+   gateway <gateway address>
+   bridge_ports <network interface name>
+   bridge_stp off
+   bridge_fd 0
+   bridge_maxwait 0
+或者网卡为DHCP:
+auto br0
+iface br0 inet dhcp
+   bridge_ports <network interface name>
+   bridge_stp off
+   bridge_fd 0
+   bridge_maxwait 0
+
+$ sudo /sbin/brctl addif br0 <network interface name>
+$ ls /sys/class/net/ 查看系统所有的网卡interface
+对于除了lo以外的所有网卡interface，逐一执行ip address flush命令:
+$ sudo /sbin/ip address flush <interface name>
+对于支持systemctl的Ubuntu系统:
+$ sudo /etc/init.d/networking stop
+$ sudo /etc/init.d/networking start
+对于不支持systemctl的Ubuntu系统:
+$ sudo /sbin/ifdown -a -v -X lo
+$ sudo /sbin/ifup -a -v -X lo
+$ brctl show
+修改VM网卡的步骤:
+$ virsh destroy <vmname>
+$ virsh edit <vmname>
+from:
+   <interface type='nat'>
+     <source bridge='xxx'/>
+to
+   <interface type='bridge'>
+     <source bridge='br0'/>
+$ virsh start <vmname>
+
+2. 使用netplan创建bridge的方法:
+$ sudo vi /etc/netplan/01-netcfg.yaml
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+ version: 2
+ renderer: networkd
+ ethernets:
+   enp6s0:
+     dhcp4: false
+     dhcp6: false
+
+ bridges:
+   br0:
+     interfaces: [enp6s0]
+     dhcp4: true
+     dhcp6: false
+     parameters:
+       stp: false
+       forward-delay: 0
+
+sudo netplan apply
+networkctl list

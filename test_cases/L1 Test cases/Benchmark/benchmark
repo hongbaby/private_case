@@ -1,0 +1,17 @@
+1. ANSYS Fluent Benchmark Test (Linux)
+wget --user=cqauser --password=test http://10.19.195.1/manual/tools/ISV/ANSYS/Ansys19/Fluent/FLUIDS_192_LINX64.iso
+wget --user=cqauser --password=test http://10.19.195.1/manual/tools/ISV/ANSYS/Ansys19/Fluent/For_Workstation_Quadro_GP100.tar.gz
+sudo mount -o loop FLUIDS_192_LINX64.iso /mnt
+cd /mnt
+sudo ./INSTALL
+
+tar xvf For_Workstation_Quadro_GP100.tar.gz
+chmod 755 For_Workstation_Quadro_GP100
+cd For_Workstation_Quadro_GP100/01_Water_Jacket
+/ansys_inc/v192/fluent/bin/fluent -g 3ddp -t7 -gpgpu=2 -mpi=intel -i journal.jou 2>&1 |tee 7c_1g.txt
+
+cd For_Workstation_Quadro_GP100/02_Pipes
+/ansys_inc/v192/fluent/bin/fluent -g 3ddp -t6 -gpgpu=2 -mpi=intel -i journal.jou 2>&1 |tee 6c_2g.txt
+
+cd For_Workstation_Quadro_GP100/03_Sedan
+/ansys_inc/v192/fluent/bin/fluent -g 3ddp -t7 -gpgpu=2 -mpi=intel -i journal.jou 2>&1 |tee 7c_1g_size4_no_sii.txt

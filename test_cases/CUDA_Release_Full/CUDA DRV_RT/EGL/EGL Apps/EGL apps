@@ -72,3 +72,14 @@ failed to create CUDA context
 &&&& eglstream_cuda_sync test FAILED
 
 原因是通过nvidia-smi查到compute mode 不是default模式，通过sudo nvidia-smi -c 0切换到default模式，重新运行就好了。
+
+
+In RHEL7.5,如果出现所有的EGL Apps运行失败，如以下错误：
+Width : 8192, height: 8192, colorformat: r16 and iterations: 10
+Found 1 cuda devices
+Couldn't get address of eglCreateStreamKHR()
+SetupExtentions failed
+&&&& eglstream_cuda_sync test FAILED
+
+Solution:
+sudo ln -sf /usr/lib64/libglvnd/libEGL.so.1 /usr/lib64/libEGL.so
