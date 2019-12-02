@@ -36,6 +36,8 @@ sudo wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/me
 go to /usr/include
 sudo wget --user=swqa --password=test http://10.19.193.205/teslaswqash_manual/members/kerry/script_kerry/Scripts/EGL.zip
 
+或者直接安装根据：
+http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T1889825
 
 error: /usr/bin/ld: cannot find -lEGL
 collect2: error: ld returned 1 exit status
@@ -53,3 +55,18 @@ sudo ln -s /usr/lib/nvidia-xxx/libEGL.so libEGL.so
 
 
 关于cuda apps下的vulkan_interop_apitest运行失败，可以sync到TOT，但是不仅仅sync vulkan_interop_apitest还需要sync vulkan_interop_common
+
+
+configure: error: in `/home/jzhong/kerry/chroma/package-12-20-17-gpu/quda/build/build_libxml2':
+configure: error: C compiler cannot create executables
+设置CUDA的变量，CUDA_DIR=/usr/local/cuda
+
+
+Make Error at CMakeLists.txt:45 (project):
+  The CMAKE_C_COMPILER:
+
+    gcc-6
+
+  is not a full path and was not found in the PATH.
+
+export CXX=/usr/bin/gcc

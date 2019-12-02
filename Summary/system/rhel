@@ -39,12 +39,16 @@ http://mirror.centos.org/centos/7.6.1810/os/x86_64/Packages/
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 VNC:
+对于ubuntu18可以参考：
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04
+
 yum install -y tigervnc-server xorg-x11-fonts-Type1
 https://www.linuxtechi.com/install-configure-vnc-server-centos-7-rhel-7/
 10.19.194.64:3
 
 need to add a proxy IP address to /etc/hosts file.
 172.20.214.41  developer.download.nvidia.com
+sudo /etc/init.d/network restart
 
 sudo yum install freeglut-devel libX11-devel libXi-devel libXmu-devel make mesa-libGLU-devel
 sudo yum install perl-Env-1.04-2.el7.noarch
@@ -55,3 +59,13 @@ cd /tmp/.X11-unix
 sudo rm -rf
 sudo systemctl start vncserver@:3.service
 sudo systemctl enable vncserver@:3.service
+
+
+RHEL 8:
+https://www.tecmint.com/install-vnc-server-on-rhel-8/
+
+error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory:
+solution:
+sudo yum install libxcrypt-devel.i686
+error while loading shared libraries: libnsl.so.1
+sudo yum install libnsl.i686 libX11.i686

@@ -15,3 +15,16 @@ https://docs.google.com/document/d/1O4hA2aa0pq4czIyZH5LF-nez6TqoerMWDWAaZTkjSIY/
 刷VBIOS：
 \\builds\Prerelease\BIOS\GV100
 nvflash_eng xxx.rom -i x
+
+刷bios的网站：
+https://cftt.nvidia.com/OBE/Content/BuildSummaries.aspx
+
+一台机器的GPU 刷成和另一台一样：
+Check device id:
+sudo ./nvflash_eng --list
+Remove all nvidia modules before later actions
+Save worked VBIOS:
+sudo ./nvflash_eng --save gpu1.rom -i 3
+Flash worked VBIOS:
+sudo ./nvflash_eng gpu1.rom -i 1
+Reboot system

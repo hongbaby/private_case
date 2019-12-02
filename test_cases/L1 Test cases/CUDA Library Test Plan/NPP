@@ -12,9 +12,9 @@ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/NPP
 make RELEASE=1 TESTNPP=1 I_AM_SLOPPY=1 -j20
 
 3. Copy libraries from local install path to binpath:
-cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
+cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r10.2/bin/x86_64_Linux_release
 4. Run L0 test:
-export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2017.0.098/linux/ipp/lib/intel64_lin:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2018.0.128/linux/ipp/lib/intel64_lin:$LD_LIBRARY_PATH
 
 $ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_release
 $ ./TestNPP -q -r -s -t Root/Functional/Image/Arithmetic/*
@@ -23,7 +23,7 @@ kerry@dhcp-10-19-192-210:/home/jeff/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Linux_r
 ./TestNPP: error while loading shared libraries: libippi.so: cannot open shared object file: No such file or directory
 
 Solution:
-export LD_LIBRARY_PATH=$P4ROOT/sw/tools/intel/linux/compilers_and_libraries_2018.0.128/linux/ipp/lib/intel64_lin:$P4ROOT/sw/rel/gpgpu/toolkit/r${TK_VERSION}/bin/x86_64_Linux_release:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=~/sw/tools/intel/linux/compilers_and_libraries_2018.0.128/linux/ipp/lib/intel64_lin:$P4ROOT/sw/rel/gpgpu/toolkit/r10.2/bin/x86_64_Linux_release:$LD_LIBRARY_PATH
 
 
 TestNPP_L1:

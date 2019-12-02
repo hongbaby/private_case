@@ -5,16 +5,20 @@ OpenCL SDK samples 4.2: (around 36 test cases)
     cd /home/kerry/kerry_ws/OpenCL/
     rm -rf *
     wget --user=cqauser --password=cqatest http://10.19.195.1/manual/automation/CUDA_Linux_Auto/OpenCL/devrel.tar
-    tar -xvf devrel_jeff.tar
+    tar -xvf *.tar
     cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/
     make clobber
     make -j 10
     # if libOpenCL not found
+    # sudo cp -rfPv /usr/lib64/nvidia/libOpenCL.so* /usr/lib64/
+    # if has make error:
+    对于ubuntu .deb install:
+    export LIBRARY_PATH=/usr/local/cuda/lib64
+    #sudo ln -s /usr/lib/x86_64-linux-gnu /usr/lib64
+    #sudo ln -s /usr/lib64/libOpenCL.so.1 /usr/lib64/libOpenCL.so
+sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1.0.0 /usr/lib64/libOpenCL.so
+    对于Centos：
     sudo cp -rfPv /usr/lib64/nvidia/libOpenCL.so* /usr/lib64/
-    # if has make error, please try to soft link in ubuntu as below
-    sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so
-related bug:https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=1685868&cmtNo=
-    cd /home/kerry/kerry_ws/OpenCL/devrel/SDK10/Compute/OpenCL/bin/linux/release/
-
-From Ubuntun16.10:
-Before running opencl, we need do following things:
+related bugs:
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=1685868&cmtNo=
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=2460926&cmtNo=

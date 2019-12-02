@@ -9,3 +9,19 @@ Download page testing(Staging DL):
 https://developer.nvidia.com/cuda-downloads
 nmohammad@ageia.com
 Cuda1234!
+
+
+操作系统下载：
+http://10.19.195.1/manual/os_image/
+
+linux下制作U盘系统盘：
+https://www.jianshu.com/p/97c3020aeead
+1 卸载你的U盘
+假设你的u盘对应的设备是sdb1(可以使用df查看或者fdisk)
+sudo umount /dev/sdb1
+
+2 写入linux(ubuntu fedora .....)系统
+sudo dd if=系统路径 of=/dev/sdb
+例如 sudo dd if=./ubuntu-13.04-beta2-desktop-amd64.iso of=/dev/sdb
+
+3 大约5～6分钟解释 命令行返回消息后就代表完成了

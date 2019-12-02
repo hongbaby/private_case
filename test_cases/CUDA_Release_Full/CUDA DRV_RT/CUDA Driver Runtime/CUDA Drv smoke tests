@@ -1,4 +1,5 @@
 在执行测试用例前，先确保下面的东西完成：
+有些case fail找不出原因的话，可以unset DISPLAY
 1) Perforce sync build stuffs
 p4 sync //sw/eris/...
 p4 sync //sw/rel/gpgpu/toolkit/rx.x/build/...
@@ -89,3 +90,14 @@ cuModuleLoad failed 999:
 可尝试看~/.nv/ComputeCache是否是root权限，需要改成$USER权限可解决问题。
 sudo chown lab.lab ~/.nv/ComputeCache/ -R
 https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200402170&cmtNo=
+
+Error like below in eGPU:
+EGLStreamInit: Couldn't create eglStream.
+EGLStream Init failed.
+Cuda consumer, eglQueryStreamKHR EGL_STREAM_STATE_KHR failed
+ERROR: Test reported failure:
+&&&& eglstreamMultiAcquire test FAILED
+
+&&&& FAILED eglstreamMultiAcquire_cuda
+
+Solution:  unset DISPLAY

@@ -2,20 +2,30 @@
 
 p4 sync -f //sw/gpgpu/Makefile
 p4 sync -f //sw/gpgpu/build/...
-p4 sync -f //sw/gpgpu/cuda/...
+p4 sync -f //sw/gpgpu/cuda/common/... 
+p4 sync -f //sw/gpgpu/cuda/import/... 
+p4 sync -f //sw/gpgpu/cuda/apps/common/... 
 p4 sync -f //sw/gpgpu/opencl/apps/...
 p4 sync -f //sw/gpgpu/opencl/import/...
-p4 sync -f //sw/dev/gpu_drv/cuda_a/...
+p4 sync -f //sw/gpgpu/cuda/tools/cnprt/...
+p4 sync -f //sw/gpgpu/cuda/tools/cudart/...
+p4 sync -f //sw/dev/gpu_drv/cuda_a/drivers/common/build/...
+p4 sync -f //sw/dev/gpu_drv/cuda_a/drivers/gpgpu/...
 
-	1. cp $P4ROOT/sw/gpgpu
-	2. make clobber
-	3. make cuda RELEASE=1 -j40
-	3. cd $P4ROOT/sw/gpgpu/opencl/apps/
-	4. make RELEASE=1 -j 20
-	5. 编译好的文件可在$P4ROOT/sw/gpgpu/bin/x86_64_Linux_release目录下看到
-	6. ls -F $P4ROOT/sw/gpgpu/bin/x86_64_Linux_release/|grep '*'|cut -d* -f1|wc -l #大概75左右
-	7. cd $P4ROOT/sw/gpgpu/opencl/apps/
-	8. Run smoke.pl against OpenCL Apps
+Download latest compiler packages from DVS: http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_cuda_a_Release_Linux_AMD64_GPGPU_COMPILER/
+** Note :  To build //sw/gpgpu applications, DVS package with “gpu_drv_cuda_a” is used
+
+Set Environment Variables : 
+export DRIVER_ROOT=$P4ROOT/sw/dev/gpu_drv/cuda_a
+export GPGPU_COMPILER_EXPORT=xxxxxx
+
+cd $P4ROOT/sw/gpgpu/opencl/apps/
+make RELEASE=1 -j 20
+** Note : On RHEL7.6, there was an error when I built the OpenCL apps : “/lib/ld-linux.so.s : bad ELF interpreter”.
+To fix, I installed glibc.i686 :  “$ sudo yum install glibc.i686”.
+
+cd $P4ROOT/sw/gpgpu/opencl/apps/
+Run smoke.pl against OpenCL Apps
 
      perl smoke.pl -config=release  -----after running finished, check log file if has failed. If has failed items, try:
      perl smoke.pl -config=release -testname=xxx 2>&1|tee log.out.FAILED
@@ -23,5 +33,12 @@ p4 sync -f //sw/dev/gpu_drv/cuda_a/...
 	1. dmesg -T #check the more detailed error info
 
 
+
 有可能在F25系统上，上面的第四步会失败，可参考https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200317645&cmtNo=
 可把其它系统上的bin目录copy过来，直接运行。
+
+
+/bin/ld: cannot find -lGLEW
+cd /usr 找到libGLEW* 的链接，然后sudo ln -sf libGLEW.so.xx libGLEW.so
+make RELEASE=1 -j40
+如果找不到的话，对于RHEL7， 需要到 https://centos.pkgs.org/7/centos-x86_64/libGLEW-1.10.0-5.el7.x86_64.rpm.html 下载
