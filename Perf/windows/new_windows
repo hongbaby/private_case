@@ -1,0 +1,23 @@
+1. according to Setup Windows OS with HPE 3PAR storage.docx to install windows, need USB to load FC driver
+http://cqa-fs01/Hardware/Qlogic_QLE2692/FC_Drivers/
+2. after install windows, 有时候需要自己下载网卡驱动https://www.dell.com/support/home/zh-hk/product-support/product/poweredge-r740xd/drivers
+3. 安装vnc server，并且输入license http://cqa-fs01/CQA_Tools/Windows/VNC/
+4. 安装相关的vistual studio
+5. 打一个snapshot
+
+The old license is expired. Please use the new license as below:
+Site-license: KPH9V-KX4KG-3YLP2-D2TP9-Y95FC
+Per-machine: 867VC-6BDJR-8GFD4-22Q8Y-G8HBA
+
+
+windows上升级系统：
+1. 比如Windows10 RS5到Windows20H1
+系统切到RS5，然后mount 系统mount到RS5
+升级不需要挂空盘
+
+
+windows test mode:
+Open Powershell as Administrator
+Run this command:
+bcdedit -set testsigning on
+然后Reboot machine

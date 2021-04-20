@@ -1,0 +1,22 @@
+docker commands:
+1. docker image rm xxx -f
+2. start container:
+docker run --runtime=nvidia --ipc=host -it image_id
+-d表示放入后台
+
+
+1. docker related
+sudo usermod -aG docker $USER
+docker login:
+Username: $oauthtoken
+Password: dTBtYjEzbmpsYjI0Y2J2aWtsZDM1bDc5b2Y6ODZhNGQxZWEtNDc1OS00MjBkLWJlMWYtMDAwOTM3MGIwNzEw
+
+HPC container testing:
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpl
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpcg
+docker run --runtime=nvidia --privileged --ipc=host --net=host -it --rm nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpl
+export UCX_TLS=tcp,sm
+mpirun -np 8 --bind-to none ./hpl.sh --config dgx-a100 --dat hpl-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpl.sh --cpu-affinity 0:0:0:0:1:1:1:1 --cpu-cores-per-rank 4 --gpu-affinity 0:1:2:3:4:5:6:7 --dat hpl-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpl.sh --config dgx-a100 --xhpl-ai --dat hpl-ai-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpcg.sh --config dgx-a100 --dat hpcg-linux-x86_64/sample-dat/hpcg-1N.dat

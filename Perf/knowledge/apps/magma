@@ -1,0 +1,14 @@
+http://icl.utk.edu/projectsfiles/magma/doxygen/installing.html
+https://bitbucket.org/icl/magma/src/v2.5.4/
+http://www.netlib.org/lapack/
+
+1. install cuda
+2. install mkl
+
+
+MKL:
+https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/onemkl.html
+https://blog.csdn.net/qccz123456/article/details/85246439
+xhqh728@126.com/Testing1!qaz
+
+cp make.inc.macos-openmp ../

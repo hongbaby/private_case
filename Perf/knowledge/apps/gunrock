@@ -1,0 +1,26 @@
+git clone https://github.com/gunrock/gunrock.git
+cd gunrock
+git checkout a7fc6948f397912ca0c8f1a8ccf27d1e9677f98f
+rm -rf externals/cub
+git clone https://github.com/NVlabs/cub.git externals/cub
+cd externals/cub
+git checkout c3cceac
+cd -
+rm -rf externals/moderngpu
+git clone https://github.com/NVlabs/moderngpu.git externals/moderngpu
+cd externals/moderngpu
+git checkout 2b39855
+cd -
+rm -rf externals/rapidjson
+git clone https://github.com/Tencent/rapidjson.git externals/rapidjson
+cd externals/rapidjson
+git checkout 4b3d7c2
+cd -
+cd dataset/large/
+make WGET="wget --no-check-certificate" TOPC
+cd -
+cd dataset/large/soc-twitter-2010
+make WGET="wget --no-check-certificate"
+
+cd ../../../../
+tar cvf gunrock-release_1.2.tar gunrock

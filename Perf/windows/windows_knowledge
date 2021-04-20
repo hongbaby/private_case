@@ -1,0 +1,33 @@
+1. 查看cpu信息：
+wmic cpu get caption, deviceid, name, numberofcores, maxclockspeed, status
+或者：
+msinfo32
+
+2.删除autoboot feature:
+del /f /q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\xxxx"
+
+3. windows的CL:
+http://dvsweb.nvidia.com/DVSWeb/view/content/od/odBuilds.jsf
+
+4. 如果devtest case打结果打不了，可以尝试：
+\\nftc-file1-cdc\atpdatacdc\atp\GathererLite， 复制这个文件夹到你的测试机器上，要先清空Output里面的内容， 然后运行 Gathererlite.exe
+会生成一个应该是xml文件， attach这个xml文件到devtest里
+
+5.change WDDM and TCC mode：
+nvidia-smi.exe -fdm 1， then reboot
+
+6. windows设置CPU Performance mode：
+查询： powercfg /l
+powercfg /s uuidxxx
+或者control panel -> Hardware and Sound -> Power options
+
+7.Windows下Tesla系列的卡，默认是TCC模式测试。
+TITAN系列的卡，默认是WDDM模式测试
+下载网卡驱动:
+https://www.dell.com/support/home/en-hk/product-support/product/poweredge-r740xd/drivers
+格式化U盘：
+https://www.zhihu.com/question/27888608
+
+
+bring up是对比之前的GPU，那么都是default clock
+而cuda release，是在同一个GPU上做regression，那么就是同意频率下跑，选最稳定的clock

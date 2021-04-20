@@ -1,0 +1,79 @@
+DVS binary location:
+
+Compiler:
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_COMPILER/
+
+NVML:
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_unix-build_Driver_Tesla/
+
+CUDA APPS:
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_CUDA_DVS_Test/
+
+CUDA Library:
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_nvJPEG/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUSOLVER/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_MATH/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CURAND/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUFFT/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_THRUST/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUSPARSE/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r455_00_Release_Linux_AMD64_GPGPU_CUDA_NPP/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_CUDA_DVS_Test/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Windows_AMD64_Cuda_Sanity/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_nvJPEG/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r455_00_Release_Windows_AMD64_GPGPU_CUDA_nvJPEG/SW_28222137.0_gpu_drv_r445_00_Release_Windows_AMD64_GPGPU_CUDA_nvJPEG.zip
+DVS-SC binary location:
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/
+cuda math: sarah wei
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/cuda_11.0_bu_Release_RHEL7_3_AMD64_cuda.math.perf.tests.fulltestpkg_Linux/
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/cuda_11.0_bu_Release_Ubuntu16_04_AMD64_cuda.math.perf.tests.fulltestpkg_Linux/
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/cuda_11.0_bu_Release_RHEL8_AMD64_cuda.math.perf.tests.fulltestpkg_Linux
+thrust:  feifei
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/cuda_11.0_bu_Release_Ubuntu16_04_AMD64_thrust.tests.fulltestpkg_Linux/
+http://scdvstransfer.nvidia.com/dvsshare/dvs-binaries/cuda_11.0_bu_Release_RHEL7_3_AMD64_thrust.tests.fulltestpkg_Linux/
+
+
+CUDA 10.2:
+10.2.83 + 440.20
+nohup ./lib_linux.py -s cublas cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG -t cublas cublas_special cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG  --cuda-cl 27400221 --driver-cl 27403479 &
+
+CUDA 10.1:
+10.1 Update2
+10.1.243 + 418.87
+nohup ./lib_linux.py -s cublas cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG -t cublas cublas_special cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG  --cuda-cl 26907403 --driver-cl 26855405 &
+
+
+
+
+CUDA_Library_Perf - Linux:
+1.cublas_special 对应cuBLAS performance comparison between GPUs
+
+2. ./lib_linux.py -s cublas cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG -t cublas cublas_special cufft curand cusparse math_bench fp16_performance NPP thrust cuSolver nvJPEG  --cuda-cl 27400221 --driver-cl 27403479
+./lib_linux.py -c lib_linux_dual.cfg -t cufftmg
+
+
+3.cuSolver sytrd/syevd/ormtr test with multiple streams：
+This test only  supports single GPU.
+./isv_linux.py -s cusolver_multistreams -t cusolver_multistreams
+---这个case没必要看稳定性
+
+
+CUDA10.2:
+cublas performance testing: 200537992,200527023,200527023，200557858
+cuBLAS performance comparison between GPUs: cublas_special, PASSED
+cufft performance testing: PASSED
+cufft Multi GPU: PASSED
+curand: PASSED
+cusparse: Sometimes failed, sometimes passed
+math_bench: PASSED  __h2div, perThread 4  : baseline updated 200512686
+fp16_performance: 200548899,not valid any more.
+NPP:
+用split_huge_data_file.py来分，5000行
+python split_huge_data_file.py --log_file summary_xxx.log
+upload report:
+./upload_report.py -p NPP -f summary_xx.log.1 --task-name "xxxx"
+然后改下summary_xx.log.2中的task id为xxx.1中的task id
+Thrust: PASSED
+cuSolver: PASSED
+nvJPEG: PASSED

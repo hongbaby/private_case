@@ -1,0 +1,19 @@
+1.https://software.3ds.com/
+johzhong
+8T*wx8VF!hpL#QCc
+
+2. https://www.3ds.com/support/hardware-and-software/simulia-system-information/abaqus-2020/
+
+3. installation:
+https://info.simuleon.com/blog/abaqus-2020-download-installation
+
+/lib64/ld-linux-x86-64.so.2 /mnt/1/0data/linux_a64/DSYInsMediaCheck
+制作iso文件
+mkisofs -udf -J -joliet-long -L -U -allow-lowercase -allow-multidot -r -v -V "AM_SIM_Abaqus_Extend.AllOS" -o AM_SIM_Abaqus_Extend.AllOS.iso ./AM_SIM_Abaqus_Extend.AllOS
+
+
+ImportError: DLL load failed: The specified module could not be found：
+unisntall pywin32
+
+mount -o loop
+For libpng12 install issue, can refer to https://www.linuxuprising.com/2018/05/fix-libpng12-0-missing-in-ubuntu-1804.html

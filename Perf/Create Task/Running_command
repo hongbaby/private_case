@@ -1,0 +1,47 @@
+
+*************************************************************************
+Microbenchmark setup:
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/003/manifests/x86_64/runfile_builds.json -s cg_examples_linux cg_mb_perf_linux perf_bugs_linux p2p_bandwidth_linux wmma_linux cudagraphs_perf_linux -g 1
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.1/002/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win cg_mb_perf_win wmma_win
+--upload-report --task-name "460GA6" --override-task
+*************************************************************************
+*************************************************************************
+RTX3090:
+Windows:
+Windows:
+C:\Python27\python.exe isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/012/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win wmma_win cg_mb_perf_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win --upload-report --task-name "CUDA11.3Final_012"
+python isv_client.py -s fahbench_win openmm_win ethminer_win rtm_win -t rtm_off_win ethminer_win fahbench_win vray_win openmm_perf_win iray_optix_based_win abaqus_win openmm_func_win davinci_hd_win p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win --upload-report --task-name "CUDA11.3Final_012"
+python isv_client.py -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win --upload-report --task-name "CUDA11.3Integration_003"
+all:
+C:\Python27\python.exe isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/012/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win wmma_win cg_mb_perf_win fahbench_win openmm_win ethminer_win rtm_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win rtm_off_win ethminer_win fahbench_win vray_win openmm_perf_win iray_optix_based_win abaqus_win openmm_func_win davinci_hd_win --upload-report --task-name "CUDA11.3Final_012"
+Linux:
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/013/manifests/x86_64/runfile_builds.json -s perf_bugs_linux p2p_bandwidth_win cg_examples_win cudagraphs_perf_win cg_mb_perf_win wmma_win -t cg_mb_perf_linux p2p_bandwidth_linux cudagraphs_perf_linux perf_bugs_linux cg_examples_linux wmma_linux perf_memory_usage_linux -g 1 --upload-report --task-name "CUDA11.3Integration_003"
+python isv_client.py -t cg_mb_perf_linux p2p_bandwidth_linux cudagraphs_perf_linux perf_bugs_linux cg_examples_linux wmma_linux perf_memory_usage_linux -g 1 --upload-report --task-name "CUDA11.3Integration_003"
+python isv_client.py -s gromacs_linux lammps_linux namd_linux openmm_linux quda_linux himeno_linux rtm_linux stream_linux amber_linux blender_linux hoomd_linux gunrock_linux ethminer_linux acemd_linux milc_linux hashcat_linux -t gromacs_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux himeno_linux rtm_off_linux stream_linux amber_linux blender_linux hoomd_linux iray_optix_based_linux gunrock_linux ethminer_linux acemd_linux milc_linux hashcat_linux -g 1 --upload-report --task-name "CUDA11.3Integration_003";python isv_client.py -s relion_linux -t relion_linux -g 1 --upload-report --task-name "CUDA11.3Integration_003"
+
+*************************************************************************
+*************************************************************************
+P100:
+Windows:
+setup:
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.1/002/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win cg_mb_perf_win wmma_win
+python isv_client.py -t perf_bugs_win p2p_bandwidth_win cg_mb_perf_win -g 0 1 --upload-report --task-name "CUDA11.3Integration_004" && python isv_client.py -s fahbench_win openmm_win rtm_win -t rtm_on_win fahbench_win openmm_perf_win cudagraphs_perf_win cg_examples_win --upload-report --task-name "CUDA11.3Integration_004"
+
+Linux:
+python isv_client.py -t cg_examples_linux cudagraphs_perf_linux perf_memory_usage_linux --upload-report --task-name "CUDA11.1Update1_rc002";python isv_client.py -s acemd_linux amber_linux himeno_linux hoomd_linux hpgmg_linux gromacs_linux lammps_linux namd_linux openmm_linux quda_linux rtm_linux stream_linux terachem_linux milc_linux gunrock_linux -t acemd_linux amber_linux gromacs_linux himeno_linux hoomd_linux hpgmg_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux rtm_on_linux stream_linux terachem_linux milc_linux gunrock_linux abaqus_linux --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py -t perf_bugs_linux p2p_bandwidth_linux cg_mb_perf_linux perf_memory_usage_linux -g 0 1 --upload-report --task-name "CUDA11.1Update1_rc002";python isv_client.py -s acemd_linux gromacs_linux hoomd_linux terachem_linux namd_linux gunrock_linux -t acemd_linux gromacs_linux hoomd_linux terachem_linux namd_linux gunrock_linux -g 0 1 --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py -s relion_linux -t relion_linux --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py -s relion_linux -t relion_linux -g 0 1 --upload-report --task-name "CUDA11.1Update1_rc002"
+
+*************************************************************************
+*************************************************************************
+Microbenchmark:
+python isv_client.py -t cg_examples_linux cudagraphs_perf_linux perf_memory_usage_linux --upload-report --task-name "CUDA11.1Update1_rc002";python isv_client.py -t perf_bugs_linux p2p_bandwidth_linux cg_mb_perf_linux perf_memory_usage_linux -g 0 1 --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py -t cg_examples_linux cudagraphs_perf_linux perf_memory_usage_linux perf_bugs_linux p2p_bandwidth_linux cg_mb_perf_linux --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/012/manifests/x86_64/runfile_builds.json -s cg_examples_linux cudagraphs_perf_linux p2p_bandwidth_linux perf_bugs_linux wmma_linux cg_mb_perf_linux stream_linux -t stream_linux cg_examples_linux cudagraphs_perf_linux p2p_bandwidth_linux wmma_linux cg_mb_perf_linux
+Library:
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-3/11.3.0/014/manifests/x86_64/windows_builds.json -s nvjpeg_win -t nvjpeg_win --upload-report --task-name "CUDA11.3Final_014"
+
+
+c:\Python27\python.exe isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.2/003/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win cg_mb_perf_win wmma_win fahbench_win iray_optix_based_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win fahbench_win iray_optix_based_win --upload-report --task-name "CUDA11.2Update2"
+#c:\Python27\python.exe isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.2/003/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win cg_mb_perf_win wmma_win rtm_win openmm_win ethminer_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win rtm_off_win openmm_func_win openmm_perf_win ethminer_win --upload-report --task-name "CUDA11.2Update2"

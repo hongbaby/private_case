@@ -1,0 +1,8 @@
+cd /home/swqa/sw/rel/gpgpu/toolkit/r11.1/thrust/internal/scripts
+
+===> Command Line:
+/usr/bin/numactl -N 0 -m 0 /usr/bin/python eris_perf.py -b "/home/swqa/sw/rel/gpgpu/toolkit/r11.1/bin/x86_64_Linux_release/bench" -p "/home/swqa/sw/rel/gpgpu/toolkit/r11.1/thrust/internal/benchmark/combine_benchmark_results.py" -r 5
+
+===> User Environment Variables:
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64
+export CUDA_VISIBLE_DEVICES=0

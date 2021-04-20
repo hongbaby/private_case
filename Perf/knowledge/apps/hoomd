@@ -1,0 +1,244 @@
+1. Get latest of stable HOOMD 2.x from https://bitbucket.org/glotzer/hoomd-blue/downloads/?tab=tags.
+For example:
+ wget http://glotzerlab.engin.umich.edu/Downloads/hoomd/hoomd-v2.5.0.tar.gz
+ tar zxvf hoomd-v2.5.0.tar.gz
+ mv hoomd-v2.5.0 ~/HOOMD
+
+获取checkout commit id
+https://github.com/glotzerlab/hoomd-blue/tree/v2.9.0/hoomd/extern
+
+2. Get all external source files:
+ cd ~/HOOMD
+ rm -rf hoomd/extern/libgetar
+ rm -rf hoomd/extern/pybind
+ rm -rf hoomd/extern/upp11
+ rm -rf hoomd/extern/nano-signal-slot
+ rm -rf hoomd/extern/cereal
+ rm -rf hoomd/extern/cub
+ rm -rf hoomd/extern/quickhull
+ rm -rf hoomd/extern/Eigen
+ rm -rf hoomd/extern/random123
+ rm -rf hoomd/extern/neighbor
+ git clone https://github.com/glotzerlab/libgetar hoomd/extern/libgetar
+ git clone https://github.com/glotzerlab/pybind11.git hoomd/extern/pybind
+ git clone https://github.com/glotzerlab/upp11.git hoomd/extern/upp11
+ git clone https://github.com/glotzerlab/nano-signal-slot.git hoomd/extern/nano-signal-slot
+ git clone https://github.com/glotzerlab/cereal.git hoomd/extern/cereal
+ git clone https://github.com/glotzerlab/cub.git hoomd/extern/cub
+ git clone https://github.com/glotzerlab/quickhull hoomd/extern/quickhull
+ git clone https://github.com/glotzerlab/eigen-git-mirror.git hoomd/extern/Eigen
+ git clone https://github.com/glotzerlab/random123.git hoomd/extern/random123
+ git clone https://github.com/mphoward/neighbor.git hoomd/extern/neighbor
+
+ cd ~/HOOMD/hoomd/extern/cereal
+ git checkout 51cbda5f30e56c801c07fe3d3aba5d7fb9e6cca4
+ cd ~/HOOMD/hoomd/extern/cub
+ git checkout c3cceac115c072fb63df1836ff46d8c60d9eb304
+ cd ~/HOOMD/hoomd/extern/libgetar
+ git checkout bf26edc99bae33f2c7ded4eacecbb62e63b772e0
+ cd ~/HOOMD/hoomd/extern/nano-signal-slot
+ git checkout 34223a4a7e97f8e114ef007e5360cf7a71265da3
+ cd ~/HOOMD/hoomd/extern/pybind
+ git checkout 9a19306fbf30642ca331d0ec88e7da54a96860f9
+ cd ~/HOOMD/hoomd/extern/quickhull
+ git checkout a706b5ba0d863b241668038be9eef67afbfaabac
+ cd ~/HOOMD/hoomd/extern/upp11
+ git checkout 0c1fb8dfb4bcdc1c5c4eff9165539b15e70c4360
+ cd ~/HOOMD/hoomd/extern/Eigen
+ git checkout a1b9c26c5e62cb8c17836e601edd64b92aa8e5ae
+ cd ~/HOOMD/hoomd/extern/random123
+ git checkout 0d984332ad9ede2dc047529ffe454f6e6841bbe6
+ cd ~/HOOMD/hoomd/extern/neighbor
+ git checkout 0956bd3ed4601a1793b7b2711af3b9880a88d8fc
+
+另外从2.3.0开始，需要更改 CMake/hoomd/HOOMDCUDASetup.cmake，将以下内容注释掉:
+    if (_cuda_max_arch GREATER 69)
+        message(SEND_ERROR "HOOMD does not support SM7x builds")
+    endif ()
+
+在2.4.1加上CUDA 10.1，需要额外更改以下文件:
+ vi hoomd/extern/device/ctaloadbalance.cuh    //在pragma once之后增加一个头文件
+#pragma once
+#include "../device/ctamerge.cuh"
+
+
+
+3. Get latest of benchmarks from https://github.com/joaander/hoomd-benchmarks.git:
+ cd ~/HOOMD
+ git clone https://github.com/joaander/hoomd-benchmarks.git
+
+
+
+4. Install dependencies:
+For Ubuntu:
+ sudo apt-get install doxygen python-pip libc6-dev-i386 g++-multilib
+ sudo /usr/bin/python -m pip install -U pytest
+
+For RHEL/CentOS:
+ sudo yum install doxygen git gcc-c++ python2-pip glibc-devel.i686 libstdc++-devel.i686
+ sudo /usr/bin/python -m pip install -U pytest
+
+For openSUSE:
+ sudo zypper install doxygen git gcc-c++ python-pip glibc-devel-32bit libstdc++-devel-32bit
+
+Note:
+- pytest >= 3.0, it is required by pybind11
+- 32bit of glibc-devel and libstdc++-devel are required by cereal
+
+
+
+5. Install dependencies for CMake 3.6+:
+ sudo apt-get install curl libarchive-dev libsqlite3-dev liblzma-dev libbz2-dev libcurl4-openssl-dev libjsoncpp-dev libexpat1-dev zlib1g-dev libncurses5-dev qt4-qmake libqt4-dev gfortran libuv1-dev
+ sudo yum install curl libarchive-devel sqlite-devel xz-devel bzip2-devel libcurl-devel jsoncpp-devel expat-devel zlib-devel ncurses-devel gcc-gfortran libuv-devel
+ sudo zypper install curl libarchive-devel sqlite3-devel xz-devel libbz2-devel libcurl-devel jsoncpp-devel libexpat-devel zlib-devel ncurses-devel libgfortran3 libuv-devel
+Note:
+- libsqlite should be 3.0+
+- libarchive should be 3.0+, you can also install from source file:
+     wget https://www.libarchive.org/downloads/libarchive-3.3.1.tar.gz
+     tar zxvf libarchive-3.3.1.tar.gz
+     cd libarchive-3.3.1
+     ./configure
+     /usr/bin/make -j 40
+     sudo make install
+     ls /usr/local/lib/libarchive.so
+- libuv should be 1.0+. For Ubuntu 14.04, you should install by the following:
+     sudo apt-get install libtool autotools-dev automake
+     git clone https://github.com/libuv/libuv.git
+     cd libuv
+     sh autogen.sh
+     ./configure --prefix=/usr
+     make
+     make check
+     sudo make install
+
+
+
+6. Install CMake 3.6+:
+ wget https://cmake.org/files/v3.6/cmake-3.6.3.tar.gz
+ tar zxvf cmake-3.6.3.tar.gz
+ cd cmake-3.6.3
+ ./bootstrap --prefix=/usr/local/cmake --system-libs
+ /usr/bin/make -j 40
+ sudo make install
+
+
+
+7. Install OpenMPI:
+ sudo rm -rf /usr/local/openmpi
+ wget https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.1.tar.bz2
+ tar jxvf openmpi-2.1.1.tar.bz2
+ cd openmpi-2.1.1
+ ./configure --with-cuda=/usr/local/cuda --with-hwloc=internal --prefix=/usr/local/openmpi
+ make -j 40
+ sudo make install
+ sudo ln -sf /usr/local/openmpi/lib/libmpi.so /usr/local/openmpi/lib/libmpi.so.1
+ sudo ln -sf /usr/local/openmpi/lib/libmpi_cxx.so /usr/local/openmpi/lib/libmpi_cxx.so.1
+
+
+
+8. Install HOOMD 2.x:
+ export CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda
+ export MPI_HOME=/usr/local/openmpi
+ sudo rm -rf /usr/local/hoomd
+ cd ~/HOOMD
+ mkdir build && cd build
+ /usr/local/cmake/bin/cmake -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_CUDA=ON -DENABLE_MPI=ON -DENABLE_MPI_CUDA=ON -DPYTHON_EXECUTABLE=/usr/bin/python2 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda -DCUDA_ARCH_LIST=xx -DUPDATE_SUBMODULES=OFF -DMPIEXEC=/usr/local/openmpi/bin/mpirun ../
+Note: Please replace "xx" with appropriate CUDA arch number, for example: -DCUDA_ARCH_LIST=37
+ make -j 40
+ sudo make install
+
+
+
+9. Run benchmarks:
+There have 7 benchmark tests need to run:
+ export PYTHONPATH=/usr/local
+ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/openmpi/lib
+1). Hexagon performance:
+ cd ~/HOOMD/hoomd-benchmarks/hexagon
+2). Depletion performance:
+ cd ~/HOOMD/hoomd-benchmarks/depletion
+3).Microsphere performance:
+ cd ~/HOOMD/hoomd-benchmarks/microsphere
+4). Quasicrystal performance:
+ cd ~/HOOMD/hoomd-benchmarks/quasicrystal
+5). Triblock copolymer
+ cd ~/HOOMD/hoomd-benchmarks/triblock-copolymer
+6). Lennard-Jones liquid
+ cd ~/HOOMD/hoomd-benchmarks/dodecahedron
+7). Dodecahedron
+ cd ~/HOOMD/hoomd-benchmarks/lj-liquid
+
+For single GPU:
+ python bmark.py --mode=gpu
+
+For multi-GPU:
+ /usr/local/openmpi/bin/mpirun -np <number of GPU devices> python bmark.py --mode=gpu
+
+
+
+10. Find out the number of Average TPS from each test output. Repeat test for 3+ times, calculate the AVG and STDEV.
+
+
+
+获取HOOMD源文件的版本号:
+ cat ~/HOOMD/setup.cfg
+
+
+获取需要的external依赖包:
+ cat ~/HOOMD/.gitmodules
+git clone https://bitbucket.org/glotzer/libgetar hoomd/extern/libgetar
+git clone https://github.com/pybind/pybind11.git hoomd/extern/pybind
+git clone https://github.com/joaander/upp11.git hoomd/extern/upp11
+git clone https://github.com/NoAvailableAlias/nano-signal-slot.git hoomd/extern/nano-signal-slot
+git clone https://github.com/USCiLab/cereal.git hoomd/extern/cereal
+git clone https://github.com/NVlabs/cub.git hoomd/extern/cub
+
+
+
+HOOMD 2.x需要编译器支持-std=c++11，要求gcc版本为4.8.5+。
+在Ubuntu 14.04上安装gcc 4.9:
+ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+ sudo apt-get update
+ sudo apt-get install gcc-4.9 g++-4.9 cpp-4.9
+参考:
+https://wiki.ubuntu.com/ToolChain#PPA_packages
+http://www.cnblogs.com/BlackStorm/p/5183490.html
+
+
+HOOMD 2.x使用CMake时可能会用到的参数:
+-DMKL_LIBRARIES=/usr/local/mkl/lib/intel64
+-DMPI_EXTRA_LIBRARY=/usr/local/openmpi/lib/libmpi.so
+
+
+
+有些机器运行CMake时会报如下错误:
+/usr/local/cmake/bin/cmake: /usr/lib/dsulib/libcurl.so.4: /usr/local/cmake/bin/cmakeno version information available (required by /usr/local/cmake/bin/cmake)
+解决方法:
+ locate libcurl.so.4
+/usr/lib/dsulib/libcurl.so.4
+/usr/lib/x86_64-linux-gnu/libcurl.so.4
+/usr/lib/x86_64-linux-gnu/libcurl.so.4.3.0
+ dpkg -S /usr/lib/dsulib/libcurl.so.4
+dell-system-update: /usr/lib/dsulib/libcurl.so.4
+ sudo apt-get purge -y dell-system-update
+
+
+pybind11需要pytest >= 3.0
+sudo apt-get install python-pip
+sudo yum install python2-pip
+sudo /usr/bin/python -m pip install -U pytest
+
+
+
+
+http://glotzerlab.engin.umich.edu/hoomd-blue/benchmarks.html
+http://glotzerlab.engin.umich.edu/hoomd-blue/download.html
+
+
+RHEL7安装python3-devel
+fatal error: Python.h: No such file or directory
+enable EPEL7.repo under /etc/yum.repo.d
+1. download rpm python3-devel-3.6.8-13.el7.x86_64.rpm from http://rpm.pbone.net/index.php3/stat/4/idpl/69928692/dir/redhat_el_7/com/python36-devel-3.6.8-1.el7.x86_64.rpm.html
+2. sudo rpm -ivp python3-devel-3.6.8-13.el7.x86_64.rpm --force --nodeps (sudo yum install python3-rpm-* sudo yum install redhat-rpm-config)
+
+testing:

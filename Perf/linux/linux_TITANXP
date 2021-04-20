@@ -1,0 +1,251 @@
+TITAN XP:
+CUDA release：
+python isv_client.py -s gromacs_linux lammps_linux namd_linux openmm_linux quda_linux himeno_linux rtm_linux stream_linux amber_linux blender_linux hoomd_linux ethminer_linux ccminer_linux acemd_linux milc_linux -t def_gromacs_linux max_gromacs_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux himeno_linux rtm_off_linux stream_linux amber_linux blender_linux hoomd_linux iray_cuda_based_linux iray_optix_based_linux mental_ray_linux ethminer_linux ccminer_linux acemd_linux milc_linux
+
+
+
+
+
+
+
+!!!!!!!!!!!一定要设置环境变量！！！！！！！！
+http://cuda-internal/release-candidates/TeslaCertification/418_00/
+set CPU into performance mode:
+sudo cpupower frequency-set -g performance
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_governors
+For ubuntu18:
+sudo apt-get install cpufrequtils
+echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
+sudo systemctl disable ondemand
+sudo reboot
+for RHEL:
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+
+ 新机器注意事项：
+1.mkdir -p Iray_cuda_based/418_or_later
+解压sources/rendering_package_317500.3714_20190806__optix_based.tar.gz into Iray_cuda_based/418_or_later
+
+2. mkdir -p Iray_optix_based
+解压sources/rendering_package_317500.3714_20190806__optix_based.tar.gz into Iray_optix_based
+
+3. Mental Ray:
+mkdir MentalRay
+cp and 解压Sources/rendering_package_mr_build-314-293829_20170516.tar.gz into MentalRay
+
+CUDA_ALL_APPS，  CUDA_ALL_LIBS， CUDA_ALL_SAMPLES后面都需要跟CL
+TITANXP上修改isv_linux.cfg 的gpu_id为XP, 跑gromacs时要手动的enable persistence mode
+isv_linux.py -s acemd amber blender ccminer ethminer  gunrock himeno hoomd lammps namd openmm pgi quda rtm stream -t acemd amber blender ccminer ethminer gunrock himeno hoomd iray_cuda_based iray_optix_based lammps mental_ray namd openmm_func openmm_perf pgi quda rtm_off stream
+./isv_linux.py -s perf_bugs cgemm dgemm sgemm wmma -t perf_bugs cgemm dgemm sgemm wmma --cuda-cl 27400221 --driver-cl 27403479
+手动enable persistence mode
+isv_linux.py -s gromacs -t gromacs
+
+
+cuda apps:
+./isv_client.py -s cgemm_linux dgemm_linux sgemm_linux perf_bugs_linux -t cgemm_linux dgemm_linux sgemm_linux perf_bugs_linux --cuda-cl 27506705 --driver-cl 27509090
+./isv_client.py -s perf_bugs_linux -t perf_bugs_linux --cuda-cl 27506705 --driver-cl 27601611
+
+
+
+
+
+
+JIT:
+1. MentalRay  : PASSED  15minutes
+./isv_linux.py -t mental_ray 没有比分 PASSED,
+
+2. optix benchmark test with dev test package(Linux):  40minutes
+optix 6.5支持440以上的driver  418及以前的不支持
+手动测试。 在TITAN XP + Ubuntu16.04上PASSED
+没有比分，function testing
+这个case需要VNC跑  optix 6.0
+需要把trace也放到~/Optix/optix-drivertestpack-rel6.0-linux-release-26407198_patched下
+
+
+3. MATLAB mwPlatformQualification benchmark under Linux (JIT)   手动测试 2hours
+email account:
+pkirst@nvidia.com
+1qaz@WSX
+
+
+放了MATLAB 2019a的Update4的补丁，对于sm75的机器一定要安装，不然会有提示不支持sm75
+qakvm-s1:/home/jzhong/Sources/MATLAB_R2019a/Update4
+\\10.19.195.1\manual\tools\ISV\Matlab\MATLAB_R2019a\Update4
+[1:52 PM]
+文件夹里有个README.txt的文件，按照里面的说明安装补丁即可。安装补丁前要退出matlab，否则可能会不成功
+用户名必须是jzhong
+需要删除其它版本的cuda，只保留cuda10.0
+第四步骤里，删掉/usr/local/cuda*, 然后安装cuda10.0，driver保持不变
+第五步在里，cuDNN也用10.0   （matlab2019 a用10.0， matlab2019b用10.1）
+setenv('CUDA_VISIBLE_DEVICES', ['0']);
+setenv('PATH', [getenv('PATH') ':/usr/local/cuda/bin']);
+setenv('NVIDIA_CUDNN', ['/usr/local/cuDNN']);
+setenv('LD_LIBRARY_PATH', ['/usr/local/cuda/lib64:/usr/lib64:/usr/lib/x86_64-linux-gnu:/usr/local/cuDNN/lib64:/usr/local/TensorRT/lib']);
+setenv('NVIDIA_TENSORRT', ['/usr/local/TensorRT']);
+coder.checkGpuInstall('full');
+
+
+4. Abaqus:  手动测试,在TITAN XP + Ubuntu16.04上 PASSED
+貌似RHEL8不支持，bug 200553187
+需要用VNC测试。
+
+
+Offline compilation:
+1. PGI Fortran - CUDA basic testing: 15 minutes, passed
+features.f03 in PGI_Fortran test failed with PGI 19.7   200554959
+./isv_linux.py -s pgi -t pgi  ---->没必要比对分数，PASS就可以
+
+2. LAMMPS Benchmark Test: 3 hours running and 15 minutes setup, linux only
+./isv_linux.py -s lammps -t lammps  passed
+
+3. compile openmm:  10 minutes, passed
+ ./isv_linux.py -s openmm
+
+4. openmm test in CUDA and OpenCL:   around 3 hours,passed
+isv_linux.py -t openmm_func
+
+JIT:
+1. IRAY (Linux) - CUDA based: PASSED  1hour
+manual create:
+mkdir -p Iray_cuda_based/418_or_later
+解压sources/rendering_package_317500.3714_20190806__optix_based.tar.gz into iray_cuda_based/418_or_later
+./isv_linux.py -t iray_cuda_based
+
+2. IRAY (Linux) - Optix based: PASSED   1hour
+mkdir -p Iray_optix_based
+./isv_linux.py -t iray_optix_based
+
+3. perf_bugs: 200545392 200548405  20minutes
+./isv_linux.py -s perf_bugs -t   --cuda-cl xxxxxx --driver-cl xxxxxx
+
+4.TeraChem benchmark test - Dual GPUs:
+./isv_linux.py -c isv_linux_dual.cfg -s terachem -t terachem
+
+5. TeraChem benchmark test - Single GPU: PASSED
+./isv_linux.py -s terachem -t terachem   setup PASSED, test failed  around 1 hour
+Analysis:
+seems http Connection issue, bug https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200531070&cmtNo=
+
+6.ACEMD performance test - Dual GPUs:
+./isv_linux.py -c isv_linux_dual.cfg -s acemd -t acemd
+
+7. ACEMD performance test - Single GPU: PASSED  2.5hours
+./isv_linux.py -s acemd -t acemd
+
+8. p2p_bandwidth (Linux):
+./isv_linux.py -s p2p_bandwidth -t p2p_bandwidth --cuda-cl xxxxxx --driver-cl xxxxxx
+
+
+Offline compilation:
+1. AMBER Benchmark Test (Single GPU):  2.5 hours
+Amber setup failed in all systems, bug 200547858
+./isv_linux.py -s amber -t amber
+
+2. CCMiner benchmark, passed with bug 200526569,  40minutes
+./isv_linux.py -s ccminer -t ccminer
+
+3. GRID VTK:
+只在K80上跑
+
+4.Himeno:PASSED  10 minutes
+./isv_linux.py -s himeno -t himeno  PASS
+
+5. HOOMD：1 hour
+./isv_linux.py -s hoomd -t hoomd  PASS
+
+6.ethminer: PASSED  10 minutes
+./isv_linux.py -s ethminer -t ethminer  PASS
+
+7.gunrock: setup failed 200550733
+./isv_linux.py -s gunrock -t gunrock
+
+8.gromacs: setup 10minutes
+1 hour
+手动的enable persistence
+./isv_linux.py -s gromacs -t gromacs PASS
+
+9.MGBench: only support multi-GPU
+Multi-GPU Computing Benchmark Suite
+./isv_linux.py -s mgbench -t mgbench
+
+10.NAMD 10minutes
+./isv_linux.py -s namd -t namd
+PASS
+
+11.QUDA Done: around 1 hour, bug 200506445
+./isv_linux.py -s quda -t quda
+
+12.CGEMM/DGEMM/SGEMM: 20minutes
+./isv_linux.py -s cgemm dgemm sgemm -t cgemm dgemm sgemm --cuda-cl xxxxxx --driver-cl xxxxxx
+
+13.OpenMM performance test: 10minutes
+./isv_linux.py -s openmm -t openmm_perf      PASSED
+
+14.Stream benchmark test: PASSED, around 10 minutes
+./isv_linux.py -s stream -t stream PASSED
+
+15.RTM test: PASSED, around 10 minutes
+./isv_linux.py -s rtm -t rtm_off PASSED
+
+16.WMMA -Warp Matrix Multiply and Accumulate Performance Test (Linux): PASSED around 40 minutes
+./isv_linux.py -s wmma -t wmma --cuda-cl xxxxxx --driver-cl xxxxxx
+
+17.Blender:  40minutes
+./isv_linux.py -s blender -t blender PASSED
+
+18.HPGMG: 1hour
+Only applicable to P100/V100(Include Power9), make passed in RHEL8, while test failed
+./isv_linux.py -s hpgmg -t hpgmg
+
+
+
+
+
+
+Issues:
+1. Amber make failed on some systems, bug 200547858
+
+
+
+TITAN XP + Ubuntu 16.04.06
+PGI:     PASSED, just function testing
+lammps:   PASSED
+openmm_func:   PASSED, just function testing
+IRAY (Linux) - CUDA based: PASSED
+IRAY (Linux) - Optix based
+perf_bugs
+TeraChem benchmark test - Dual GPUs
+TeraChem benchmark test - Single GPU: PASSED
+ACEMD performance test - Dual GPUs
+ACEMD performance test - Single GPU: PASSED
+p2p_bandwidth (Linux)
+AMBER Benchmark Test (Single GPU): 2.5 hours
+CCMiner benchmark: PASSED， 比分不稳定，bug 200368234，200526569
+GRID VTK
+Himeno
+HOOMD
+ethminer: PASSED
+gunrock:   Make failed, bug 200550733
+gromacs
+MGBench
+NAMD
+QUDA Done
+CGEMM/DGEMM/SGEMM
+OpenMM performance test: PASSED
+Stream benchmark test: PASSED
+RTM test: : PASSED
+WMMA
+Blender: PASSED
+HPGMG
+
+
+
+没比分的：
+1. MentalRay
+2. OpenMM Test for CUDA and OpenCL (Linux)
+3. PGI Fortran - CUDA basic testing
+
+手动测试：
+Optix benchmark test with dev test package(Linux)
+MATLAB mwPlatformQualification benchmark under Linux (JIT)

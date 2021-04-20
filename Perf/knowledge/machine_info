@@ -1,0 +1,37 @@
+perf master machine:
+sudo apt install arp-scan
+sudo arp-scan -l|grep <mac>
+通过mac地址扫描ip
+10.23.140.223 swqa/labuser
+208/Rack 06 PC1
+jzhong/password
+
+new windows machine setup:
+挂在iso http://cqa-fs01/OS_Images/win2k19/SW_DVD9_Win_Server_STD_CORE_2019_64Bit_English_DC_STD_MLF_X21-96581.ISO
+visual studio:
+\\10.23.137.1\VisualStudio
+1. install 2013 and 2015 latest version
+需要勾选上C++安装
+2. install cmakev3.15 both 32bits and 64bits
+3. install Doxygen \\cqa-fs01\CQA_Tools\ISV\doxygen
+4. install git
+5. install TortoiseSVN \\cqa-fs01\CQA_Tools\ISV\TortoiseSVN
+copy Sources/swig
+
+安装window机器后同步时间即可激活系统：
+bigben.nvidia.com
+激活命令：
+slmgr -ato
+
+
+Luna:
+The following 2 Luna are ready for use, they should help out current RHEL testing, please coordinate.
+dgxqa-r14a-01-luna: 10.23.137.246 (lab/labuser)
+BMC(lab/labuserdgxluna): 10.23.137.247(dgxqa-r14a-01-luna-BMC)
+
+dgxqa-r14a-02-luna: 10.23.137.248 (lab/labuser)
+BMC(lab/labuserdgxluna): 10.23.137.249(dgxqa-r14a-02-luna-BMC)
+
+改kernel参数：
+sudo vi /etc/default/grub
+sudo update-grub

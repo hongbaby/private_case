@@ -1,0 +1,66 @@
+\\builds\linuxbuilds\release\display\x86_64\460.32\
+update alternative:
+sudo update-alternatives --config libcutensor.soxxx
+
+
+uninstall cmake:
+sudo yum remove cmake -y
+install cmake:
+download cmake and unzip:
+1. ./bootstrap --prefix=/usr/local/cmake --system-libs
+for ubuntu:
+./bootstrap --prefix=/usr/local/cmake --system-libs --no-system-libuv
+make -j40
+sudo make install
+
+
+power机器安装完后，需要sudo nvidia-persistenced
+
+某个目录下所有文件及文件的大小,按照文件大小排序
+du -sh * | sort -n
+
+numctl
+https://blog.csdn.net/qccz123456/article/details/81979819
+
+查看linux目录下文件所占空间：
+du -h --max-depth=1 ./
+
+p4 sync:
+export P4PORT=P4proxy-zj:2006
+export P4USER=nvatp
+export P4PASSWORD=Atp67$23
+export P4ROOT=/home/jzhong
+
+usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.21' not found
+solution：
+http://purperwind.lofter.com/post/1cb444e0_c0c8764
+
+These are steps to downgrade A100 PCI-e link to Gen3 on Delta board:
+
+1.  Start a root command shell
+lab@luna-dvt-30:~$ sudo -s
+root@luna-dvt-30:~#
+2.  Query the Current Link Speed ( CLS ) of all GPUs, expect "CLS = 4"
+root@luna-dvt-30:~# for g in $( lspci -Dd ::302 | awk '{print $1}' ) ; do echo "${g}  CLS = $(( 0x$( setpci -s ${g} cap_exp+12.w ) & 0xf ))" ; done
+0000:07:00.0  CLS = 4
+0000:0f:00.0  CLS = 4
+0000:47:00.0  CLS = 4
+0000:4e:00.0  CLS = 4
+0000:87:00.0  CLS = 4
+0000:90:00.0  CLS = 4
+0000:b7:00.0  CLS = 4
+0000:bd:00.0  CLS = 4
+3.  Initiate a link speed change to Gen3 rate on all GPUs
+root@luna-dvt-30:~# for g in $( lspci -Dd ::302 | awk '{print $1}' ) ; do busybox devmem $(( 0x$( setpci -s ${g} 10.L ) + 0x8c040 )) 32 0x80044c01 ; done
+4. Query the Current Link Speed ( CLS ) of all GPUs, expect "CLS = 3"
+root@luna-dvt-30:~# for g in $( lspci -Dd ::302 | awk '{print $1}' ) ; do echo "${g}  CLS = $(( 0x$( setpci -s ${g} cap_exp+12.w ) & 0xf ))" ; done
+0000:07:00.0  CLS = 3
+0000:0f:00.0  CLS = 3
+0000:47:00.0  CLS = 3
+0000:4e:00.0  CLS = 3
+0000:87:00.0  CLS = 3
+0000:90:00.0  CLS = 3
+0000:b7:00.0  CLS = 3
+0000:bd:00.0  CLS = 3
+5. Run your tests as non-root
+6. Reboot system to restore PCI-e link speed to Gen4.

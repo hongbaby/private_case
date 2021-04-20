@@ -1,0 +1,18 @@
+1. 跑单个testlist
+把需要跑的测试内容文件中，比如
+vim /home/swqa/sw/rel/gpgpu/toolkit/r11.0/bin/x86_64_Linux_release/Image_Segmentation
+Root/Performance/Image/FilterTests/LabelMarkersBatchTests/*
+Root/Performance/Image/FilterTests/FloodFillLenaRangeTests/*
+Root/Performance/Image/FilterTests/FloodFillLenaTests/*
+Root/Performance/Image/FilterTests/FloodFillSeabedTests/*
+Root/Performance/Image/FilterTests/FloodFillSpectrumTests/*
+
+在isv_client.cfg文件中NPP_LINUX的testlist里填写/home/swqa/sw/rel/gpgpu/toolkit/r11.0/bin/x86_64_Linux_release/Image_Segmentation
+
+2. for NPP performance test result we should follow the rules:
+a. Run 5 times, and ignore 1st and 2nd result.
+b. Ignore max(abs(3-4)/max(3, 4), abs(3-5)/max(3, 5), abs(4-5)/max(4, 5)) result. (3, 4, 5 are short for test result on 3/4/5 run.)
+c. Calculate AVG/RSD result by remaining 2 test result.
+
+ while [ 1 ] ; do ./TestNPP -p test.out.csv -t Root/Performance/Image/ThresholdAndCompareOperations/Threshold/GT_8u_C3R_Test/FullFrame > /dev/null ; tail -1  test.out.csv | awk -F "," '{print $6}' ;done
+ before file NPP performance bug they will check history data for reference, but it is really difficult to figure out it is an unstable issue or perf drop issue in release testing. http://nvbugs/200627677

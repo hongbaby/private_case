@@ -1,0 +1,25 @@
+创建vm：
+sudo qemu-img create -f qcow2 /data/kvm_imgs/ubuntu20.04.2_x64.img 300G
+sudo chown -Rv qemu:qemu /data/kvm_imgs/ubuntu20.04.2_x64.img
+sudo chown -Rv qemu:qemu /isoes
+sudo /usr/bin/virt-install --connect qemu:///system --name=ubuntu2004 --vcpu=14 --ram=32768 --network=bridge:br0,model=virtio --os-type=linux --os-variant=ubuntu20.04 --video=qxl --disk path=/data/kvm_imgs/ubuntu20.04.2_x64.img,device=disk,bus=virtio,format=qcow2,cache=none,io=native --cdrom=/isoes/ubuntu-20.04.2-desktop-amd64.iso --channel unix,mode=bind,target_type=virtio,name=org.qemu.guest_agent.0 --accelerate --vnc --noautoconsole
+sudo virt-viewer ubuntu2004 在vnc上面安装：（安装过程中选择something else, swap 32G  剩下的root分区)
+
+sudo mv /data/kvm_imgs/ubuntu20.04.2_x64.img /data/kvm_imgs/ubuntu20.04.2_x64.old.img
+sudo virt-sparsify -x /data/kvm_imgs/ubuntu20.04.2_x64.old.img --convert qcow2 /data/kvm_imgs/ubuntu20.04.2_x64.new.img
+sudo /bin/cp /data/kvm_imgs/ubuntu20.04.2_x64.new.img /data/kvm_imgs/ubuntu20.04.2_x64.img
+virsh start ubuntu2004
+virt-viewer ubuntu2004
+virsh undefine ubuntu2004
+sudo rm -f /data/kvm_imgs/ubuntu20.04.2_x64.old.img /data/kvm_imgs/ubuntu20.04.2_x64.img
+sudo mv /data/kvm_imgs/ubuntu20.04.2_x64.new.img /data/kvm_imgs/ubuntu20.04.2_x64.img
+
+
+使用vm：
+$ sudo mkdir -p /data/p100_imgs
+$ sudo cp /data/kvm_imgs/ubuntu20.04.2_x64.img /data/p100_imgs/
+$ sudo chown -Rv qemu:qemu /data/p100_imgs
+$ sudo /usr/bin/virt-install --connect qemu:///system --name=p100_ubuntu20.04.2 --vcpu=14 --cpuset=0-13 --ram=32768 --network=bridge:br0,model=virtio --os-type=linux --os-variant=ubuntu20.04 --video=qxl  --disk path=/data/p100_imgs/ubuntu20.04.2_x64.img,device=disk,bus=virtio,format=qcow2,cache=none,io=native --host-device=pci_0000_04_00_0 --host-device=pci_0000_06_00_0 --accelerate --vnc --noautoconsole --import
+
+sudo apt update
+sudo apt install openssh-server

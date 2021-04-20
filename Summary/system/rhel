@@ -26,7 +26,7 @@ http://10.19.195.1/oses/rhel7.6-server-x86_64/
 fox example： RHEL7.6
 echo "[tesla-swqa]" >/etc/yum.repos.d/tesla-swqa.repo
 echo "name=Tesla SWQA Server Source" >>/etc/yum.repos.d/tesla-swqa.repo
-echo "baseurl=http://10.19.195.1/oses/rhel7.6-server-x86_64/" >>/etc/yum.repos.d/tesla-swqa.repo
+echo "baseurl=http://cqa-fs01/oses/rhel7.8-server-x86_64/" >>/etc/yum.repos.d/tesla-swqa.repo
 echo "gpgcheck=0" >>/etc/yum.repos.d/tesla-swqa.repo
 echo "enabled=1" >>/etc/yum.repos.d/tesla-swqa.repo
 echo "gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release" >>/etc/yum.repos.d/tesla-swqa.repo
@@ -39,9 +39,6 @@ http://mirror.centos.org/centos/7.6.1810/os/x86_64/Packages/
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 VNC:
-对于ubuntu18可以参考：
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04
-
 yum install -y tigervnc-server xorg-x11-fonts-Type1
 https://www.linuxtechi.com/install-configure-vnc-server-centos-7-rhel-7/
 10.19.194.64:3
@@ -69,3 +66,15 @@ solution:
 sudo yum install libxcrypt-devel.i686
 error while loading shared libraries: libnsl.so.1
 sudo yum install libnsl.i686 libX11.i686
+
+
+New system need isntall following softwares for perf auto:
+1.sudo yum install epel-release
+2. configure tesla-swqa, epel.repo and epel-testing.repo, CentOS7.repo and enable=1 in CentOS7.repo
+3.pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+python -m pip install --upgrade rpyc
+
+
+RHEL7

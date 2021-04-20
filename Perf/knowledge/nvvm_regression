@@ -1,0 +1,43 @@
+TASK nvvm testing:
+Microbench and librariessteps:
+1. untar compiler package
+2. sync CL = last library testing
+3. export GPGPU_COMPILER_EXPORT=above untar path     build library & test bench
+4. run test(LD_LIBRARY_PATH=编出来的path)
+5. compare with last library testing result
+
+HPC apps: only run perf and need compiler cases
+run following case:
+openmm
+stream
+quda
+rtm
+gromacs
+himeno
+hoomd
+amber
+namd
+lammps
+milc
+hpgmg
+
+
+用compiler里的所有list.out的文件替换掉/usr/local/cuda下面
+find . -type f | awk -F"/" '{print $NF}' > /tmp/list.out
+遍历文件出来 >替换掉list.out里的文件
+
+nvcc.profile不需要替换
+
+
+HERE=path/to/nvcc
+NVVM_BRANCH=/usr/local/cuda/nvvm
+
+10.19.195.1
+temp/ryluo
+
+p4 changes //sw/rel/gpgpu/toolkit/r11.0/cublas/...@changelist1,changelist2 | xargs p4 describe -s
+
+
+
+CUDA_A Regression:
+location： http://cqa-fs01/Packages/nightly/cuda_a/linux_x86_64/

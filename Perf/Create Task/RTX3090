@@ -1,0 +1,35 @@
+Ubuntu20.04.1:  下面的命令会安装gcc9
+sudo apt update
+sudo apt install build-essential
+
+Geforce RTX 3090:
+https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090/
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200627122&cmtNo=
+
+1.TYAN
+https://cqa-r29-6b/#login
+root/password
+10.23.142.161
+CPU: AMD EPYC 7402 24-Core Processor
+SERVER: TYAN S8030GM2NE
+Serial Number: CXZE2CK2703W
+
+
+
+
+2. ASRockRack(性能好一些)
+SERVER: TRX40D8-2N2T
+CPU: AMD Ryzen Threadripper 3960X 24-Core Processor
+https://www.asrockrack.com/general/productdetail.asp?Model=TRX40D8-2N2T#Specifications
+https://www.asrockrack.com/support/IPMI.pdf
+https://download.asrock.com/Manual/TRX40D8-2N2T.pdf
+https://www.asrockrack.com/general/products.asp#AMD
+https://cqa-r29-9b/#login
+admin/password
+10.23.142.29
+
+
+问题：
+1. 怎么把某个卡作为显示输出，要做什么设置
+2.
+python isv_client.py -s curand_linux cufft_linux

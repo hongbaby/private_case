@@ -1,0 +1,6 @@
+Library:
+setup:
+nohup python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.0/021/manifests/x86_64/runfile_builds.json -s cufft_linux curand_linux cusparse_linux math_bench_linux npp_linux thrust_linux cusolver_linux nvjpeg_linux &
+
+Running test:
+nohup bash -c 'python isv_client.py -s cusolver_multistreams_linux -t cusolver_multistreams_linux cufft_linux curand_linux cusolver_linux cusparse_linux math_bench_linux thrust_linux nvjpeg_linux --upload-report --task-name "CUDA11.2Final_032";python isv_client.py -t cusolvermg_linux cufftmg_linux -g 0 1 --upload-report --task-name "CUDA11.2Final_032"' &

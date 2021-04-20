@@ -1,0 +1,10 @@
+lftpget ftp://nvatp:Atp67\$23@hqnvhwy02/builds/linuxbuilds/release/display/x86_64/ByBranch/rel_gpu_drv_r470_r470_00/470.03/NVIDIA-Linux-x86_64-470.03.run
+wget ftp://nvatp:Atp67\$23@hqnvhwy02/builds/linuxbuilds/release/display/x86_64/ByBranch/rel_gpu_drv_r470_r470_00/470.03/NVIDIA-Linux-x86_64-470.03.run
+
+about dcgm:
+Test cycles	DCGM to use
+CUDA releases	Latest public DCGM release (Currently 2.1 – link here)
+
+TRD releases (if any testing planned)	Latest public DCGM release (Currently 2.1 – link here
+
+DCGM releases	Actual release which will be planned and will have its own branch created at the time of test cycle.

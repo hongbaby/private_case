@@ -1,0 +1,17 @@
+Source website:
+https://hashcat.net/hashcat/
+wget https://hashcat.net/files/hashcat-6.1.1.tar.gz
+
+Linux:
+# Extract the archive
+tar xvzf hashcat-6.1.1.tar.gz
+
+# Build
+cd hashcat-6.1.1/
+make -j 10
+
+# Benchmark
+./hashcat --benchmark
+
+
+Windows:

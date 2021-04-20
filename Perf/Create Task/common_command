@@ -1,0 +1,5 @@
+1. kill python:
+ps -ef |grep isv_server.py |grep -v grep |awk '{print $2}' | xargs kill -9
+ps -ef |grep nvidia-persistenced |grep -v grep |awk '{print $2}' | sudo xargs kill -9
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nvidia
+ps aux | grep -i nvidia

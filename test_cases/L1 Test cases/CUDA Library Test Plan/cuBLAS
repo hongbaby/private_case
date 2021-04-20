@@ -1,13 +1,13 @@
 1. build cublas testsuite: # around 20 minutes
 p4 sync //sw/rel/gpgpu/toolkit/r9.0/cublas/...@${TK_CL}
-p4 sync //sw/tools/linux/mkl/11.0.4/lib/intel64/...
-p4 sync //sw/tools/linux/mkl/11.0.4/include/...
-p4 sync //sw/tools/win32/mkl/11.0.3/...
+p4 sync -f //sw/tools/linux/mkl/11.0.4/lib/intel64/...
+p4 sync -f //sw/tools/linux/mkl/11.0.4/include/...
+p4 sync -f //sw/tools/win32/mkl/11.0.3/...
 #p4 sync //sw/tools/intel/windows/compilers_and_libraries_2016.2.180/...
-p4 sync //sw/rel/gpgpu/toolkit/r9.0/cudalibtools/...@${TK_CL}
+p4 sync -f //sw/rel/gpgpu/toolkit/r9.0/cudalibtools/...@${TK_CL}
 
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu (Ubuntu Only)
-export NVBLAS_CONFIG_FILE=$P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cublas/testMg/nvblas.conf
+export NVBLAS_CONFIG_FILE=$P4ROOT/sw/rel/gpgpu/toolkit/r11.0/cublas/testMg/nvblas.conf
 
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.0/cudalibtools
 make RELEASE=1
@@ -29,3 +29,15 @@ $ perl nj_nightly.pl –build=release -config=dvs -mkl
 
 5. run cublas Dbl L0 test（All pass ---- Passes/Waivers： 140）------10.19.192.210, around 5 minutes
 $ perl  nj_nightlyDbl.pl -build=release -config=dvs -mkl
+
+
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+export NVBLAS_CONFIG_FILE=/home/jzhong/sw/rel/gpgpu/toolkit/r11.0/cublas/testMg/nvblas.conf
+export NV_TOOLS=/home/jzhong/sw/tools
+export GPGPU_COMPILER_EXPORT=~/cuda_compiler/x86_64_Linux_release
+
+
+error while loading shared libraries: libmkl_intel_lp64.so: cannot open shared object file: No such file or directory:
+solution:
+p4 sync -f //sw/tools/linux/mkl/11.0.4/lib/intel64/...
+export LD_LIBRARY_PATH=/home/jzhong/sw/tools/linux/mkl/11.0.4/lib/intel64

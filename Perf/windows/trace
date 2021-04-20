@@ -1,0 +1,2 @@
+windows:
+"C:\Program Files\NVIDIA Corporation\Nsight Systems 2020.4.3\target-windows-x64\nsys.exe" "profile --stats=true" C:\Python27\python.exe benchmark.py --platform=CUDA --test=pme --device=0

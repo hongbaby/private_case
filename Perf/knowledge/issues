@@ -1,0 +1,49 @@
+Known Issues:
+p2p bandwidth unstable, DtoD read CE latency: 200445404
+Memcpy_DtoH_Pageable_Bandwidth_sum
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200579601&cmtNo=
+
+
+MGBENCH 不稳定， devtest 填pass
+
+perf_bugs unstable(windows)： 200545392
+linux:
+unstable perf_bugs(linux): 200333082 200548405
+http://nvbugs/200591642 perf_bugs_tests: many performance results become more unstable after use numactl on Linux/x86_64/many configs/CUDA 11.0/R445
+http://nvbugs/200581106 isv_perf_bugs_tests:"ctx_create" test case of perf_bugs(Linux) is not stable on Linux/gv100titan/CUDA 11.0/R445
+http://nvbugs/2829931 [R418 TRD5]10 test items of Perf_bugs have performance drop on windows system
+
+
+CCMINER 不稳定：  200368234
+200526569 ---- > neoscrypt drop
+200541325
+
+QUDA unstable: 200506445
+blas_test_single_ax  cuda11.0 baseline reset  https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200570680&cmtNo=
+
+
+
+
+1.vray：
+当前不支持4.20.01， bug 200555770
+2.
+
+
+questions:
+1. IRAY (Linux) - Optix based:  431.02+ only, 为什么会有比分
+2.
+power机器安装完后，需要sudo nvidia-persistenced
+
+P4API.so:undefined symbol
+安装指定版本的p4python:
+sudo pip install p4python==2018.2.1743033
+
+makefile issue:
+‘for’ loop initial declarations are only allowed in C99 mode
+make CFLAGS='-g -O3 -std=c99' -j40
+
+Memcpy_DtoD_Read_CE_Latency_sum, Memcpy_DtoD_Read_CE_Latency_ipc_sum, Memcpy_DtoD_Write_CE_Latency_ipc_sum
+RSD < 15%.
+Perf regress < 20%
+
+openmpi install failed in RHEL7 with automation, please close all python code process and terminal, and re-run, if still cannot fix, please configure manually and then rerun auto

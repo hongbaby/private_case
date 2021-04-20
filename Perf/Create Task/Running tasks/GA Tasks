@@ -1,0 +1,15 @@
+GA Task:
+P100:
+python isv_client.py -t perf_bugs_win p2p_bandwidth_win cg_mb_perf_win -g 0 1 --upload-report --task-name "460GA6" && python isv_client.py -s fahbench_win  -t fahbench_win cudagraphs_perf_win cg_examples_win --upload-report --task-name "460GA6"
+
+
+
+RTX3090:
+setup and run:
+C:\Python27\python.exe isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-2/11.2.2/005/manifests/x86_64/windows_builds.json -s perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win wmma_win cg_mb_perf_win fahbench_win iray_optix_based_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win fahbench_win iray_optix_based_win --upload-report --task-name "460GA5"
+
+Just run:
+C:\Python27\python.exe isv_client.py -s iray_optix_based_win fahbench_win -t p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win iray_optix_based_win fahbench_win --upload-report --task-name "460GA6"
+
+TRD4 Task:
+python isv_client.py --pre-compiled-stuff --cl-json http://cuda-internal/release-candidates/kitpicks/cuda-r11-0/11.0.3/007/manifests/x86_64/runfile_builds.json -s perf_bugs_linux p2p_bandwidth_linux cg_examples_linux cudagraphs_perf_linux cg_mb_perf_linux wmma_linux perf_memory_usage_linux -t cg_mb_perf_linux p2p_bandwidth_linux cudagraphs_perf_linux cg_examples_linux perf_memory_usage_linux wmma_linux --upload-report --task-name "450TRD4" -H 10.23.140.138

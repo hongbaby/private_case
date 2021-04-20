@@ -1,0 +1,13 @@
+1. ethminer:  0.18 for example
+Download 0.18 zip file
+cd /ethminer-0.18.0
+rm -rf cmake/cable
+git clone https://github.com/ethereum/cable.git cmake/cable
+cd cmake/cable
+git checkout 3e54f9751f50a3b6265c22402dcd5ae85ef701d4  ----> commit id是https://github.com/ethereum-mining/ethminer下，tag找到v0.18.0，然后点击cmake/cable获取链接的commit id
+cd ethminer-0.18.0
+rm -rf cmake/Hunter/disabled-mode
+git clone https://github.com/hunter-packages/disabled-mode.git cmake/Hunter/disabled-mode
+cd cmake/Hunter/disabled-mode
+git checkout 5f88a3d7565e8e2d61f7d2a3247068a9a9fe2c4b ----> commit id是https://github.com/ethereum-mining/ethminer下，tag找到v0.18.0，然后点击cmake/Hunter/disable-mode获取链接的commit id
+然后把ethminer打包成一个ethminer.zip文件

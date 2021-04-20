@@ -1,0 +1,19 @@
+分区：
+sudo fdisk -l
+parted /dev/sdaxxx(需要分区的磁盘)
+mklabel gpt
+mkpart primary ext4 0% 500GB
+mkpart primary ext4 500GB -1
+align-check optimal 1
+align-check optimal 2
+p----> (parted) align-check optimal 1
+1 aligned
+sudo mkfs.ext4 /dev/nvme1n1p1
+sudo mkfs.ext4 /dev/nvme1n1p2
+sudo blkid
+vi /etc/fstab
+UUID=d4c8f43e-1a6d-491a-859e-4f7e30f9898d /home ext4 defaults 0 0
+
+格式化：
+sudo mkfs.ext4 /dev/xxxx1
+sudo mkfs.ext4 /dev/xxx2

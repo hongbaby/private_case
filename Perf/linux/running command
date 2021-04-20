@@ -1,0 +1,56 @@
+RTX 3090
+CUDA release：
+Linux:
+python isv_client.py -s gromacs_linux lammps_linux namd_linux openmm_linux quda_linux himeno_linux rtm_linux stream_linux amber_linux blender_linux hoomd_linux gunrock_linux ethminer_linux ccminer_linux acemd_linux milc_linux relion_linux -t gromacs_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux himeno_linux rtm_off_linux stream_linux amber_linux blender_linux hoomd_linux iray_optix_based_linux gunrock_linux ethminer_linux ccminer_linux acemd_linux milc_linux relion_linux -g 1 --upload-report --task-name "CUDA11.2Integration_015"
+
+python isv_client.py -t cg_mb_perf_linux p2p_bandwidth_linux cudagraphs_perf_linux perf_bugs_linux cg_examples_linux wmma_linux vulkan_interop_apitest_linux perf_memory_usage_linux -g 1 --upload-report --task-name "CUDA11.2Integration_015"
+
+Windows:
+python isv_client.py -s fahbench_win openmm_win ethminer_win rtm_win -t rtm_off_win ethminer_win davinci_hd_win fahbench_win openmm_func_win vray_win openmm_perf_win iray_optix_based_win --upload-report --task-name "CUDA11.2Integration_018"
+python isv_client.py -t cg_mb_perf_win p2p_bandwidth_win cudagraphs_perf_win perf_bugs_win cg_examples_win wmma_win vulkan_interop_apitest_win -g 1 --upload-report --task-name "CUDA11.2Integration_010"
+
+TITAN XP:
+python isv_client.py -t perf_bugs_win p2p_bandwidth_win cg_examples_win cudagraphs_perf_win --upload-report --task-name "CUDA11.1Update1_rc002" -g 1
+python isv_client.py -t cg_mb_perf_win -g 1 --upload-report --task-name "CUDA11.1Update1_rc002"
+
+
+
+P100:
+Linux:
+cuda release:
+python isv_client.py -s acemd_linux amber_linux himeno_linux hoomd_linux hpgmg_linux gromacs_linux lammps_linux namd_linux openmm_linux quda_linux rtm_linux stream_linux terachem_linux milc_linux gunrock_linux -t acemd_linux amber_linux gromacs_linux himeno_linux hoomd_linux hpgmg_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux rtm_off_linux rtm_on_linux stream_linux terachem_linux milc_linux gunrock_linux abaqus_linux
+python isv_client.py -s acemd_linux gromacs_linux hoomd_linux terachem_linux namd_linux gunrock_linux -t acemd_linux gromacs_linux hoomd_linux terachem_linux namd_linux gunrock_linux -g 0 1
+python isv_client.py -t cg_examples_linux cudagraphs_perf_linux perf_memory_usage_linux
+python isv_client.py -t perf_bugs_linux p2p_bandwidth_linux cg_mb_perf_linux -g 0 1 --upload-report --task-name "CUDA11.1Update1_rc002"
+python isv_client.py -s relion_linux -t relion_linux
+
+
+
+KVM:
+P100
+python isv_client.py -s amber_linux -t amber_linux
+python isv_client.py -s himeno_linux hoomd_linux namd_linux stream_linux -t himeno_linux hoomd_linux namd_linux stream_linux
+python isv_client.py -t cgemm_linux dgemm_linux sgemm_linux
+python isv_client.py -t perf_bugs_linux p2p_bandwidth_linux cg_mb_perf_linux wmma_linux cudagraphs_perf_linux cg_examples_linux
+
+
+
+FWD:
+P100:
+python isv_client.py -t cgemm_linux dgemm_linux sgemm_linux
+python isv_client.py -s gromacs_linux stream_linux -t def_gromacs_linux max_gromacs_linux stream_linux cg_mb_perf_linux p2p_bandwidth_linux perf_bugs_linux
+python isv_client.py -s gromacs_linux -t def_gromacs_linux max_gromacs_linux cg_mb_perf_linux p2p_bandwidth_linux perf_bugs_linux -g 0 1
+
+
+TRD Testing:
+P100:
+python isv_client.py -t cgemm_linux dgemm_linux sgemm_linux
+nohup python isv_client.py -s stream_linux hpgmg_linux gromacs_linux -t stream_linux hpgmg_linux gromacs_linux &
+nohup python isv_client.py -s gromacs_linux -t gromacs_linux cg_mb_perf_linux p2p_bandwidth_linux perf_bugs_linux -g 0 1 &
+
+GA Testing:
+TITAN XP:
+python isv_client.py -s fahbench_win -t iray_optix_based_win fahbench_win cg_mb_perf_win perf_bugs_win p2p_bandwidth_win cudagraphs_perf_win
+P100:
+python isv_client.py -s fahbench_win -t fahbench_win cudagraphs_perf_win
+python isv_client.py -t cg_mb_perf_win perf_bugs_win p2p_bandwidth_win -g 0 1

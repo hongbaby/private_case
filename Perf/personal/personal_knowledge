@@ -1,0 +1,17 @@
+1. 性能测试必备监控命令
+top
+ps/pstree
+free
+vmstat
+sar
+vmstat,sar,iostat检测是否是CPU瓶颈
+free,vmstat检测是否是内存瓶颈
+iostat检测是否是磁盘I/O瓶颈
+netstat检测是否是网络带宽瓶颈
+
+2.影响Linux服务器性能的因素
+操作系统级：
+CPU
+内存
+磁盘I/O带宽
+网络I/O带宽

@@ -1,0 +1,4 @@
+cusolvermg:
+export CUFFTBENCH_USE_CACHE=1
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/home/swqa/sw/rel/gpgpu/toolkit/r11.2/bin/x86_64_Linux_release
+export CUDA_VISIBLE_DEVICES=0,1

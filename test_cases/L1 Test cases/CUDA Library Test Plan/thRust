@@ -1,5 +1,9 @@
 thrust_test:
+export GPGPU_COMPILER_EXPORT=~/cuda_compiler/r445/x86_64_Linux_release
+export DRIVER_ROOT=/home/jzhong/sw/rel/gpu_drv/r450/r450_00/
+
 1. p4 sync //sw/rel/gpgpu/toolkit/r9.1/thrust/...@TK_CL
+p4 sync //sw/rel/gpgpu/toolkit/r11.0/cub/...@TK_CL
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/cudalibtools
 make RELEASE=1
 cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
@@ -11,3 +15,35 @@ cp -rfPv /usr/local/cuda/lib64/* $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/bin/x86_64_Li
 3. run test: # around 8 minutes
 $ cd $P4ROOT/sw/rel/gpgpu/toolkit/r9.1/thrust
 $ perl internal/test/thrust_nightly.pl -build=release 2>&1
+
+for cuda11.0:
+export changelist=28307768
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/Makefile@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/build/...@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/cuda/...@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/common/mkl/mkl.mk@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/thrust/...@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/cudalibtools/...@${changelist}
+p4 sync -f //sw/rel/gpgpu/toolkit/r11.0/cub/...@${changelist}
+
+
+
+echo $SUDO_PASSWORD | sudo -S  cp $P4ROOT/sw/misc/linux/unix-build /usr/bin
+echo $SUDO_PASSWORD | sudo -S  chown root /usr/bin/unix-build
+echo $SUDO_PASSWORD | sudo -S  chmod u+s /usr/bin/unix-build
+p4 sync //sw/tools/linux/cuda-agnostic-toolchain/2.0/Linux_x86_64/...
+p4 sync //sw/tools/linux/cuda-agnostic-toolchain/gcc5.3-glibc2.12/Linux_x86_64/unix-build/...
+p4 sync //sw/tools/unix/targets/common/xorg-server/include/...
+USE_AGNOSTIC='USE_AGNOSTIC_TOOLCHAIN=1'
+
+
+Make:
+export GPGPU_COMPILER_EXPORT=~/cuda_compiler/r445/x86_64_Linux_release
+export DRIVER_ROOT=/home/jzhong/sw/rel/gpu_drv/r450/r450_00/
+
+https://wiki.nvidia.com/engwiki/index.php/Tesla_swqa_manual_testing_tips#build_thrust
+make cuda RELEASE=1 USE_AGNOSTIC_TOOLCHAIN=1 -j40
+cd ~/sw/rel/gpgpu/toolkit/r11.0/cudalibtools
+make RELEASE=1 -j40
+cd ~/sw/rel/gpgpu/toolkit/r11.0/thrust
+make RELEASE=1 -j40

@@ -1,0 +1,38 @@
+luna-dvt-37:  10.20  07:7:30
+luna-prod-66-80gb: 10.19 - 10.21
+10.33.73.150
+
+
+The following 2 Luna are ready for use, they should help out current RHEL testing, please coordinate.
+dgxqa-r14a-01-luna: 10.23.137.246 (lab/labuser)
+BMC(lab/labuserdgxluna): 10.23.137.247(dgxqa-r14a-01-luna-BMC)
+
+dgxqa-r14a-02-luna: 10.23.137.248 (lab/labuser)
+BMC(lab/labuserdgxluna): 10.23.137.249(dgxqa-r14a-02-luna-BMC)
+
+luna-prod-57-80gb
+Host: 10.33.73.5 (colossus/admin)
+BMC: 10.33.65.76(lab,dgxluna.admin)
+
+luna-prod-56
+
+dpkg -l |grep -E 'cuda|nvidia|NV' |grep -E '384\.|387\.|390\.|396\.|410\.|418\.|430\.|440\.|445\.|450\.|455\.' |awk '{print $2}' |xargs sudo apt-get -y purge
+sudo usermod -aG docker $USER
+Username: $oauthtoken
+Password: dTBtYjEzbmpsYjI0Y2J2aWtsZDM1bDc5b2Y6ODZhNGQxZWEtNDc1OS00MjBkLWJlMWYtMDAwOTM3MGIwNzEw
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpl
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpcg
+docker run --runtime=nvidia --privileged --ipc=host --net=host -it --rm nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpl
+export UCX_TLS=tcp,sm
+mpirun -np 8 --bind-to none ./hpl.sh --config dgx-a100 --dat hpl-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpl.sh --cpu-affinity 0:0:0:0:1:1:1:1 --cpu-cores-per-rank 4 --gpu-affinity 0:1:2:3:4:5:6:7 --dat hpl-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpl.sh --config dgx-a100 --xhpl-ai --dat hpl-ai-linux-x86_64/sample-dat/HPL-dgx-a100-1N.dat
+mpirun -np 8 --bind-to none ./hpcg.sh --config dgx-a100 --dat hpcg-linux-x86_64/sample-dat/hpcg-1N.dat
+
+sudo systemctl set-default multi-user.target
+sudo rmmod nvidia_drm nvidia_uvm nvidia_modeset nv_peer_mem nvidia
+sudo apt install nvidia-driver-450
+
+
+baremetal find -user kerryq
+baremetal status

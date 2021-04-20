@@ -1,0 +1,5 @@
+一个新的task来临时要考虑的问题：
+1. test platform
+2. test instructions
+3. test package and clock info(how to lock clock and performance mode)
+4. stdev/avg 5% or 10%, send to dev review

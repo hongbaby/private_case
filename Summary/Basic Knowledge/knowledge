@@ -1,0 +1,29 @@
+1. lftp and wget:  相关的下载工具https://man.linuxde.net/curl
+usage:
+lftp -c "glob -- pget -n 120 http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS/SW_27687127.0_gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.tgz"
+wget http://xxxx/xxx  (wget --user=xxx --password=xx http://xxxx)
+Difference:
+lftp支持文件的协议：ftp,ftps,http,https(其中ftps和https需要在编译的时候包含openssl库)
+wget支持ftp,http,https
+
+2. 查看动态链接 ldconfig -p | grep libEGL*
+3. WAR: means work around
+4. copy files from linux to windows:
+download pscp in windows, and then
+pscp -P 22 swqa@cqa-r7-1:/home/jzhong/Sources/openmm-7.4.0.tar.gz ./
+
+copy from windows to another windows machine:
+copy xxx \\cqa-r22-3\d$\CUDA\10.2\
+
+
+5. rsync:
+rsync -artvn --ignore-existing --exclude Ansys2021R1  ./* swqa@cqa-r29-6:/home/swqa/Sources/  ---> 查看哪些文件需要传输，可做适当调整，去掉-n可以直接copy
+rsync -artv --ignore-existing --exclude ANSYS_19.2 --exclude MATLAB_R2019b ./* jzhong@cqa-r7-1:/home/jzhong/Sources/
+
+cuda library：
+选择对应CL的目的：
+为防止LD_LIBRARY_PATH指向错误，并且尽量保证dvs解压出来的lib*.so*和/usr/lib/x86_64-linux-gnu$ ldd libcublas.so*版本一致。
+如果验bug的话，可以用LD_LIBRARY_PATH指向dvs解压出来的lib*.so*, 并且double check ldd lib*.so*真的是指向此路径。可以用ldd
+
+
+rsync -artv --ignore-existing --exclude ANSYS_19.2 --exclude MATLAB_R2020a --exclude PGI_Fortran --exclude cuDNN --exclude TensorRT --exclude Optix --exclude Iray --exclude relion --exclude Abaqus_2020 --exclude gunrock-1.1.tar --exclude gunrock-master-20200320.tar ./* swqa@cqa-r7-1:/home/swqa/Sources/

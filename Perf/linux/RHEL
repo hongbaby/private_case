@@ -1,0 +1,47 @@
+I create some RHEL additional repos on our file server for our Automation tests, please configure the repo on your systems if needed.
+RHEL Server 6.x Extra:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel6-server-extras-x86_64/
+
+RHEL Server 6.x Optional:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel6-server-optional-x86_64/
+
+RHEL Server 6.x Supplementary:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel6-server-supplementary-x86_64/
+
+RHEL Server 6.x Update:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel6-server-update-x86_64/
+
+RHEL Server 7.x Extra:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel7-server-extras-x86_64/
+Power LE: http://cqa-fs01.nvidia.com/oses/rhel7-server-extras-ppc64le/
+Power 9: http://cqa-fs01.nvidia.com/oses/rhel7-alt-server-extras-ppc64le/
+
+RHEL Server 7.x Optional:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel7-server-optional-x86_64/
+Power LE: http://cqa-fs01.nvidia.com/oses/rhel7-server-optional-ppc64le/
+Power 9: http://cqa-fs01.nvidia.com/oses/rhel7-alt-server-optional-ppc64le/
+
+RHEL Server 7.x Supplementary:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel7-server-supplementary-x86_64/
+Power LE: http://cqa-fs01.nvidia.com/oses/rhel7-server-supplementary-ppc64le/
+Power 9: http://cqa-fs01.nvidia.com/oses/rhel7-alt-server-supplementary-ppc64le/
+
+RHEL Server 7.x Update:
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel7-server-update-x86_64/
+Power LE: http://cqa-fs01.nvidia.com/oses/rhel7-server-update-ppc64le/
+Power 9: http://cqa-fs01.nvidia.com/oses/rhel7-alt-server-update-ppc64le/
+
+RHEL 8.x Supplementary:
+aarch64: http://cqa-fs01.nvidia.com/oses/rhel8-supplementary-aarch64/
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel8-supplementary-x86_64/
+ppc64le: http://cqa-fs01.nvidia.com/oses/rhel8-supplementary-ppc64le/
+
+RHEL 8.x BaseOS Update:
+aarch64: http://cqa-fs01.nvidia.com/oses/rhel8-baseos-update-aarch64/
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel8-baseos-update-x86_64/
+ppc64le: http://cqa-fs01.nvidia.com/oses/rhel8-baseos-update-ppc64le/
+
+RHEL 8.x AppStream Update:
+aarch64: http://cqa-fs01.nvidia.com/oses/rhel8-appstream-update-aarch64/
+x86_64: http://cqa-fs01.nvidia.com/oses/rhel8-appstream-update-x86_64/
+ppc64le: http://cqa-fs01.nvidia.com/oses/rhel8-appstream-update-ppc64le/

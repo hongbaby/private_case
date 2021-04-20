@@ -1,0 +1,182 @@
+!!!!!!!!!!!一定要设置环境变量！！！！！！！！
+\\10.19.195.1\manual\UDA\r440_00\Wddm_x64
+DVS:
+\\10.19.195.1\dvsshare\cuda\10.1\windows
+http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_CUDA_DVS_Test/
+
+CUDA Release P100:
+python isv_client.py -s openmm_win rtm_win fahbench_win -t openmm_func_win openmm_perf_win rtm_on_win rtm_off_win fahbench_win
+python isv_client.py -t p2p_bandwidth_win perf_bugs_win cg_mb_perf_win cudagraphs_perf_win
+python isv_client.py -t p2p_bandwidth_win perf_bugs_win cg_mb_perf_win -g 0 1
+
+
+
+
+
+
+
+
+1. MentalRay:
+mkdir D:\ISV_Test\MentalRay
+mkdir MentalRay
+cp and 解压Sources/rendering_package_mr_build-314-293829_20170516.tar.gz into MentalRay
+
+
+
+Information:
+1. DaVinci HD Benchmark (Windows)
+15.3的版本，2017
+2019需要16以上的版本
+
+2.OPENMM:
+当前7.3.1
+7.4需要验证
+
+3.V-RAY:
+当前3.40.03 (安装文件)
+4.20.01有bug 200555770
+
+4.CCMINER:
+当前使用 2.2.6, 2.3和2.3.2有bug 200545529
+
+5.ethminer:
+LINUX上当前0.18,windows还是0.17
+
+6.Blender:
+2.79b
+
+
+JIT:
+1. CST:
+Running HWAccDiagnostics test with CST2017
+没自动化, 需要license
+teslaswqashyum.nvidia.com
+27001
+
+2. OTOY：
+Octane Renderer 3.x (Windows)
+manually testing
+
+3. Blackmagic DaVinci Resolve:  20minutes, 有比分
+先要安装davinci15.3 file://netapp-hqqa/isv_apps/Blackmagic_Design/DaVinci_Resolve/
+DaVinci HD Benchmark (Windows)
+python isv_win.py -t davinci_hd
+
+4.Mental Ray (Windows):  10minutes
+python isv_win.py -t mental_ray  PASSED
+
+5.Optix benchmark test with dev test package (Windows)： 手动跑, 当前版本rel6.0
+optix 6.5支持440以上的driver  418及以前的不支持
+optix-drivertestpack-rel6.5-win-release-27285177.zip直接用这个就可以，已经整合了\\10.19.195.1\manual\tools\ISV\Optix\6.5\data\driver-test-pack-traces_26993290.zip
+
+
+6. BONIC HAHBench: 10minutes, 有比分
+python isv_win.py -s fahbench -t fahbench
+
+7.Abaqus benchmark (Windows)：手动测试, PASSED
+
+Offline compilation:
+1.Compiling OpenMM (Windows): 10minutes
+ python isv_win.py -s openmm
+
+2.OpenMM Test for CUDA and OpenCL (Windows): 5houors
+ python isv_win.py -t openmm_func
+
+
+JIT:
+1. IRAY (Linux) - CUDA based: ----开发已经不维护了，新的都是基于optix based
+
+python isv_win.py -t iray_cuda_based
+
+2. IRAY (Linux) - Optix based:  431.02+ only
+python isv_win.py -t iray_optix_based -g xx
+
+3.V-Ray Benchmark for CUDA (Windows):
+用小脚本: run_vray_win.py
+python run_vray_win.py -d 0 -p "D:\Software\Chaos Group V-Ray\NVIDIA_VRAY_BenchSuite_Update2\vray_bench"
+check result in the folder start with "run_vray_win_xxx", the AVG and STDEV are in 'frame_time_summary.log'
+
+
+
+4.perf_bugs(windows)：30minutes， 稳定性超过5%报，drop超过5%也报
+python isv_win.py -s perf_bugs -t perf_bugs --cuda-cl 27287057 --driver-cl 27284344
+
+cudaGraphs_perf_win: this app starts from cuda 11.0
+
+Offline compilation:
+1.ccminer benchmark (Windows) setup需要1.5小时
+200526569 关于neoscrypt drop的item
+需要改成2.2，2.3有bug https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200545529&cmtNo=
+python isv_win.py -s ccminer -t ccminer
+
+2.ethminer benchmark (Windows) PASSED
+python isv_linux.py -s ethminer -t ethminer
+
+3.OpenMM Performance Test (Windows):
+python isv_win.py -t openmm_perf
+
+4.RTM test with ECC OFF (Windows) PASSED
+python isv_win.py -s rtm -t rtm_off
+
+5.WMMA -Warp Matrix Multiply and Accumulate Performance Test (Windows)
+Volta以上支持
+
+6.Blender benchmark test (Windows)
+cqauser/cqatest
+http://10.19.195.1/manual/automation/ISV_Windows/Other/inst_blender_win.py
+inst_blender_win.py -a blender-2.79b.tar.gz -c sm_61  (每次换CUDA都需要重新弄一下)
+测试时，只能手动测试。
+
+python isv_win.py -s fahbench openmm ccminer ethminer rtm -t ccminer mental_ray fahbench openmm_func openmm_perf iray_cuda_based iray_optix_based ethminer rtm_off davinci_hd
+
+v-ray
+blender
+python isv_win.py -s perf_bugs -t perf_bugs --cuda-cl 27400221 --driver-cl 27403416
+python isv_win.py -s perf_bugs -t perf_bugs --cuda-cl 26907403 --driver-cl 26855405   10.1.243 + 426
+
+isv_all:
+change to the correct GPU id in isv_client.cfg
+windows:
+python isv_client.py -s blender_win fahbench_win openmm_win ccminer_win ethminer_win rtm_win -t ccminer_win davinci_hd_win mental_ray_win fahbench_win openmm_func_win openmm_perf_win iray_cuda_based_win iray_optix_based_win ethminer_win rtm_off_win vray_win
+
+optix6.5：
+D:\script\Optix benchmark test with dev test package (Windows).bat
+blender:
+D:\Sources\Blender>inst_blender_win.py -a blender-2.79b.tar.gz -c sm_61
+手动跑
+python isv_client.py -t perf_bugs_win
+
+
+
+
+
+
+
+
+
+GA:
+1. CUDA SETI@home test  (Windows x86):手动跑
+看结果没有error就可以, error check可以在系统自带的event viewer -> windows logs -> system, filter "critical and error"
+
+2. Folding@Home (Windows)：手动跑
+看分数不太低就可以
+
+3.Optix benchmark test with dev test package (Windows)：手动跑
+
+4. Blender benchmark test (Windows JIT)
+5.FAHBench test(Windows)
+6.IRAY (Windows) - Optix based
+7.perf_bugs(windows):
+运行方式：
+\\10.19.195.1\dvsshare\cuda\10.1\windows\10.1.243_426.03\AMD64
+download file://10.19.195.1/dvsshare/cuda/10.1/windows/10.1.243_426.03/AMD64/SW_26907403.0_gpu_drv_r418_00_Release_Windows_AMD64_Cuda_Sanity.zip
+go to tests/runtime/perf_bugs
+copy 4个perf_bugs*文件到D:\sw\rel\gpgpu\toolkit\r10.1\bin\x86_64_win32_release
+copy4个*.ptx文件到perf_bugs_data_files下
+然后直接用脚本python isv_win.py -t perf_bugs
+
+python isv_win.py -s fahbench -t fahbench iray_optix_based perf_bugs
+
+
+P100:
+python isv_client.py -s fahbench_win openmm_win  rtm_win -t fahbench_win openmm_func_win openmm_perf_wi rtm_off_win

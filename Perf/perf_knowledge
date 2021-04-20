@@ -1,0 +1,6 @@
+代码优化：
+nsight System: 用于Application分析  https://developer.nvidia.com/nsight-systems
+nsight Compute:  用于debug/optimize CUDA kernel https://developer.nvidia.com/nsight-compute
+
+new SKU performance testing:
+New SKU baselining runs should not be marked as Regression

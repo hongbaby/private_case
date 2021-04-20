@@ -1,0 +1,46 @@
+http://www.ks.uiuc.edu/Research/namd/alpha/3.0alpha/
+获取source：
+First, submit a request using this page:
+
+http://www.ks.uiuc.edu/Research/namd/gitlabrequest.html
+
+Once the request is approved, you can get v3.0a9 by:
+
+git clone https://gitlab.com/tcbgUIUC/namd.git
+git checkout release-3-0-alpha-9
+
+
+
+打包过程：
+wget http://www.ks.uiuc.edu/Research/namd/libraries/fftw-linux-x86_64.tar.gz
+tar zxvf fftw-linux-x86_64.tar.gz
+mv linux-x86_64 fftw-x86_64
+cp -pr fftw-x86_64 fftw
+wget http://www.ks.uiuc.edu/Research/namd/libraries/fftw-linux-ppc64le.tar.gz
+tar zxvf fftw-linux-ppc64le.tar.gz
+mv fftw-linux-ppc64le fftw-ppc64le
+wget http://www.ks.uiuc.edu/Research/namd/libraries/fftw-linux-arm64.tar.gz
+tar zxvf fftw-linux-arm64.tar.gz
+mv fftw-linux-arm64 fftw-aarch64
+rm -f fftw-linux-*.tar.gz
+wget http://www.ks.uiuc.edu/Research/namd/libraries/tcl8.5.9-linux-x86_64.tar.gz
+wget http://www.ks.uiuc.edu/Research/namd/libraries/tcl8.5.9-linux-x86_64-threaded.tar.gz
+tar zxvf tcl8.5.9-linux-x86_64.tar.gz
+tar zxvf tcl8.5.9-linux-x86_64-threaded.tar.gz
+mv tcl8.5.9-linux-x86_64 tcl-x86_64
+mv tcl8.5.9-linux-x86_64-threaded tcl-threaded-x86_64
+cp -pr tcl-x86_64 tcl
+cp -pr tcl-threaded-x86_64 tcl-threaded
+wget http://www.ks.uiuc.edu/Research/namd/libraries/tcl8.5.9-linux-ppc64le-threaded.tar.gz
+tar zxvf tcl8.5.9-linux-ppc64le-threaded.tar.gz
+cp -pr tcl8.5.9-linux-ppc64le-threaded tcl-ppc64le
+mv tcl8.5.9-linux-ppc64le-threaded tcl-threaded-ppc64le
+wget http://www.ks.uiuc.edu/Research/namd/libraries/tcl8.5.9-linux-arm64-threaded.tar.gz
+tar zxvf tcl8.5.9-linux-arm64-threaded.tar.gz
+cp -pr tcl8.5.9-linux-arm64-threaded tcl-aarch64
+mv tcl8.5.9-linux-arm64-threaded tcl-threaded-aarch64
+rm -f tcl8.5.9-linux-*.tar.gz
+还需要改一下Makefile里的版本号，之前有遇到版本号还是2.x
+wget http://www.ks.uiuc.edu/Research/namd/utilities/apoa1.tar.gz
+wget http://www.ks.uiuc.edu/Research/namd/utilities/stmv.tar.gz
+/home/swqa/NAMD/Linux-x86_64-g++/namd2 +p1 +pemap 1 +setcpuaffinity +devices 0 apoa1_npt_cuda.namd --CUDASOAintegrate on

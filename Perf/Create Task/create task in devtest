@@ -1,0 +1,18 @@
+创建task in devtest
+1. 创建test plan:
+Template ->CUDA_AND_TESLA, 在对应的目录下创建folder，然后找到具体的template id，create shortcut选择刚刚创建的folder
+
+2. 创建task:
+Task -> new release -> choose Test cycle level -> new Test cycle group
+new test cycle  -> Tesla -> hong qiu _> next  OS AND environemtn -> next
+
+加版本：
+http://hqswqadb02/DriverManager/index.aspx
+GPU Compute work project -> 选择 -> populate mapping table -> add prerelease driver ->driver mapping ->official
+
+生成report:
+http://hqswqadb02/devtestreportsv2/
+Custom report -> input report name -> choose report type -> choose Work project -> select project in the left hand -> click refresh icon
+
+change owner:
+右键编辑properties, 第二个选项

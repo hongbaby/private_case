@@ -1,3 +1,8 @@
+创建新用户：
+useradd -r -m -s /bin/bash xxx
+passwd xxx
+vim /etc/sudoers
+
 Ubuntu17.04
 Ubuntu17.10
 对于ubuntu系统而言，装完系统后，要确保g++-multilib装上，不然很可能和编译工作相关的都不work
@@ -49,3 +54,8 @@ sudo mount -t auto /dev/sde4 /foo
 
 对于.run的安装driver后，生成的driver的链接信息都在/usr/lib/x86_64-linux-gnu目录下；对于.deb的安装driver后，生成的driver的链接信息都在/usr/lib/nvidia-39x/目录下。
 对于rpm的安装driver后，生成的driver的链接信息都在/usr/lib64/nvidia
+
+
+VNC:
+对于ubuntu18可以参考：
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04

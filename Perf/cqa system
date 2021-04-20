@@ -1,0 +1,6 @@
+check yaml file:
+python -m Performance.run -dr
+
+git:
+warning: ignoring broken ref refs/remotes/origin/HEAD
+git remote set-head origin main

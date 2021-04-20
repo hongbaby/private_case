@@ -1,0 +1,45 @@
+python3 -m Desktop.run
+网站看report：
+python3 -m Desktop.www 8066
+python3 -m Desktop.run -dr
+sudo apt install screen wget curl git python-minimal python-pip build-essential libssl-dev libffi-dev python-dev python3-pip python3-dev python3-paramiko
+
+
+
+steps:
+git stash
+git fetch upstream
+git lfs fetch upstream
+git rebase upstream/main
+git push
+git stash pop
+
+
+git reset --hard upstream/main
+git clean -fd
+git fetch upstream
+git rebase upstream/main
+git push --force
+
+arm automation:
+http://cqa-fs01/CQA_Builds/release-candidates
+
+
+
+Automation steps:
+1. install dependency
+sudo -H bash cuda_automation_setup/install_framework_dependencies.sh --user xxxx
+
+hpe-arm-r3-32b
+admin、password
+cuda/nvidia
+
+dpkg -l |grep -E 'cuda|nvidia|NV' |grep -E '440\.|465\.|450\.|455\.|460\.' |awk '{print $2}' | xargs sudo apt-get -y purge
+dpkg -l |grep -E 'cuda|nvidia|NV' |grep -E 'cuda'|awk '{print $2}' | xargs sudo apt-get -y purge
+
+cqa-r14a-2
+jeffg
+#0 : Ubuntu 20.04.1
+#1
+Huawei Taishan 2006C:EB:B6:15:C5:C8cqa-r14a-2b
+Administrator/Admin@9000

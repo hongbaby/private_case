@@ -1,0 +1,7 @@
+跑某个case：
+1. 先mount
+sudo mount //10.23.137.1/CQA_Tools/matrices/p4matrices /mnt/matrices_collection -o username=cqauser,password=cqates
+2.
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/home/swqa/sw/rel/gpgpu/toolkit/r11.2/bin/x86_64_Linux_release
+export CUDA_VISIBLE_DEVICES=0
+./spblas2test -Rbsrmv -Pc -W4 -F/mnt/matrices_collection/cusparse-legacy/symm/shallow_water1.mtx -E -b -L -c100 -T

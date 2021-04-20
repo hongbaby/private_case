@@ -1,0 +1,42 @@
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list -file=cufft/branches/TOT/tests/testlist/perf_lab_composite.test
+Performance testing:
+A100+:
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=cufft/branches/TOT/tests/testlist/perf_lab_release_bfloat16.test
+
+
+Functional testing:
+1. CUFFT Stream test - L1:
+python cufft/branches/TOT/tests/testlist/multi_cufftbench.py -j{cpu core/2) --file=cufft/branches/TOT/tests/testlist/eris/cufft_stream_tests_L1_multi.trs --path=.\/
+
+2. python cufft/branches/TOT/tests/testlist/multi_cufftbench.py -j{cpu core/2) --file=cufft/branches/TOT/tests/testlist/eris/cufft_callbacks_tests_L2_multi.trs --path=.
+
+
+3. http://hqnvwb01/DTResults/showTask.aspx?id=P1072_T869996
+python parser.py -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_composite_kernels_strided.trs -o cufft_composite_kernels_strided.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_composite_kernels_strided.testlist
+
+4. python cufft/branches/TOT/tests/testlist/multi_cufftbench.py -j{cpu core/2) --file=cufft/branches/TOT/tests/testlist/eris/cufft_tests_L0_multi.trs --path=.
+
+5. python parser.py -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_small_primes_single_L2.trs -o cufft_small_primes_single_L2.testlist
+perl  cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=/path_of_step3/cufft_small_primes_single_L2.testlist
+
+6. python cufft/branches/TOT/tests/testlist/multi_cufftbench.py -j{cpu core/2) --file=cufft/branches/TOT/tests/testlist/eris/cufftMg_tests_multi.trs --path=.
+
+7. python $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/multi_cufftbench.py -j{cpu core/2) --file=$P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_tests_L1_multi.trs --path=.
+
+8. python parser.py -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_fp16_power_of_2_L0.trs -o cufft_fp16_power_of_2_L0.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_fp16_power_of_2_L0.testlist
+
+9. python parser.py -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_small_primes_double_L0.trs -o cufft_small_primes_double_L0.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_small_primes_double_L0.testlist
+
+10. python parser.py -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_small_primes_single_L0.trs -o cufft_small_primes_single_L0.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_small_primes_single_L0.testlist
+
+11. python parser.py --os linux -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_small_primes_double_L0_callback.trs -o cufft_small_primes_double_L0_callback.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_small_primes_double_L0_callback.testlist
+
+12. python parser.py --os linux -i $P4ROOT/sw/rel/gpgpu/toolkit/${ver}/cufft/branches/TOT/tests/testlist/eris/cufft_small_primes_single_L0_callback.trs -o cufft_small_primes_single_L0_callback.testlist
+perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=./cufft_small_primes_single_L0_callback.testlist
+
+13. perl cufft/branches/TOT/tests/scripts/regress.pl -build=release -test-list-file=cufft/branches/TOT/tests/testlist/coverage/bf16_power_of_two_c2c_c2r_r2c.test

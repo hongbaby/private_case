@@ -1,0 +1,5 @@
+1. apply account on NGC
+2. apply access nv-hpc on NGC Timothy Costa
+3. docker pull HPC Containers, such as
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpl
+docker pull nvcr.io/nvstaging/nv-hpc/hpc-benchmarks:20.10-hpcg

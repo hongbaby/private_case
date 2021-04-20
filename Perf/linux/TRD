@@ -1,0 +1,15 @@
+1. 的测试除了每次的installer需要在http://cuda-internal/release-candidates/TeslaCertification/418_00/下面，
+其它的测试只需要有\\builds\linuxbuilds\release\display\x86_64\下面就可以
+
+2. R418及之后都是 non-diag driver，R418之前的都用diag driver
+
+
+BM:
+python isv_client.py -t p2p_bandwidth_linux perf_bugs_linux cg_mb_perf_linux wmma_linux cudagraphs_perf_linux
+
+
+FWD:
+P100:
+python isv_client.py -t cgemm_linux dgemm_linux sgemm_linux
+python isv_client.py -s gromacs_linux stream_linux hpgmg_linux -t def_gromacs_linux max_gromacs_linux stream_linux hpgmg_linux cg_mb_perf_linux p2p_bandwidth_linux perf_bugs_linux
+python isv_client.py -s gromacs_linux -t def_gromacs_linux max_gromacs_linux cg_mb_perf_linux p2p_bandwidth_linux perf_bugs_linux -g 0 1

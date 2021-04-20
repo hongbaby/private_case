@@ -1,0 +1,11 @@
+For matlab2020:
+./install -inputFile /home/jzhong/Sources/MATLAB_R2020a/input.txt
+安装过程中没有任何提示，需要自己查看日志文件/tmp/R2020a.log
+如果日志里有以下提示，表示安装成功:
+(Apr 02, 2020 14:59:27) Exiting with status 0
+(Apr 02, 2020 14:59:27) End - Successful
+R2020a原生支持CUDA 10.1.105
+email account:
+pkirst@nvidia.com
+1qaz@WSX
+可以用swqa安装

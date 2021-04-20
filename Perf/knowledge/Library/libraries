@@ -1,0 +1,22 @@
+Libraries:
+Toolkit related changelist change:
+Math:
+cuda_fp16.h
+cuda_fp16.hpp
+math_functions.h
+math_functions.hpp
+device_functions.h
+device_double_functions.h
+p4 changes //sw/rel/gpgpu/toolkit/r11.0/cuda/tools/cudart/...@28247179,28307768 | grep -vE "cudaautomation" | awk '{print $2}' | xargs p4 describe -s
+
+others:
+p4 changes //sw/rel/gpgpu/toolkit/r11.0/NPP/...@28247179,28307768 | grep -vE "cudaautomation" | awk '{print $2}' | xargs p4 describe -s
+
+Driver related changelist change:
+p4 changes //sw/rel/gpu_drv/r450/r450_00/...@changelist1,changelist2 | grep -vE "dvs-p4|builder"
+
+compiler changes:
+p4 changes //sw/rel/gpu_drv/r450/r450_00/drivers/...@28247179,28307768 | grep -vE "cudaautomation" | awk '{print $2}' | xargs p4 describe -s
+//sw/rel/gpu_drv/r450/r450_00/drivers/common/cop
+
+p4 changes //sw/rel/gpgpu/toolkit/r11.1/cuda/apps/cg_examples/...@28247179,28307768 | grep -vE "cudaautomation" | awk '{print $2}' | xargs p4 describe -s

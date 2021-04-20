@@ -1,0 +1,5 @@
+4. Run test 5 times, then canculate the AVG and RSD
+How to calculate NPP test result?
+1. Run 5 times, and ignore 1st and 2nd result.
+2. Ignore max(abs(3-4)/max(3, 4), abs(3-5)/max(3, 5), abs(4-5)/max(4, 5)) result. (3, 4, 5 are short for test result on 3/4/5 run.)
+3. Calculate AVG/RSD result by remaining 2 test result.

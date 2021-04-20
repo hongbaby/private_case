@@ -1,0 +1,28 @@
+Microbenchmark:
+/extract_folder/tests/performance
+perf_bug
+p2p_bandwidth
+cudaGraphs_perf
+
+/extract_folder/test/runtime
+wmma
+cg_mb_perf
+
+
+Linux part:
+p2p_bandwidth:
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200558917&cmtNo=
+Memcpy_DtoH_SM_Bandwidth_sum
+Memcpy_HtoD_SM_Bandwidth_sum   these two items need new baseline which based on cuda 11.0
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200445404&cmtNo=
+memcpy_dtod_read_ce_latency_ipc_sum  unstable
+Memcpy_DtoD_Read_CE_Latency_sum
+
+Windows:
+perf_bugs:
+11.0 baseline reset
+async_memcpy_latency drop特别多：
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200574956&cmtNo=
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200576526&cmtNo=
+unstable issue:
+https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=200545392&cmtNo=

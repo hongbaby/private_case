@@ -1,0 +1,17 @@
+\\cqa-fs01\CQA_Tools\ISV: 放的文件用于写test case, 存放所有版本, share给dev等
+\\cqa-fs01\Automation\ISV\ISV_Linux\Sources: 用于存在automation script里最新的source 每天下午5点开始同步，同步后的文件放在\\10.23.137.1\Automation\ISV\Sources目录下
+
+
+\\10.23.137.1\CQA_Tools\ISV 映射到了 cqa-fs04.nvidia.com(10.23.137.4)
+kerryq uTYUqj6N
+sudo mount -t cifs -o username="kerryq",password="uTYUqj6N" //10.23.137.4/ISV /mnt
+root / qatest123
+
+original:
+[root@cqa-fs01 ~]# crontab -l
+30 5 * * * cd /root && /usr/bin/python /root/sync_compiler_11_0.py
+30 5 * * * cd /root && /usr/bin/python /root/sync_compiler_11_0_ppc64le.py
+0 9 * * * cd /root && /usr/bin/python /root/filter_dvs_kitbundles.py
+*/30 * * * * cd /vdisk1/release-candidates && /usr/bin/git reset --hard && /usr/bin/git pull
+30 0 * * 6 cd /root && bash p4syncjob.sh
+0 17 * * * cd /root && bash isv_sync.sh

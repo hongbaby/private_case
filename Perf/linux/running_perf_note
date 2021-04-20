@@ -1,0 +1,2 @@
+1. cqa-r14-9:
+不能跑blender，iray等需要NV GPU图形输出的case

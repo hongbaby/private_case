@@ -29,3 +29,9 @@ To reset BMC if you are already login to the host..
 To reset the BMC if you are on a remote host…
 
 # sudo ipmitool mc -I lanplus -H  <your.BMC.ip>   -U <your.BMC.login>  -P  <your.BMC.password>  reset  cold
+
+pei liang:
+10.32.208.103
+3:41
+lab/labuser
+mstsc访问

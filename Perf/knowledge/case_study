@@ -1,0 +1,60 @@
+1. Lammps: this app is for Linux Only
+cur_perf = (atoms * steps) / loop_time
+
+2. Openmm: this app is for both Linux and Windows
+OpenMM Test for CUDA and OpenCL (Linux):
+only run TestCuda* and TestOpenCL*的case
+TestCuda* "single"
+TestCuda* "double"
+TestCuda* "mixed"
+
+3. Terachem: only support centos and rhel 6.x 7.x
+
+4.blender: this app is for both Linux and Windows
+linux:
+/home/jzhong/Blender/build/bin/blender -b --python bmw.py
+
+
+5.Optix benchmark test with dev test package (Windows):
+Optix6.5
+question: after set CUDA_VISIBLE_DEVICES， 为什么还是跑在了2张卡上
+
+6.NAMD: This case is only for linux:
+31是CPU的数量-1
+/home/jzhong/NAMD/Linux-x86_64-g++/charmrun +p31 /home/jzhong/NAMD/Linux-x86_64-g++/namd2 +idlepoll +setcpuaffinity +devices 0 /home/jzhong/NAMD/apoa1/apoa1.namd
+获取最后一个 days/ns的值，然后计算出ns/days的值（1/前面的days/ns值）
+
+7.IRAY: this is for Titan only, both for Linux and Windows
+IRAY (Linux) - CUDA based
+IRAY (Linux) - Optix based
+
+8.Terachem: this is for Centos RHEL 6/7 only
+
+9.ACEMD: this is for linux only, support both single and dual GPUs
+cd ~/ACEMD/share/acemd3/下面的某个目录，然后
+run:
+~/ACEMD/bin/acemd3 --platform CUDA --device 0 input
+~/ACEMD/bin/acemd3 --platform CUDA --device 0,1 input
+score analysis:
+# Speed: average  219.75 ns/day, current  219.87 ns/day, 获取current的值，本身脚本已经跑了10遍，所以iter 1次
+
+10. absys
+export DISPLAY=:0.0
+1./usr/ansys_inc/ /ansys_inc
+2.mount -o loop STRUCTURES_182_LINX64.iso /mnt
+4:25
+打开vnc
+4:25
+cd /mnt
+4:25
+sudo ./INSTALL
+
+11. cutensor:
+ubuntu:
+ea:
+sudo apt install libcutensor-ea-dev libcutensor-ea-doc libcutensor-ea1
+ga:
+sudo apt install libcutensor-dev libcutensor1 libcutensor-doc
+rhel
+sudo yum install libcutensor-ea-devel libcutensor-ea-doc libcutensor-ea1
+sudo yum install libcutensor-devel libcutensor1 libcutensor-doc

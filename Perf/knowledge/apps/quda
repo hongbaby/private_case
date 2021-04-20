@@ -1,0 +1,13 @@
+For RHEL7.6:
+install openmpi:
+CC=/usr/local/gcc8/bin/gcc CXX=/usr/local/gcc8/bin/g++ ./configure --enable-mpi-cxx --with-cuda=/usr/local/cuda --with-hwloc=internal --prefix=/usr/local/openmpi --enable-mpi1-compatibility
+install quda develop branch:
+CC=/usr/local/openmpi/bin/mpicc CXX=/usr/local/openmpi/bin/mpicxx /usr/local/cmake/bin/cmake /home/jzhong/QUDA -DQUDA_MPI=ON -DQUDA_DIRAC_CLOVER=OFF -DQUDA_DIRAC_DOMAIN_WALL=OFF -DQUDA_DIRAC_TWISTED_MASS=OFF -DQUDA_DIRAC_TWISTED_CLOVER=OFF -DQUDA_DIRAC_NDEG_TWISTED_MASS=OFF -DQUDA_FORCE_GAUGE=ON -DQUDA_GPU_ARCH=sm_61
+
+numactl --physcpubind=0 /home/swqa/QUDA/build/tests/blas_test --sdim 16 --tdim 16 --niter 10000
+
+===> User Environment Variables:
+export QUDA_RESOURCE_PATH=/home/swqa/isv_all/server_logs/CUDA_11.1.47_cuBLAS_11.2.1.47_KMD_455.12/Run_QUDA_1GPU_20200824_175559
+export CUDA_DEVICE_MAX_CONNECTIONS=1
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/openmpi/lib:/usr/local/gcc8/lib64
+export CUDA_VISIBLE_DEVICES=0

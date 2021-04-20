@@ -1,0 +1,40 @@
+cuda@hw-sku2-arm04
+cuda@10.33.22.81
+RHEL8.1 + Tesla V100-PCIE-32GB + Huawei TaiShan 200: 11.0
+RHEL8.1 + Tesla V100-PCIE-32GB + HPE Apollo 70: 10.2 and 11.0
+
+
+前面那台是huawei taishan 200，能跑11.0就可以了
+后面那台是HPE Apollo 70，11.0 vs 10.2
+
+
+卸载
+sudo rmmod nvidia_uvm
+sudo rmmod nvidia_drm
+sudo rmmod nvidia_modeset
+sudo rmmod gdrdrv
+sudo rmmod nv_peer_mem
+sudo service nvidia-docker stop
+sudo service nvidia-fabrimanager stop
+sudo service nvidia-persistenced stop
+sudo service nvidia-fallback stop
+sudo service nv_peer_mem stop
+ps -ef |grep nvidia-persistenced |grep -v grep |awk '{print $2}' |sudo xargs kill -9
+ps -ef |grep nv-hostengine |grep -v grep |awk '{print $2}' |sudo xargs kill -9
+sudo rmmod nvidia
+sudo nvidia-uninstall
+rpm -qa |grep -E 'cuda|nvidia' |xargs sudo yum -y remove; sudo yum clean all
+2:45
+HPE的那个config跑的时候reset GPU有一定几率会出现RM crash，你可能要盯着看一会
+2:45
+这个问题已经很久了，driver team的人一直没能修好
+
+cd /usr/local/cuda/targets
+sudo ln -s sbsa-linux aarch64-linux
+
+
+aarch64给mobile了
+sbsa是给ARM SERVER
+设置locale：
+可以试试 echo "export LC_TIME=en_US.UTF-8" | sudo tee -a /etc/profile
+强制使用en_US.UTF-8

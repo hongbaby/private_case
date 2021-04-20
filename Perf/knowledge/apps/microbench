@@ -1,0 +1,33 @@
+support 11.1:
+python isv_client.py -s xxx --cl-yaml
+python isv_client.py  -s perf_memory_usage_linux --skip-p4-sync --cl-yaml http://cqa-fs01/release-candidates/kitpicks/cuda-r11-1/11.1.0/005/linux/x86_64/summary.yaml --compiler-cl
+
+TOT:
+--compiler-cl TOT
+or 如果指定某个app的TOT， 可以修改 yaml文件改成TOT
+
+1. p2p_bandwidth:
+/usr/bin/numactl -N 0 -m 0 "/home/swqa/sw/rel/gpgpu/toolkit/r11.1/bin/x86_64_Linux_release/p2p_bandwidth"
+running one case:
+/usr/bin/numactl -N 0 -m 0 "/home/swqa/sw/rel/gpgpu/toolkit/r11.1/bin/x86_64_Linux_release/p2p_bandwidth" -t Memcpy_DtoD_Bidirectional_Read_SM_Bandwidth
+
+2. perf_bugs:
+unstable:
+http://nvbugs/200594546 perf_bugs_tests: alloc_latency_registered_sysmem are unstable on Linux/x86_64/ga100_e4720_0000+gv100_pg500_0200+tu102_pg150_0210/CUDA 11.0/r445+r450
+http://nvbugs/200545392 memcpy_3d and sync_pageable_memcpy_latency tests of perf_bugs are unstable
+http://nvbugs/2848866 [11.0][perf_bugs] module_load_performance are unstable in TITAN/GA100 + CUDA11.0/CUDA11.0U1 + R445/R450
+http://nvbugs/200600944 perf_bugs_tests: alloc_latency_sysmem are unstable on Windows10/x86_64/gv100_pg500_0200/gpgpu+CUDA11.0/cuda_a+r450+gsp
+http://nvbugs/200597186 perf_bugs_tests: pointer_get_attribute are unstable on RHEL7/x86_64/tu102_pg150_0210/gpgpu+CUDA11.0/cuda_a+R450_00
+http://nvbugs/200594441 perf_bugs_tests: host_launch_latency are unstable on eris-w10-t006 (Windows10,x86_64,gv100x2,CUDA 11.0,r450)
+http://nvbugs/200644971 perf_bugs_tests: func_get_attributes_settable are unstable on Ubuntu/RHEL7/x86_64/tu102_pg150_0210/gpgpu/cuda_a/cuda 11.1+r455
+http://nvbugs/2903276 [tcc] perf_bugs_tests: alloc_latency_managed are unstable on Windows10/x86_64/tu102_pg150_0000+ga100_e4720_0000+gp100_ph400_0201+gp102_pg611_0000/CUDA 11.0/r445+r450
+
+perf_bugs_tests: alloc_latency_writecombined_sysmem/writecombined_sysmem/cuMemFreeHost are unstable on winsrv2016/x86_64/gv100_pg500_0200/gpgpu/cuda_a
+3. cudagraphs_perf:
+unstable:
+http://nvbugs/200580703 cuda_perf_tests : Even use "numactl -N 0 -m 0" , the perf score for cg_mb_perf/cudaGraphs_perf are unstable in Linux config on gpgpu + CUDA11.0/cuda_a + r445 + r450
+http://nvbugs/200579307 [11.0][cudagraphs_perf][unstable] Unstable score on few items in cudagraphs_perf testing on Windows
+4. cg_mb_perf:
+http://nvbugs/200579392 cuda_perf_tests : cg_mb_perf launch latency is unstable in windows config on gpgpu + CUDA11.0 + CUDA11.1/cuda_a + r445 + r450 + r455
+5. cg_examples:
+http://nvbugs/200622874 [cg_examples]some cta_cycles related cases are unstable on P100

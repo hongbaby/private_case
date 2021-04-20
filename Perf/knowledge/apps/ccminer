@@ -1,0 +1,4 @@
+For windows:
+run test:
+"D:\ISV_Test\ccminer\x64\Release\ccminer.exe" --benchmark
+http://nvbugs/200368234 [CUDA 9.1 Prod]unstable ccminer testing on TitanX(Pascal) with CUDA 9.1.85 + DRIVER 387.26

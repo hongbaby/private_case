@@ -1,0 +1,2 @@
+Linux:
+python isv_client.py -s gromacs_linux lammps_linux namd_linux openmm_linux quda_linux himeno_linux rtm_linux stream_linux amber_linux  hoomd_linux ethminer_linux ccminer_linux acemd_linux milc_linux -t gromacs_linux lammps_linux namd_linux openmm_func_linux openmm_perf_linux quda_linux himeno_linux rtm_off_linux stream_linux amber_linux hoomd_linux iray_cuda_based_linux iray_optix_based_linux mental_ray_linux ethminer_linux ccminer_linux acemd_linux milc_linux

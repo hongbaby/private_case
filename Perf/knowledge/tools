@@ -1,0 +1,8 @@
+1. Colossus
+https://confluence.nvidia.com/display/Colossus/Colossus+User+Guide#ColossusUserGuide-InstallingColossusCLIclientonLinux
+
+2. nsight compute and nsight systems
+nsight compute是咱们在测，是GPU代码优化的UI工具
+https://docs.nvidia.com/nsight-compute/NsightComputeCli/index.html
+nsight systems是wang xuan组测，是CPU+GPU一个整体的代码优化UI工具。
+https://docs.nvidia.com/nsight-systems/tracing/index.html

@@ -1,0 +1,9 @@
+for CST 2020:
+http://10.19.195.1/manual/tools/ISV/CST/CST2020/Windows/CST_S2_2020.SIMULIA_CST_Studio_Suite.Windows64.zip
+license server也升级到2020了。
+测试机器上安装完2020之后，还需要安装SP4的补丁
+
+选择custom安装，only choose the program files
+for patch install:
+click CST Update Manager
+swqa-lic2.nvidia.com 27000

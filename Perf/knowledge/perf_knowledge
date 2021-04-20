@@ -1,0 +1,174 @@
+bug report:
+[11.0][R450 GA1] CL 28567593 introduced cudagraphs_perf 12 items drops 5+% ~ 15% on Windows/x86_64/TitanRTX/cuda11.0/r450
+
+\\netapp-hqqa\isv_apps
+
+1. Sources machine copy info:
+qakvm-s1  jzhong/password
+
+2. CUDA_ALL_APPS，  CUDA_ALL_LIBS， CUDA_ALL_SAMPLES 这三个需要加上CL跑：
+./isv_linux.py --cuda-cl CL --driver-cl CL
+perf中，只有lib和perf_bugs需要
+
+3. upload report system:
+http://cqa-pts
+questions:
+1. Delete task Password: PASSW0RD
+2. 有的case没有说明是跑单卡还是双卡，脚本里需要指定吗？
+3.upload report的系统如果名字一样的话会不会冲掉
+
+4. Automation script:
+http://qakvm-s2.nvidia.com/isv
+
+5. Lib:5% STDEV算bug，10% drop算bug
+
+6. windows上查看操作系统版本：winver
+
+GA:
+xxxx_gameready_win10_64bit_international.exe  -----> TITAN XP/V
+xxxx_quadroserverweb_win10_64bit_international.exe ----> Win2016/2019
+xxxx_quadroweb_win10_64bit_international.exe ---> Win10等
+
+Wddm2_x64: windows10及以上
+Wddm：win7,win8
+UDA的版本会自动下载到这里 \\10.19.195.1\manual\UDA\r440_00\
+
+7.cmake:
+cmake .. -LAH
+
+8.查看系统是否是dual socket:
+lscpu | grep -i socket
+
+9.查看CPU信息：
+# 查看CPU信息（型号）
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+# 查看物理CPU个数
+ cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+# 查看每个物理CPU中core的个数(即核数)
+cat /proc/cpuinfo| grep "cpu cores"| uniq
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo| grep "processor"| wc -l
+
+10. p4 sync路径：
+//sw/automation/dvs/config/rel/sc/cuda_dev
+//sw/automation/dvs/config/rel/sc/cuda_dev/Release_Linux_AMD64_GPGPU_CUDA_CUBLAS.txt
+
+11. For compiler regression:
+安装好toolkit和driver
+把source sync 到你测试的CUDA CL
+然后download compiler package, 比如 http://10.19.195.1/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_COMPILER/, 解压  http://10.19.195.30/dvsshare/dvs-binaries/gpu_drv_r445_00_Release_Linux_AMD64_GPGPU_COMPILER/
+设置全局变量 export GPGPU_COMPILER_EXPORT=解压的compiler的路径
+编译 cuda apps
+run apps
+然后再下载其他compiler package，export GPGPU_COMPILER_EXPORT=
+做二分法找compiler change
+
+12.
+For Driver regression
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r455_00_Release_Linux_AMD64_unix-build_Driver/
+http://dvstransfer.nvidia.com/dvs-binaries/gpu_drv_r455_00_Release_Windows_wddm2-x64_Display_Driver/
+For windows driver regression, also can \\nvsw-drivers\nvsw-drivers\PerCheckin
+安装好toolkit和driver
+下载已经编译好的cuda apps
+run apps
+然后再安装不同的driver， 做二分法找driver change
+
+那排查的顺序
+第一，变driver
+第二，用之前编译好的app
+第三，就是变compiler
+如果是library perf，那么就是把app 替换成 library test benc
+
+13. GPU memory type HBM
+https://developer.nvidia.com/cuda-gpus
+https://images.nvidia.com/content/technologies/volta/pdf/volta-v100-datasheet-update-us-1165301-r5.pdf
+
+14:Here are instructions for configuring Balboa systems for perf testing:
+
+System Setup - Use ipmitool SOL to access "System Setup" via GRUB or Esc/Del at the appropriate time:
+In system setup utility
+Chipset->Turbo/CPPC Mode [OS Governed]
+Chipset->Symmetric Multi-Thread [2]
+Save and Exit to reboot
+
+Kernel Boot params:
+grubby --update-kernel=/boot/vmlinuz-$(uname -r) --args="iommu.passthrough=1"
+reboot
+confirm changes with:
+cat /proc/cmdline
+
+Settings above should be persistent across reboots.
+
+Run app with:
+
+cpupower frequency-set -g performance
+nvidia-smi -pm 1
+nvidia-smi -ac <defaultMemClock>,<defaultGraphicsClock>
+numactl -N 0 -m 0 <testapp>
+
+15. bmc:
+https://www.gigabyte.com/High-Performance-Computing-System
+
+16.设置NPS
+NPS是EPYC CPU特有的。
+在BIOS里ADVANCED, AMD CBS->DF Common Options->Memory Addressing->NUMA nodes per socket，设置为NPS4，默认值为Auto
+https://download.gigabyte.com/FileList/Manual/server_manual_e_G482-Z52_v10.pdf
+
+17.查看motherboard
+sudo dmidecode -q (Base Board Information)
+查看server信息：
+server: sudo dmidecode -q | grep -i product
+
+18. Get system pagesize:
+getconf PAGESIZE
+
+19. 下载linux installer image-》创建repository-》创建空的template os image-》找空闲的机器安装用于bios和uefi两种机型的template os image-》按照标准装一些基本的os dependency和做一些配置，清除临时文件等-》保存为可用的template os image供其他所有机器使用
+20. 检查测试是否是在default的模式下跑测试：
+nvidia-smi dmon -c 3
+
+build driver steps:
+1.perf_build suite
+
+Getting the perf_build suite
+
+Sync //sw/pvt/sgurfinkel/scripts/perf-scripts/...
+
+This guide is written for perf-scripts/...@23627600 on 2018/02/22
+
+sw/pvt/sgurfinkel/scripts/perf-scripts$ make
+
+Build tools on both the builder and target.  Only this single directory is required.
+
+sw/pvt/sgurfinkel/scripts/perf-scripts$ make install
+
+Will install binaries to ~/bin .  The rest of this guide assumes that ~/bin is part of the PATH.
+
+2.Syncing the driver
+Here's what you need to build the r390_00 driver (change the first line accordingly)
+    //sw/rel/gpu_drv/r390/r390_00/...
+    //sw/misc/linux/...
+    //sw/tools/unix/hosts/Linux-x86/...
+    //sw/tools/unix/targets/common/...
+    //sw/tools/unix/targets/Linux-x86_64/...
+  //sw/tools/unix/targets/VMware-x86_64/...
+    //sw/tools/unix/targets/Linux-x86/...
+    //sw/tools/linux/buildtools/Linux-x86/Linux-x86/...
+    //sw/devrel/SDK/inc/GL/...
+    //sw/tools/boost/boost-1.55.0/...
+    //sw/tools/linux/python/251/...
+    //sw/pvt/sgurfinkel/scripts/perf-scripts/...
+
+ppc64le:
+  //sw/tools/unix/targets/Linux-ppc64le/...
+
+3.Building a driver
+sudo cp /home/jzhong/sw/misc/linux/unix-build /usr/bin -rv
+sudo chown root /usr/bin/unix-build
+sudo chmod u+s /usr/bin/unix-build
+
+cd /home/jzhong/sw/rel/gpu_drv/r387/r387_00
+unix-build nvmake release linux amd64 NV_PARALLEL=50 -j50
+unix-build nvmake release linux amd64 dist -j30 NV_COMPRESS_THREADS=50 NV_FAST_PACKAGE_COMPRESSION=1
+
+lspci不显示正确的GPU名字：
+sudo update-pciids

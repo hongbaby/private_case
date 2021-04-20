@@ -1,0 +1,27 @@
+teslaswqashyum
+username: root
+password: qatest123
+
+cqa-r29-6:
+Host: swqa@cqa-r29-6:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev             32G     0   32G   0% /dev
+tmpfs           6.3G   13M  6.3G   1% /run
+/dev/sdb3       234G   19G  203G   9% /
+tmpfs            32G     0   32G   0% /dev/shm
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+tmpfs            32G     0   32G   0% /sys/fs/cgroup
+/dev/loop0       56M   56M     0 100% /snap/core18/1997
+/dev/loop1       63M   63M     0 100% /snap/gtk-common-themes/1506
+/dev/loop2      218M  218M     0 100% /snap/gnome-3-34-1804/60
+/dev/loop4       33M   33M     0 100% /snap/snapd/11402
+/dev/loop3       56M   56M     0 100% /snap/core18/1988
+/dev/loop6       52M   52M     0 100% /snap/snap-store/518
+/dev/loop5       65M   65M     0 100% /snap/gtk-common-themes/1514
+/dev/loop7       33M   33M     0 100% /snap/snapd/11588
+/dev/loop9       51M   51M     0 100% /snap/snap-store/481
+/dev/loop8      219M  219M     0 100% /snap/gnome-3-34-1804/66
+/dev/sdb1       480M  7.8M  472M   2% /boot/efi
+/dev/nvme0n1p2  614G  512G   71G  88% /home
+tmpfs           6.3G   16K  6.3G   1% /run/user/125
+tmpfs           6.3G  8.0K  6.3G   1% /run/user/1800

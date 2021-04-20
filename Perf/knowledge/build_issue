@@ -1,0 +1,9 @@
+1. make issue:
+CMakeFiles/datatoc_icon.dir/datatoc_icon.c.o:datatoc_icon.c:function write_png: error: undefined reference to 'png_set_longjmp_fn'
+可能的原因：
+libpng没安装或者版本不兼容，可以手动下载然后安装
+可以通过/usr/local/cmake/bin/cmake .. -LAH来查看变量名字
+/usr/local/cmake/bin/cmake .. -DPNG_LIBRARY_RELEASE=/usr/local/libpng/lib/libpng.a
+
+2. libgfortran.so.5, needed by ../arpack/libarpack.so
+export LD_LIBRARY_PATH=/usr/local/gcc8/lib64

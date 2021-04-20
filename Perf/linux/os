@@ -1,0 +1,5 @@
+RHEL8:
+Blender:
+sudo yum install "openjpeg*" "openexr" "libtiff*" "openal-soft" "jemalloc" "spacenavd"
+
+虚拟机不跑双卡，都跑单卡

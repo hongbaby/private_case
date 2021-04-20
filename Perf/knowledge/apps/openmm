@@ -1,0 +1,38 @@
+1. trace log with nsys in windows:
+"C:\Program Files\NVIDIA Corporation\Nsight Systems 2020.4.3\target-windows-x64\nsys.exe" profile "C:\Python27\python.exe" benchmark.py --platform=CUDA --test=pme
+
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64
+python3 -m simtk.testInstallation
+
+windows compile steps:
+Prerequisites
+1. Visual Studio 2015 or later
+2. Cmake 3.1 or higher(http://www.cmake.org/)
+3. CUDA
+4. Python 2.7 or later
+5. Doxygen (http://www.doxygen.org)
+6. SWIG 3.0.5 (http://www.swig.org/download.html)
+7. Git (https://github.com/msysgit/msysgit/releases/)
+
+Compiling OpenMM:
+1. Clone the latest source code from github
+  # git clone https://github.com/openmm/openmm/archive/7.5.0.tar.gz
+
+2. Generate Visual Studio project files
+1). Generating Visual Studio project files
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvars64.bat" && "C:\Program Files (x86)\CMake\bin\cmake.exe" -G "Visual Studio 15 2017 Win64" -DSWIG_EXECUTABLE="D:\Sources\swigwin\swig.exe" -DPYTHON_EXECUTABLE="C:\Python27\python.exe" .
+
+2). Building OpenMM...
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" OpenMM.sln /Build "Release|x64" /Out xxx.log
+
+3).Installing OpenMM...
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" OpenMM.sln /project INSTALL /Build "Release|x64" /Out xxx.log
+
+4). Installing OpenMM Python module...
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" OpenMM.sln /project PythonInstall /Build "Release|x64" /Out xxx.log
+
+openmm7.5.0:
+RuntimeError: The current Numpy installation ('C:\\Users\\hessl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\site-packages\\numpy\\__init__.py') fails to pass a sanity check due to a bug in the windows runtime
+pip3 uninstall numpy
+pip3 install numpy==1.19.3
+https://developercommunity.visualstudio.com/content/problem/1207405/fmod-after-an-update-to-windows-2004-is-causing-a.html

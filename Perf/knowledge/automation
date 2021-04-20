@@ -1,0 +1,34 @@
+DGX Team:
+git clone http://dgx-perf-test:8080/git/ISV_LINUX.git
+
+
+debug:
+import core
+from core.base import *
+from core.local import *
+from core.local_gpu import *
+from core.local_linux import *
+from core.perforce import *
+from core.report import *
+import core
+from core.base import *
+from core.local import *
+from core.local_gpu import *
+from core.local_win import *
+from core.perforce import *
+from core.report import *
+import logging
+logger = initlog(logfile=None, level='debug')
+
+
+git remote set-url origin https://gitlab-master.nvidia.com/compute-swqa/cuda-hpc-apps/isv_all.git
+tar -jcvf lammps-datasets_24Jan2020.tar.bz2 datasets
+
+批量替换：
+sed -i "s/10.19.195.1/cqa-fs01/g" `grep 10.19.195.1 -rl ./`
+
+code:
+1. set CPU performance mode:
+core.local.set_cpu_perf_mode
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor

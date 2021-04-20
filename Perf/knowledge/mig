@@ -1,0 +1,84 @@
+mig testing:
+1.List GPU instances:
+sudo nvidia-smi mig -lgi
+
+2.List Compute instances:
+sudo nvidia-smi mig -lci
+
+3. list-gpu-instance-profiles
+sudo nvidia-smi mig -lgip
+
+4. List-compute-instance-profiles
+sudo nvidia-smi mig -lcip
+
+5. Create GPU instance
+sudo nvidia-smi mig -cgi
+
+6. Create
+3.Destroy compute instances
+sudo nvidia-smi mig -dci
+
+
+GPU Memory Slice:
+the smallest fraction of the Volta-Next GPU's memory, around 1/8 of total GPU memory
+
+GPU SM Slice:(SM: Streaming Multiprocessor)
+the smallest fraction of the Volta-Next SMs, around 1/7 of the total number of SMs
+
+GPU Slice:
+the smallest fraction of the Volta-Next GPU that combines a single GPU memory slice and single GPU SM slice
+
+
+A compute instance is a subset of a GPU instance's SM slices and other GPU engines.
+
+The Volta-Next GPU has 5 GPU decoders(NVDECs)
+
+
+steps:
+https://jirasw.nvidia.com/browse/CUB-2209
+
+1. set mig into 7x7_1 mode
+sudo nvidia-smi -pm 1
+sudo nvidia-smi -mig 1
+sudo nvidia-smi mig -dci -i 0  # delete existed GPU instances
+sudo nvidia-smi mig -dgi -i 0  # delete existed compute instances
+sudo nvidia-smi mig -cgi 0  # create 1 7_SLICE GPU instance
+sudo nvidia-smi mig -cci 0,0,0,0,0,0,0  # create 7 7_1_SLICE compute instances
+
+2. nvidia-smi -L to obtain the UUID
+$ nvidia-smi -L
+GPU 0: A100-SXM4-40GB (UUID: GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c)
+  MIG Device 0: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/0)
+  MIG Device 1: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/1)
+  MIG Device 2: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/2)
+  MIG Device 3: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/3)
+  MIG Device 4: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/4)
+  MIG Device 5: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/5)
+  MIG Device 6: (UUID: MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/6)
+
+3. Run test:
+Precondition:
+Lock the clock to default
+set CPU to performance mode
+1. In terminal one:
+export CUDA_VISIBLE_DEVICES=MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/0
+Run cublas test which I need to test:
+cd P4ROOT/sw/rel/gpgpu/toolkit/r11.0/cublas/scripts/
+python cublas_run.py -binname cublasTest -layer_file cublasTest.layer -config b,perf -loop 1
+
+2. Open other 6 terminals with different CUDA_VISIBLE_DEVICES setting
+Run other long stream, such as cufft
+terminal 2:
+export CUDA_VISIBLE_DEVICES=MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/1
+run cufft benchmark1
+
+open terminal 3:
+export CUDA_VISIBLE_DEVICES=MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/2
+run cufft benchmark2
+
+open terminal 4:
+export CUDA_VISIBLE_DEVICES=MIG-GPU-053baee9-833a-1e33-f2ab-9ba50d2a850c/0/3
+run cufft benchmark3
+....
+
+Pass creterial:

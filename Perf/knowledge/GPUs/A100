@@ -1,0 +1,37 @@
+https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-ampere-architecture-whitepaper.pdf
+1 GPC = 8 TPC = 16 SMs
+The NVIDIA A100 Tensor Core GPU implementation of the GA100 GPU includes the
+following units:
+● 7 GPCs, 7 or 8 TPCs/GPC, 2 SMs/TPC, up to 16 SMs/GPC, 108 SMs
+● 64 FP32 CUDA Cores/SM, 6912 FP32 CUDA Cores per GPU
+● 4 Third-generation Tensor Cores/SM, 432 Third-generation Tensor Cores per GPU
+● 5 HBM2 stacks, 10 512-bit Memory Controllers
+108 SMs， 每个SM有64 CUDA FP32 Core
+Tips:
+1. comparing performance with previous chip won’t be applicable for Eboard.
+GA100 Machine:
+cqa-r13-5  win2019 + Ubuntu18.04
+swqa/labuser
+
+
+
+
+40G: PCIE gen4
+GIGABYTE G482-Z52-00  AMD EPYC 7702 64-Core Processor
+GA100 Production:
+P-boards with Eboard
+
+
+
+6.16:
+SSH: 10.23.137.220	cqa-r14b-1.nvidia.com	B4:2E:99:AE:06:AE
+BMC: 10.23.140.110  swqa/password
+位置：14a-1
+linux的要UEFI
+windows的要legacy mode
+
+
+2. Pauli也是PCIE  https://confluence.nvidia.com/display/CSWPM/Pauli#Pauli-BugsTrackingandKeywords
+GA100 SKU P1001 SKU200
+AMD EPYC 7702
+you have to check NPS value in SBIOS
