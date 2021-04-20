@@ -1,1 +1,8 @@
-cudaMalloc()
+git config diff.lfs.textconv cat  可以查看cufftbench.json的改动
+
+
+cufftbench.json 来自于~/sw/gpgpu/cufft/branches/TOT/tests/testlist/eris
+python testcase_analyzer/testlists_generator.py之后生成文件
+运行run.sh
+
+testcase_analyzer/status.py ---> 分析run.sh跑出来的log
